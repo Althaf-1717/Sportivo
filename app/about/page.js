@@ -1,0 +1,10 @@
+import Image from "next/image";
+import PublicLayout from "@/components/layout/PublicLayout";
+import { ArrowRight, Heart, Target, UsersRound } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+
+export const metadata = { title: "Our story", description: "Learn what Sportivo Academy believes about coaching and sport." };
+
+export default function AboutPage() {
+  return <PublicLayout><main><section className="bg-paper py-12 sm:py-16"><div className="container-wide grid items-center gap-8 md:grid-cols-[.9fr_1.1fr]"><div><p className="eyebrow">Why we’re here</p><h1 className="mt-2 text-4xl font-bold leading-tight tracking-[-.06em] text-navy">Sport should make you feel more like yourself.</h1><p className="mt-4 max-w-xl text-sm leading-7 text-slate-600">Sportivo is built around a simple idea: coaching is at its best when it helps people enjoy the game, build confidence, and see what they’re capable of.</p><Button href="/sports" className="mt-6">Find your sport <ArrowRight size={14} /></Button></div><div className="relative aspect-[1.55/1] overflow-hidden rounded-[20px] bg-slate-200"><Image src="/images/hero-football.png" alt="Player training at Sportivo Academy" fill sizes="(max-width:768px) 100vw,50vw" className="object-cover" /></div></div></section><section className="container-wide py-14"><div className="grid gap-4 md:grid-cols-3">{[[<Heart key="heart" size={18} />, "People before performance", "Everyone deserves to be seen, supported, and challenged at the right level."], [<Target key="target" size={18} />, "Progress over pressure", "We value steady improvement and the habits behind it, not just the final score."], [<UsersRound key="team" size={18} />, "Better together", "A positive team culture makes training a place you want to come back to."]].map(([icon, title, copy]) => <article key={title} className="surface-card p-6"><span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-soft text-blue">{icon}</span><h2 className="mt-4 text-sm font-bold text-navy">{title}</h2><p className="mt-2 text-xs leading-6 text-slate-500">{copy}</p></article>)}</div></section></main></PublicLayout>;
+}

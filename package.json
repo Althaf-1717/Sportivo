@@ -1,0 +1,38 @@
+{
+  "name": "sportivo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "NODE_OPTIONS='--max-http-header-size=131072' next dev --webpack -H 0.0.0.0 -p 3000",
+    "build": "NODE_OPTIONS='--max-http-header-size=131072' next build --webpack",
+    "start": "NODE_OPTIONS='--max-http-header-size=131072' next start",
+    "lint": "eslint .",
+    "seed": "node scripts/seed.js"
+  },
+  "dependencies": {
+    "@auth/mongodb-adapter": "^3.10.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.7",
+    "lucide-react": "^0.468.0",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.2",
+    "next": "16.3.6",
+    "next-auth": "beta",
+    "razorpay": "^2.9.5",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "recharts": "^3.10.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@next/eslint-plugin-next": "^16.3.6",
+    "@tailwindcss/postcss": "^4.0.6",
+    "eslint": "^10.11.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "tailwindcss": "^4.0.6"
+  }
+}

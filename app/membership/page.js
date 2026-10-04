@@ -1,0 +1,13 @@
+import PublicLayout from "@/components/layout/PublicLayout";
+import MembershipCard from "@/components/membership/MembershipCard";
+import { getMembershipPlans, getSports } from "@/lib/public-data";
+import { Check, CircleHelp } from "lucide-react";
+
+export const metadata = { title: "Memberships", description: "Compare Sportivo Academy training memberships." };
+export const revalidate = 300;
+
+export default async function MembershipPage() {
+  const [plans, sports] = await Promise.all([getMembershipPlans(), getSports()]);
+  const uniquePlans = plans.filter((plan, i, list) => list.findIndex((candidate) => candidate.name === plan.name) === i).slice(0, 3);
+  return <PublicLayout><main><section className="bg-paper py-12 text-center sm:py-16"><div className="container-wide"><p className="eyebrow">Make room to improve</p><h1 className="mt-2 text-4xl font-bold tracking-[-.06em] text-navy">A membership that fits your season.</h1><p className="section-copy mx-auto mt-3 max-w-2xl">Simple options, clear pricing, and good coaching built into every plan.</p></div></section><section className="container-wide -mt-1 pb-12"><div className="mx-auto grid max-w-[1000px] gap-4 md:grid-cols-3">{uniquePlans.map((plan, i) => <MembershipCard key={plan.slug || plan._id} plan={plan} featured={i === 1} />)}</div><p className="mt-5 text-center text-[10px] text-slate-500">The same plan options are available across {sports.map((sport) => sport.name).join(", ")}.</p></section><section className="bg-paper py-12"><div className="container-wide grid gap-10 md:grid-cols-2"><div><p className="eyebrow">Included in every plan</p><h2 className="mt-2 text-2xl font-bold tracking-[-.04em] text-navy">A little more than practice.</h2></div><ul className="grid gap-3 sm:grid-cols-2">{["Coaching by sport specialists", "A coach who knows your goals", "Attendance and session history", "Progress notes you can revisit"].map((item) => <li key={item} className="flex items-center gap-3 rounded-xl bg-white p-4 text-xs font-medium text-slate-600"><span className="grid h-7 w-7 place-items-center rounded-full bg-blue-soft text-blue"><Check size={14} /></span>{item}</li>)}</ul></div></section><section className="container-wide py-12"><div className="surface-card mx-auto flex max-w-3xl flex-col gap-4 p-6 sm:flex-row sm:items-center sm:p-8"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-blue-soft text-blue"><CircleHelp size={19} /></span><div><h2 className="text-sm font-bold text-navy">Not sure which one to pick?</h2><p className="mt-1 text-xs leading-6 text-slate-500">Start with the Basic plan and ask your coach about the right pace after your first few sessions.</p></div></div></section></main></PublicLayout>;
+}
