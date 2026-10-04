@@ -27,10 +27,8 @@ export async function proxy(request) {
     return NextResponse.next();
   }
 
-  // Handle direct /coaches, /coach, /dashboard/coaches, or /dashboard/coach
+  // Handle direct /coach, /dashboard/coaches, or /dashboard/coach
   if (
-    pathname === "/coaches" ||
-    pathname.startsWith("/coaches/") ||
     pathname === "/coach" ||
     pathname.startsWith("/coach/") ||
     pathname === "/dashboard/coaches" ||
@@ -76,6 +74,5 @@ export const config = {
     "/admin/:path*",
     "/coach",
     "/coach/:path*",
-    "/coaches",
   ],
 };

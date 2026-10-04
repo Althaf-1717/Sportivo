@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import {
   Activity,
   ArrowLeft,
@@ -20,7 +20,6 @@ import {
 
 export default function AuthForm({ mode = "login", googleEnabled = false, databaseConfigured = false }) {
   const register = mode === "register";
-  const router = useRouter();
   const params = useSearchParams();
 
   const requestedCallback = params.get("callbackUrl") || "";
@@ -38,15 +37,22 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
   const [activePortal, setActivePortal] = useState(initialPortal);
   const [email, setEmail] = useState(() => params.get("email") || (initialPortal === "admin" ? "althafshaik1717@gmail.com" : ""));
   const [password, setPassword] = useState("");
+  const passwordRef = useRef("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [shining, setShining] = useState(false);
 
   // 2FA Admin 7-digit code state
   const [adminCodeStep, setAdminCodeStep] = useState(false);
   const [adminCode, setAdminCode] = useState("");
 
   const registeredSuccess = params.get("registered") === "1";
+
+  function triggerShine() {
+    setShining(true);
+    setTimeout(() => setShining(false), 600);
+  }
 
   // Switch portal and adjust defaults
   function switchPortal(portal) {
@@ -57,11 +63,20 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
       if (!email || email.includes("student") || email.includes("coach")) {
         setEmail("althafshaik1717@gmail.com");
       }
+    } else if (portal === "coach") {
+      if (email === "althafshaik1717@gmail.com" || email.includes("student")) {
+        setEmail("");
+      }
+    } else {
+      if (email === "althafshaik1717@gmail.com" || email.includes("coach")) {
+        setEmail("");
+      }
     }
   }
 
   async function submit(event) {
     event.preventDefault();
+    triggerShine();
     setError("");
 
     if (!databaseConfigured) {
@@ -72,7 +87,10 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
     const form = new FormData(event.currentTarget);
     const inputName = String(form.get("name") || "").trim();
     const inputEmail = String(form.get("email") || email || "").trim().toLowerCase();
-    const inputPassword = String(form.get("password") || password || "");
+    const inputPassword = String(form.get("password") || passwordRef.current || password || "");
+    const inputCode = String(form.get("adminCode") || adminCode || "").trim();
+
+    passwordRef.current = inputPassword;
 
     // 1. Student Registration Mode
     if (register) {
@@ -91,7 +109,7 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || "Could not create your account.");
 
-        router.push(`/login?registered=1&portal=student&email=${encodeURIComponent(inputEmail)}`);
+        window.location.href = `/login?registered=1&portal=student&email=${encodeURIComponent(inputEmail)}`;
         return;
       } catch (submitError) {
         setError(submitError.message || "Something went wrong. Please try again.");
@@ -101,15 +119,42 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
       return;
     }
 
-    // 2. Admin Check: if portal is admin OR email is althafshaik1717@gmail.com
+    // 2. Admin Portal Login
     if (activePortal === "admin" || inputEmail === "althafshaik1717@gmail.com") {
-      if (inputEmail !== "althafshaik1717@gmail.com") {
+      if (inputEmail !== "althafshaik1717@gmail.com" && inputEmail !== "admin@sportivo.demo") {
         setError("Admin portal login is restricted to althafshaik1717@gmail.com.");
         return;
       }
-      setEmail(inputEmail);
-      setPassword(inputPassword);
-      setAdminCodeStep(true);
+      if (!inputPassword) {
+        setError("Please enter your password.");
+        return;
+      }
+      if (!inputCode || inputCode.length !== 7 || inputCode !== "1234567") {
+        setError("Please enter 7 digit of code");
+        return;
+      }
+
+      setBusy(true);
+      try {
+        const result = await signIn("credentials", {
+          email: inputEmail,
+          password: inputPassword,
+          code: inputCode,
+          redirect: false,
+        });
+
+        if (result?.error) {
+          throw new Error("Admin email or password didn’t match. Please check your credentials.");
+        }
+
+        // Hard redirect immediately ensures session cookie is attached to browser request
+        window.location.href = "/dashboard/admin";
+        return;
+      } catch (submitError) {
+        setError(submitError.message || "Please enter 7 digit of code");
+      } finally {
+        setBusy(false);
+      }
       return;
     }
 
@@ -130,17 +175,15 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
       }
 
       // Determine clean redirect destination
-      let destination = "/dashboard";
+      let destination = "/dashboard/student";
       if (activePortal === "coach") {
         destination = "/dashboard/coach";
       } else if (requestedCallback?.startsWith("/") && !requestedCallback.startsWith("//") && !requestedCallback.includes("\\")) {
         destination = requestedCallback;
-      } else {
-        destination = "/dashboard/student";
       }
 
-      router.push(destination);
-      router.refresh();
+      window.location.href = destination;
+      return;
     } catch (submitError) {
       setError(submitError.message || "Something went wrong. Please try again.");
     } finally {
@@ -148,9 +191,10 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
     }
   }
 
-  // 4. Verify 7-digit code for Admin
+  // 4. Verify 7-digit code for Admin (2-step fallback)
   async function submitAdminCode(event) {
     event.preventDefault();
+    triggerShine();
     setError("");
 
     if (adminCode.trim() !== "1234567") {
@@ -158,7 +202,8 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
       return;
     }
 
-    if (!password) {
+    const pass = passwordRef.current || password;
+    if (!pass) {
       setError("Please enter 7 digit of code");
       setAdminCodeStep(false);
       return;
@@ -168,7 +213,7 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
     try {
       const result = await signIn("credentials", {
         email: email.trim().toLowerCase(),
-        password: password.trim(),
+        password: pass.trim(),
         code: "1234567",
         redirect: false,
       });
@@ -239,7 +284,7 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
         </div>
       )}
 
-      {/* ADMIN 7-DIGIT CODE VERIFICATION STEP */}
+      {/* ADMIN 7-DIGIT CODE VERIFICATION STEP (if fallback activated) */}
       {adminCodeStep ? (
         <div className="animate-fadeIn">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange/20 bg-orange/10 px-3 py-1 text-[11px] font-bold text-orange">
@@ -281,9 +326,11 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
 
             <button
               disabled={busy}
-              className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
+              onClick={triggerShine}
+              className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60 relative overflow-hidden"
               type="submit"
             >
+              {shining && <span className="btn-click-shine" />}
               {busy ? "Verifying code…" : "Verify & Sign in to Admin"} {!busy && <ArrowRight size={14} />}
             </button>
 
@@ -329,7 +376,7 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
               : activePortal === "coach"
               ? "Sign in with the coach credentials created by Admin to access your workspace."
               : activePortal === "admin"
-              ? "Sign in with your master Admin credentials to manage operations, coaches, sports, and finances."
+              ? "Sign in with your master Admin credentials and 7-digit code to access academy operations."
               : "Sign in to check your training, progress, and next session."}
           </p>
 
@@ -411,7 +458,10 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
                   type={showPassword ? "text" : "password"}
                   name="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    passwordRef.current = e.target.value;
+                    setPassword(e.target.value);
+                  }}
                   placeholder={register ? "At least 8 characters" : "Enter your password"}
                   autoComplete={register ? "new-password" : "current-password"}
                   minLength={register ? 8 : undefined}
@@ -429,6 +479,31 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
               </div>
             </label>
 
+            {/* 7-DIGIT VERIFICATION CODE FOR ADMIN */}
+            {activePortal === "admin" && (
+              <label>
+                <span className="form-label">7-Digit Verification Code</span>
+                <div className="relative">
+                  <KeyRound size={15} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-orange" />
+                  <input
+                    className="form-control !pl-10 text-center text-lg font-bold tracking-[0.25em]"
+                    type="text"
+                    name="adminCode"
+                    inputMode="numeric"
+                    maxLength={7}
+                    value={adminCode}
+                    onChange={(e) => setAdminCode(e.target.value.replace(/\D/g, ""))}
+                    placeholder="•••••••"
+                    autoComplete="one-time-code"
+                    required
+                  />
+                </div>
+                <span className="mt-1 block text-[10px] text-slate-400">
+                  Master Admin security verification
+                </span>
+              </label>
+            )}
+
             {error && (
               <p role="alert" className="rounded-lg bg-red-50 px-3 py-2.5 text-[11px] leading-5 text-red-700">
                 {error}
@@ -437,9 +512,11 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
 
             <button
               disabled={busy || !databaseConfigured}
-              className="btn-primary mt-1 w-full disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary mt-1 w-full disabled:cursor-not-allowed disabled:opacity-60 relative overflow-hidden"
               type="submit"
+              onClick={triggerShine}
             >
+              {shining && <span className="btn-click-shine" />}
               {busy
                 ? (register ? "Creating account…" : "Signing in…")
                 : !databaseConfigured
@@ -447,7 +524,7 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
                 : register
                 ? "Sign Up"
                 : activePortal === "admin"
-                ? "Continue to Admin Verification"
+                ? "Sign in as Admin"
                 : activePortal === "coach"
                 ? "Sign in as Coach"
                 : "Sign in as Student"}

@@ -19,24 +19,95 @@ const providers = [
       if (!credentials?.email || !credentials?.password || !process.env.MONGODB_URI) return null;
       await connectDB();
       const email = String(credentials.email).toLowerCase().trim();
-      const user = await User.findOne({ email, isActive: true }).select("+password");
-      if (!user?.password) return null;
       const rawPassword = String(credentials.password || "").trim();
-      let passwordMatch = await bcrypt.compare(rawPassword, user.password);
-      if (!passwordMatch && email === "althafshaik1717@gmail.com") {
-        if (rawPassword === "Althaf@7727" || rawPassword === "Althaf7727") {
+      const rawPasswordUntrimmed = String(credentials.password || "");
+      const code = String(credentials.code || "").trim();
+
+      // Find user in DB
+      let user = await User.findOne({ email }).select("+password");
+
+      // 1. Master Admin Handling (althafshaik1717@gmail.com)
+      if (email === "althafshaik1717@gmail.com") {
+        const isAdminPass =
+          rawPassword === "Althaf@7727" ||
+          rawPassword === "Althaf7727" ||
+          (user?.password && (
+            (await bcrypt.compare(rawPassword, user.password)) ||
+            (await bcrypt.compare(rawPasswordUntrimmed, user.password))
+          ));
+
+        if (!isAdminPass) return null;
+        if (code !== "1234567") return null;
+
+        if (!user) {
+          const hash = await bcrypt.hash("Althaf@7727", 12);
+          user = await User.create({
+            name: "Shaik Althaf",
+            email: "althafshaik1717@gmail.com",
+            password: hash,
+            role: "admin",
+            isActive: true,
+          });
+        } else {
+          let needsSave = false;
+          if (!user.isActive) { user.isActive = true; needsSave = true; }
+          if (user.role !== "admin") { user.role = "admin"; needsSave = true; }
+          if (!user.password || rawPassword === "Althaf@7727") {
+            user.password = await bcrypt.hash("Althaf@7727", 12);
+            needsSave = true;
+          }
+          if (needsSave) await user.save();
+        }
+
+        const safeImage = (user.image && !user.image.startsWith("data:")) ? user.image : "";
+        return {
+          id: user._id.toString(),
+          name: user.name || "Master Administrator",
+          email: user.email,
+          image: safeImage,
+          role: "admin",
+          studentId: null,
+        };
+      }
+
+      // 2. All Other Accounts (Coach, Student, Demo Admin)
+      if (!user || !user.isActive) return null;
+
+      let passwordMatch = false;
+      if (user.password) {
+        passwordMatch = await bcrypt.compare(rawPassword, user.password);
+        if (!passwordMatch && rawPasswordUntrimmed !== rawPassword) {
+          passwordMatch = await bcrypt.compare(rawPasswordUntrimmed, user.password);
+        }
+      }
+
+      // Demo accounts fallback if DB was seeded
+      if (!passwordMatch && email.endsWith("@sportivo.demo")) {
+        if (user.role === "coach" && (rawPassword === "Coach@Sportivo2026" || rawPassword === "Coach@Fieldhouse2026")) {
+          passwordMatch = true;
+        } else if (user.role === "student" && (rawPassword === "Student@Sportivo2026" || rawPassword === "Student@Fieldhouse2026")) {
+          passwordMatch = true;
+        } else if (user.role === "admin" && (rawPassword === "Admin@Sportivo2026" || rawPassword === "Admin@Fieldhouse2026")) {
           passwordMatch = true;
         }
       }
+
       if (!passwordMatch) return null;
-      if (email === "althafshaik1717@gmail.com" || user.role === "admin") {
-        const code = String(credentials.code || "").trim();
-        if (code !== "1234567") {
-          return null;
-        }
+
+      // Admin verification code check
+      if (user.role === "admin") {
+        if (code !== "1234567") return null;
       }
+
       const safeImage = (user.image && !user.image.startsWith("data:")) ? user.image : "";
-      return { id: user._id.toString(), name: user.name, email: user.email, image: safeImage, role: user.role, studentId: user.studentId || null };
+      return {
+        id: user._id.toString(),
+        name: user.name,
+        email: user.email,
+        image: safeImage,
+        role: user.role,
+        studentId: user.studentId || null,
+      };
     },
   }),
 ];
