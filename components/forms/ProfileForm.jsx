@@ -33,33 +33,40 @@ export default function ProfileForm({ role = "coach" }) {
 
   useEffect(() => {
     let active = true;
-    fetch("/api/profile")
-      .then((res) => res.json().then((data) => ({ res, data })))
-      .then(({ res, data }) => {
-        if (!active) return;
+    async function loadProfile() {
+      try {
+        const res = await fetch("/api/profile");
+        const text = await res.text();
+        let data = {};
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          throw new Error("Could not load profile data.");
+        }
         if (!res.ok) throw new Error(data.error || "Could not load profile.");
+        if (!active) return;
         const user = data.user;
         const coach = data.coach;
         setForm({
-          studentId: user.studentId || null,
-          name: user.name || "",
-          email: user.email || "",
-          role: user.role || role,
-          phone: user.phone || "",
-          dateOfBirth: user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().slice(0, 10) : "",
-          gender: user.gender || "",
-          address: user.address || "",
+          studentId: user?.studentId || null,
+          name: user?.name || "",
+          email: user?.email || "",
+          role: user?.role || role,
+          phone: user?.phone || "",
+          dateOfBirth: user?.dateOfBirth ? new Date(user.dateOfBirth).toISOString().slice(0, 10) : "",
+          gender: user?.gender || "",
+          address: user?.address || "",
           specialization: coach?.specialization || "",
           bio: coach?.bio || "",
           sports: coach?.sports || [],
         });
-      })
-      .catch((err) => {
+      } catch (err) {
         if (active) setError(err.message);
-      })
-      .finally(() => {
+      } finally {
         if (active) setBusy(false);
-      });
+      }
+    }
+    loadProfile();
     return () => {
       active = false;
     };
@@ -109,7 +116,13 @@ export default function ProfileForm({ role = "coach" }) {
         body: JSON.stringify(payload),
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      let data = {};
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        throw new Error("Server error saving profile. Please try again.");
+      }
       if (!response.ok) throw new Error(data.error || "Could not save your profile.");
 
       setMessage(data.message || "Your profile has been updated.");

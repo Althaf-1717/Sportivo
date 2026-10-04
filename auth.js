@@ -155,7 +155,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.id = user.id;
         token.role = user.role || "student";
         token.studentId = user.studentId || null;
-      } else if (token?.id && process.env.MONGODB_URI) {
+      } else if (!token?.role && token?.id && process.env.MONGODB_URI) {
         try {
           await connectDB();
           const dbUser = await User.findById(token.id).select("role studentId isActive").lean();
