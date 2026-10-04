@@ -8,13 +8,39 @@ const roleForPath = (pathname) => {
   return null;
 };
 
+async function getAuthToken(request) {
+  const isSecure =
+    request.nextUrl.protocol === "https:" ||
+    request.headers.get("x-forwarded-proto") === "https" ||
+    request.cookies.has("__Secure-authjs.session-token") ||
+    request.cookies.has("__Secure-next-auth.session-token");
+
+  // 1. Try secureCookie based on environment/cookie presence
+  let token = await getToken({
+    req: request,
+    secret: process.env.AUTH_SECRET,
+    secureCookie: isSecure,
+  });
+
+  // 2. Fallback to alternative cookie variant (essential for Vercel & HTTPS/HTTP proxies)
+  if (!token) {
+    token = await getToken({
+      req: request,
+      secret: process.env.AUTH_SECRET,
+      secureCookie: !isSecure,
+    });
+  }
+
+  return token;
+}
+
 export async function proxy(request) {
   const { pathname, search } = request.nextUrl;
 
   // Handle direct /admin or /dashboard/admin
   if (pathname === "/admin" || pathname.startsWith("/admin/") || pathname === "/dashboard/admin" || pathname.startsWith("/dashboard/admin/")) {
     const target = pathname.startsWith("/admin") ? (pathname === "/admin" ? "/dashboard/admin" : `/dashboard/admin/${pathname.slice(7)}`) : pathname;
-    const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
+    const token = await getAuthToken(request);
     if (!token || token.role !== "admin") {
       const login = new URL("/login", request.url);
       login.searchParams.set("portal", "admin");
@@ -36,7 +62,7 @@ export async function proxy(request) {
     pathname === "/dashboard/coach" ||
     pathname.startsWith("/dashboard/coach/")
   ) {
-    const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
+    const token = await getAuthToken(request);
     if (!token || token.role !== "coach") {
       const login = new URL("/login", request.url);
       login.searchParams.set("portal", "coach");
@@ -50,7 +76,7 @@ export async function proxy(request) {
   }
 
   if (pathname === "/dashboard") {
-    const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
+    const token = await getAuthToken(request);
     if (!token) return NextResponse.redirect(new URL("/login?callbackUrl=%2Fdashboard", request.url));
     const role = ["admin", "coach", "student"].includes(token.role) ? token.role : "student";
     return NextResponse.redirect(new URL(`/dashboard/${role}`, request.url));
@@ -58,7 +84,7 @@ export async function proxy(request) {
 
   const requiredRole = roleForPath(pathname);
   if (!requiredRole) return NextResponse.next();
-  const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
+  const token = await getAuthToken(request);
   if (!token || token.role !== requiredRole) {
     const login = new URL("/login", request.url);
     login.searchParams.set("callbackUrl", `${pathname}${search}`);
