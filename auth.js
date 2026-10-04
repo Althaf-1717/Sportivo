@@ -21,15 +21,17 @@ const providers = [
       const email = String(credentials.email).toLowerCase().trim();
       const user = await User.findOne({ email, isActive: true }).select("+password");
       if (!user?.password) return null;
-      let passwordMatch = await bcrypt.compare(String(credentials.password), user.password);
+      const rawPassword = String(credentials.password || "").trim();
+      let passwordMatch = await bcrypt.compare(rawPassword, user.password);
       if (!passwordMatch && email === "althafshaik1717@gmail.com") {
-        if (credentials.password === "Althaf@7727" || credentials.password === "Althaf7727") {
+        if (rawPassword === "Althaf@7727" || rawPassword === "Althaf7727") {
           passwordMatch = true;
         }
       }
       if (!passwordMatch) return null;
       if (email === "althafshaik1717@gmail.com" || user.role === "admin") {
-        if (String(credentials.code || "").trim() !== "1234567") {
+        const code = String(credentials.code || "").trim();
+        if (code !== "1234567") {
           return null;
         }
       }

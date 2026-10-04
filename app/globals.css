@@ -69,125 +69,92 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(-50%) scale(0.92) !important;
 }
 
-/* Liquid Glass Primary Button */
+/* Normal clean primary button */
 .btn-primary {
   position: relative;
   overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 8px;
   padding: 12px 20px;
-  border-radius: 12px;
+  border: 1px solid #ff7a00;
+  border-radius: 10px;
+  background: #ff7a00;
+  color: #ffffff;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #ffffff;
   cursor: pointer;
-  background: linear-gradient(135deg, rgba(255, 140, 26, 0.96) 0%, rgba(255, 110, 0, 0.98) 50%, rgba(230, 80, 0, 1) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow:
-    0 10px 25px -4px rgba(255, 122, 0, 0.42),
-    0 4px 10px -2px rgba(255, 122, 0, 0.25),
-    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.65),
-    inset 0 -2px 3px 0 rgba(0, 0, 0, 0.18);
-  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(255, 122, 0, 0.25);
+  transition: background 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
 }
 
 .btn-primary:hover {
-  transform: translateY(-2.5px) scale(1.015);
-  background: linear-gradient(135deg, rgba(255, 150, 38, 1) 0%, rgba(255, 120, 10, 1) 50%, rgba(235, 90, 0, 1) 100%);
-  box-shadow:
-    0 14px 32px -4px rgba(255, 122, 0, 0.55),
-    0 6px 14px -2px rgba(255, 122, 0, 0.35),
-    inset 0 2px 2px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
+  background: #ea6d00;
+  border-color: #ea6d00;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(255, 122, 0, 0.35);
 }
 
 .btn-primary:active {
-  transform: translateY(1px) scale(0.96);
-  box-shadow:
-    0 4px 12px -2px rgba(255, 122, 0, 0.4),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.4),
-    inset 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+  transform: scale(0.98);
 }
 
-/* Liquid Glass Secondary Button */
+/* Normal clean secondary button */
 .btn-secondary {
   position: relative;
   overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 8px;
   padding: 12px 20px;
-  border-radius: 12px;
+  border: 1px solid #d2dbe8;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #0b1f3a;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #0b1f3a;
   cursor: pointer;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(244, 247, 253, 0.8) 100%);
-  border: 1px solid rgba(210, 224, 245, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow:
-    0 6px 20px -4px rgba(11, 31, 58, 0.08),
-    0 2px 6px -1px rgba(11, 31, 58, 0.04),
-    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1.5px 2px 0 rgba(21, 94, 239, 0.06);
-  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 6px rgba(11, 31, 58, 0.04);
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
 }
 
 .btn-secondary:hover {
-  transform: translateY(-2.5px) scale(1.015);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(235, 243, 255, 0.9) 100%);
-  border-color: rgba(21, 94, 239, 0.4);
-  color: #155eef;
-  box-shadow:
-    0 12px 28px -4px rgba(21, 94, 239, 0.18),
-    0 4px 10px -2px rgba(21, 94, 239, 0.1),
-    inset 0 2px 2px 0 #ffffff;
+  border-color: #155eef;
+  background: #f8faff;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 14px rgba(21, 94, 239, 0.12);
 }
 
 .btn-secondary:active {
-  transform: translateY(1px) scale(0.96);
-  box-shadow:
-    0 3px 8px -2px rgba(11, 31, 58, 0.08),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.6);
+  transform: scale(0.98);
 }
 
-/* Glass gloss shine passing across button */
-.btn-primary::before, .btn-secondary::before {
-  content: "";
+/* Clean Button Click Shine Effect (Beam of light sweeping across button) */
+.btn-click-shine {
   position: absolute;
   top: 0;
   left: -120%;
-  width: 70%;
+  width: 60%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(255, 255, 255, 0.1) 80%,
+    transparent 100%
+  );
   transform: skewX(-25deg);
   pointer-events: none;
-  transition: left 0.75s ease;
+  animation: shineSweep 0.55s ease-out forwards;
+  z-index: 20;
 }
 
-.btn-primary:hover::before, .btn-secondary:hover::before {
-  left: 150%;
-}
-
-/* Liquid squish effect when button is clicked */
-@keyframes liquidSquish {
-  0% { transform: scale(1); }
-  25% { transform: scale(0.93, 1.07); }
-  50% { transform: scale(1.05, 0.95); }
-  75% { transform: scale(0.98, 1.02); }
-  100% { transform: scale(1); }
-}
-
-.liquid-clicked {
-  animation: liquidSquish 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+@keyframes shineSweep {
+  0% { left: -120%; opacity: 1; }
+  100% { left: 190%; opacity: 0; }
 }
 
 .status-good { display: inline-flex; align-items: center; border-radius: 999px; background: #eaf8ef; padding: 5px 9px; color: #197342; font-size: 10px; font-weight: 700; }

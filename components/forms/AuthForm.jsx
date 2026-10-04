@@ -154,7 +154,13 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
     setError("");
 
     if (adminCode.trim() !== "1234567") {
-      setError("Please enter 7 digit of code (the code is 1234567).");
+      setError("Please enter 7 digit of code");
+      return;
+    }
+
+    if (!password) {
+      setError("Please enter 7 digit of code");
+      setAdminCodeStep(false);
       return;
     }
 
@@ -162,7 +168,7 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
     try {
       const result = await signIn("credentials", {
         email: email.trim().toLowerCase(),
-        password,
+        password: password.trim(),
         code: "1234567",
         redirect: false,
       });
@@ -171,11 +177,10 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
         throw new Error("Admin email or password didn’t match. Please check your credentials.");
       }
 
-      router.push("/dashboard/admin");
-      router.refresh();
+      // Hard redirect to admin dashboard ensures session cookie is immediately active
+      window.location.href = "/dashboard/admin";
     } catch (submitError) {
-      setError(submitError.message || "Sign in failed. Please try again.");
-    } finally {
+      setError(submitError.message || "Please enter 7 digit of code");
       setBusy(false);
     }
   }
@@ -260,15 +265,12 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
                   inputMode="numeric"
                   value={adminCode}
                   onChange={(e) => setAdminCode(e.target.value.replace(/\D/g, ""))}
-                  placeholder="1234567"
+                  placeholder="•••••••"
                   className="w-full rounded-xl border border-slate-300 bg-white py-3 pl-10 pr-4 text-center text-xl font-bold tracking-[0.25em] text-navy focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
                   required
                   autoFocus
                 />
               </div>
-              <p className="mt-2 text-[10px] text-slate-400">
-                Code is: <strong className="text-navy font-mono">1234567</strong>
-              </p>
             </div>
 
             {error && (
