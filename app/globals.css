@@ -38,14 +38,157 @@ a { color: inherit; text-decoration: none; }
 .form-control { width: 100%; border: 1px solid #d9e0ea; border-radius: 10px; background: #fff; padding: 11px 13px; color: #111827; font-size: 13px; outline: none; transition: border-color .18s, box-shadow .18s; }
 .form-control:focus { border-color: #155eef; box-shadow: 0 0 0 3px rgb(21 94 239 / 12%); }
 .form-label { display: block; margin-bottom: 7px; color: #344054; font-size: 12px; font-weight: 600; }
-.btn-primary { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid #ff7a00; border-radius: 10px; background: #ff7a00; padding: 12px 17px; color: #fff; font-size: 12px; font-weight: 700; transition: background .18s, transform .15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .18s; cursor: pointer; }
-.btn-primary:hover { transform: translateY(-2px); background: #ea6d00; box-shadow: 0 10px 24px rgb(255 122 0 / 28%); }
-.btn-primary:active { transform: scale(0.95); }
-.btn-secondary { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid #cfdbef; border-radius: 10px; background: #fff; padding: 12px 17px; color: #0b1f3a; font-size: 12px; font-weight: 700; transition: border-color .18s, background .18s, transform .15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .18s; cursor: pointer; }
-.btn-secondary:hover { border-color: #155eef; background: #f7faff; transform: translateY(-2px); box-shadow: 0 6px 18px rgb(21 94 239 / 12%); }
-.btn-secondary:active { transform: scale(0.95); }
-button { position: relative; overflow: hidden; }
-button:active { transform: scale(0.95); }
+/* Dedicated input eye button - guaranteed to remain inside password fields */
+.input-eye-btn {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 8px !important;
+  color: #94a3b8 !important;
+  cursor: pointer !important;
+  z-index: 10 !important;
+  outline: none !important;
+  transition: color 0.15s ease, background 0.15s ease, transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.input-eye-btn:hover {
+  color: #0b1f3a !important;
+  background: rgba(15, 23, 42, 0.06) !important;
+  transform: translateY(-50%) scale(1.08) !important;
+}
+.input-eye-btn:active {
+  transform: translateY(-50%) scale(0.92) !important;
+}
+
+/* Liquid Glass Primary Button */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  cursor: pointer;
+  background: linear-gradient(135deg, rgba(255, 140, 26, 0.96) 0%, rgba(255, 110, 0, 0.98) 50%, rgba(230, 80, 0, 1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    0 10px 25px -4px rgba(255, 122, 0, 0.42),
+    0 4px 10px -2px rgba(255, 122, 0, 0.25),
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -2px 3px 0 rgba(0, 0, 0, 0.18);
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2.5px) scale(1.015);
+  background: linear-gradient(135deg, rgba(255, 150, 38, 1) 0%, rgba(255, 120, 10, 1) 50%, rgba(235, 90, 0, 1) 100%);
+  box-shadow:
+    0 14px 32px -4px rgba(255, 122, 0, 0.55),
+    0 6px 14px -2px rgba(255, 122, 0, 0.35),
+    inset 0 2px 2px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.96);
+  box-shadow:
+    0 4px 12px -2px rgba(255, 122, 0, 0.4),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* Liquid Glass Secondary Button */
+.btn-secondary {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0b1f3a;
+  cursor: pointer;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(244, 247, 253, 0.8) 100%);
+  border: 1px solid rgba(210, 224, 245, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    0 6px 20px -4px rgba(11, 31, 58, 0.08),
+    0 2px 6px -1px rgba(11, 31, 58, 0.04),
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1.5px 2px 0 rgba(21, 94, 239, 0.06);
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2.5px) scale(1.015);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(235, 243, 255, 0.9) 100%);
+  border-color: rgba(21, 94, 239, 0.4);
+  color: #155eef;
+  box-shadow:
+    0 12px 28px -4px rgba(21, 94, 239, 0.18),
+    0 4px 10px -2px rgba(21, 94, 239, 0.1),
+    inset 0 2px 2px 0 #ffffff;
+}
+
+.btn-secondary:active {
+  transform: translateY(1px) scale(0.96);
+  box-shadow:
+    0 3px 8px -2px rgba(11, 31, 58, 0.08),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Glass gloss shine passing across button */
+.btn-primary::before, .btn-secondary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-25deg);
+  pointer-events: none;
+  transition: left 0.75s ease;
+}
+
+.btn-primary:hover::before, .btn-secondary:hover::before {
+  left: 150%;
+}
+
+/* Liquid squish effect when button is clicked */
+@keyframes liquidSquish {
+  0% { transform: scale(1); }
+  25% { transform: scale(0.93, 1.07); }
+  50% { transform: scale(1.05, 0.95); }
+  75% { transform: scale(0.98, 1.02); }
+  100% { transform: scale(1); }
+}
+
+.liquid-clicked {
+  animation: liquidSquish 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
 
 .status-good { display: inline-flex; align-items: center; border-radius: 999px; background: #eaf8ef; padding: 5px 9px; color: #197342; font-size: 10px; font-weight: 700; }
 .status-warn { display: inline-flex; align-items: center; border-radius: 999px; background: #fff4e9; padding: 5px 9px; color: #af5d00; font-size: 10px; font-weight: 700; }

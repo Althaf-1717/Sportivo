@@ -29,6 +29,7 @@ export default function ProfileForm({ role = "coach" }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -288,7 +289,7 @@ export default function ProfileForm({ role = "coach" }) {
             <span className="form-label">Current / Temporary Password</span>
             <div className="relative">
               <input
-                className="form-control !pr-10"
+                className="form-control !pr-11"
                 type={showCurrent ? "text" : "password"}
                 placeholder="Current password"
                 value={currentPassword}
@@ -296,11 +297,11 @@ export default function ProfileForm({ role = "coach" }) {
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-navy"
+                className="input-eye-btn"
                 onClick={() => setShowCurrent(!showCurrent)}
                 aria-label={showCurrent ? "Hide current password" : "Show current password"}
               >
-                {showCurrent ? <EyeOff size={14} /> : <Eye size={14} />}
+                {showCurrent ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
           </label>
@@ -309,7 +310,7 @@ export default function ProfileForm({ role = "coach" }) {
             <span className="form-label">New Password</span>
             <div className="relative">
               <input
-                className="form-control !pr-10"
+                className="form-control !pr-11"
                 type={showNew ? "text" : "password"}
                 minLength={8}
                 placeholder="At least 8 characters"
@@ -318,25 +319,35 @@ export default function ProfileForm({ role = "coach" }) {
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-navy"
+                className="input-eye-btn"
                 onClick={() => setShowNew(!showNew)}
                 aria-label={showNew ? "Hide new password" : "Show new password"}
               >
-                {showNew ? <EyeOff size={14} /> : <Eye size={14} />}
+                {showNew ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
           </label>
 
           <label>
             <span className="form-label">Confirm New Password</span>
-            <input
-              className="form-control"
-              type="password"
-              minLength={8}
-              placeholder="Confirm new password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
+            <div className="relative">
+              <input
+                className="form-control !pr-11"
+                type={showConfirm ? "text" : "password"}
+                minLength={8}
+                placeholder="Confirm new password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="input-eye-btn"
+                onClick={() => setShowConfirm(!showConfirm)}
+                aria-label={showConfirm ? "Hide confirm password" : "Show confirm password"}
+              >
+                {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
           </label>
         </div>
       </div>

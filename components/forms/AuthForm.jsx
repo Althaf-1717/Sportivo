@@ -402,10 +402,10 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
               <span className="form-label">
                 {activePortal === "coach" ? "Temporary password (set by Admin)" : "Password"}
               </span>
-              <span className="relative block">
-                <LockKeyhole size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <div className="relative">
+                <LockKeyhole size={15} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
-                  className="form-control !px-10"
+                  className="form-control !pl-10 !pr-11"
                   type={showPassword ? "text" : "password"}
                   name="password"
                   value={password}
@@ -420,11 +420,11 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
                   type="button"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-navy"
+                  className="input-eye-btn"
                 >
-                  {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
-              </span>
+              </div>
             </label>
 
             {error && (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useRef } from "react";
-import { Camera, Check, Edit3, Plus, Search, ShieldCheck, Trash2, X } from "lucide-react";
+import { Camera, Check, Edit3, Eye, EyeOff, Plus, Search, ShieldCheck, Trash2, X } from "lucide-react";
 import PageIntro from "@/components/dashboard/PageIntro";
 import SportIcon from "@/components/ui/SportIcon";
 
@@ -150,6 +150,7 @@ export default function AdminResourceView({ resource, initialRows, sports = [], 
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [form, setForm] = useState({});
+  const [showCoachPassword, setShowCoachPassword] = useState(false);
   const fileInputRef = useRef(null);
 
   const filtered = useMemo(() => rows.filter((row) => JSON.stringify(row).toLowerCase().includes(search.toLowerCase())), [rows, search]);
@@ -561,7 +562,37 @@ export default function AdminResourceView({ resource, initialRows, sports = [], 
                   );
                 }
 
-                // 5. Default Input Fields (name, phone, email, password, experience)
+                // 5. Password Field with eye toggle
+                if (isPassword) {
+                  return (
+                    <label key={field.key}>
+                      <span className="form-label">{label}</span>
+                      <div className="relative">
+                        <input
+                          className="form-control !pr-11"
+                          type={showCoachPassword ? "text" : "password"}
+                          required={isRequired}
+                          minLength={8}
+                          placeholder={
+                            editing ? "Leave blank to keep existing password" : "At least 8 characters"
+                          }
+                          value={form[field.key] ?? ""}
+                          onChange={(event) => setValue(field.key, event.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className="input-eye-btn"
+                          onClick={() => setShowCoachPassword(!showCoachPassword)}
+                          aria-label={showCoachPassword ? "Hide password" : "Show password"}
+                        >
+                          {showCoachPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
+                      </div>
+                    </label>
+                  );
+                }
+
+                // 6. Default Input Fields (name, phone, email, experience)
                 return (
                   <label key={field.key}>
                     <span className="form-label">{label}</span>
@@ -572,14 +603,7 @@ export default function AdminResourceView({ resource, initialRows, sports = [], 
                       readOnly={isReadOnlyEmail}
                       min={field.type === "number" ? 0 : undefined}
                       required={isRequired}
-                      minLength={isPassword ? 8 : undefined}
-                      placeholder={
-                        isPassword && editing
-                          ? "Leave blank to keep existing password"
-                          : field.key === "phone"
-                          ? "+91 98765 43210"
-                          : ""
-                      }
+                      placeholder={field.key === "phone" ? "+91 98765 43210" : ""}
                       value={form[field.key] ?? ""}
                       onChange={(event) => setValue(field.key, event.target.value)}
                     />
