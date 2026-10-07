@@ -57,7 +57,16 @@ export async function POST(request) {
   const denied = requireApiRole(user, ["coach", "admin"]);
   if (denied) return denied;
 
-  const body = await request.json();
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonError("Invalid JSON in request body.", 400);
+  }
+  if (!body || typeof body !== "object") {
+    return jsonError("Request body must be a valid JSON object.", 400);
+  }
+
   await connectDB();
 
   // Handle batch submission (e.g. from Coach Attendance roster)

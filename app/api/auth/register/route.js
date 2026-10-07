@@ -8,7 +8,7 @@ const registration = z.object({
   name: z.string().trim().min(2).max(100),
   email: z.string().trim().email().max(254),
   password: z.string().min(8).max(72),
-  role: z.enum(["student", "coach", "admin"]).optional(),
+  role: z.literal("student").optional().default("student"),
 }).strict();
 
 export async function POST(request) {
@@ -20,7 +20,7 @@ export async function POST(request) {
     const email = input.email.toLowerCase();
     if (await User.exists({ email })) return NextResponse.json({ error: "An account with that email already exists." }, { status: 409 });
     const password = await bcrypt.hash(input.password, 12);
-    const role = input.role || "student";
+    const role = "student";
     let studentId = undefined;
     if (role === "student") {
       const lastStudent = await User.findOne({ studentId: { $exists: true, $ne: null } })
