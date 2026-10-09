@@ -1,66 +1,50 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import { cx } from "@/lib/utils";
 
 /**
- * Magnetic Button Interaction Wrapper:
- * - Subtly pulls button towards cursor when hovered (restrained 4px - 6px radius)
- * - Spring-back release on mouse leave
- * - 100% accessible: does not delay or interfere with click/keyboard events
+ * High-Performance Magnetic Button:
+ * - Direct DOM style mutation via transform3d (0 React re-renders)
+ * - Restrained 4px spring deflection
+ * - Immediate clean release on mouse leave
  */
 export function MagneticButton({
   children,
   className = "",
-  strength = 0.25, // magnetic pull strength multiplier
+  strength = 0.2,
   disabled = false,
   ...props
 }) {
-  const buttonRef = useRef(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+  const ref = useRef(null);
 
   const handleMouseMove = useCallback(
     (e) => {
-      if (disabled || !buttonRef.current) return;
-      const rect = buttonRef.current.getBoundingClientRect();
+      if (disabled || !ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
 
-      // Distance from center
-      const deltaX = (e.clientX - centerX) * strength;
-      const deltaY = (e.clientY - centerY) * strength;
+      const deltaX = Math.max(-5, Math.min(5, (e.clientX - centerX) * strength));
+      const deltaY = Math.max(-5, Math.min(5, (e.clientY - centerY) * strength));
 
-      // Restrain max magnetic translation to 6px
-      const clampedX = Math.max(-6, Math.min(6, deltaX));
-      const clampedY = Math.max(-6, Math.min(6, deltaY));
-
-      setPosition({ x: clampedX, y: clampedY });
+      ref.current.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0)`;
     },
     [disabled, strength]
   );
 
-  const handleMouseEnter = useCallback(() => {
-    setIsHovered(true);
-  }, []);
-
   const handleMouseLeave = useCallback(() => {
-    setIsHovered(false);
-    setPosition({ x: 0, y: 0 });
+    if (ref.current) {
+      ref.current.style.transform = "translate3d(0, 0, 0)";
+    }
   }, []);
 
   return (
     <div
-      ref={buttonRef}
+      ref={ref}
       onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={cx("inline-block transition-transform duration-200 ease-out", className)}
-      style={{
-        transform: isHovered
-          ? `translate3d(${position.x}px, ${position.y}px, 0)`
-          : "translate3d(0, 0, 0)",
-      }}
+      className={cx("inline-block transition-transform duration-150 ease-out will-change-transform", className)}
       {...props}
     >
       {children}

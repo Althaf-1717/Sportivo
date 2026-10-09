@@ -57,31 +57,48 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="relative mx-auto w-full max-w-[630px] md:ml-auto">
-            <div className="relative aspect-[1.08/1] overflow-hidden rounded-[24px] bg-[#c6d4e4] shadow-[0_24px_64px_rgba(7,11,20,.18)] sm:aspect-[1.2/1] border border-slate-200/60">
-              <Image src="/images/hero-football.png" alt="A Sportivo football player practicing on the training pitch" fill priority sizes="(max-width: 768px) 100vw, 55vw" className="object-cover object-[59%_center]" />
-              <div className="absolute inset-0 bg-navy/15" />
-              <div className="absolute left-4 top-4 rounded-xl border border-white/70 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-md sm:left-5 sm:top-5">
-                <p className="text-[8px] font-extrabold uppercase tracking-[.18em] text-slate-400">SPORTIVO · EST. 2024</p>
+            <div className="group relative aspect-[4/3] sm:aspect-[1.2/1] overflow-hidden rounded-[26px] bg-[#070b14] shadow-[0_28px_65px_rgba(7,11,20,.25)] border border-slate-200/80 ring-1 ring-black/5">
+              <Image
+                src="/images/hero-optical-illusion.jpg"
+                alt="3D Optical Illusion celebrating Cricket, Football, and Basketball in impossible zero-gravity geometry"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 55vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+              {/* Subtle caustics gradient vignette */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#070b14]/50 via-transparent to-[#070b14]/15" />
+
+              {/* Top floating pill */}
+              <div className="absolute left-4 top-4 rounded-xl border border-white/80 bg-white/90 px-3 py-1.5 shadow-md backdrop-blur-md sm:left-5 sm:top-5">
+                <p className="text-[8px] font-extrabold uppercase tracking-[.2em] text-orange">SPORTIVO · 3D ARENA</p>
                 <p className="mt-0.5 text-[10.5px] font-bold text-navy">Bengaluru, India</p>
               </div>
-              <div className="absolute bottom-4 left-4 max-w-[240px] rounded-2xl bg-navy/95 px-4 py-3 text-white shadow-xl backdrop-blur-md border border-white/10 sm:bottom-5 sm:left-5">
+
+              {/* Bottom left focal pill */}
+              <div className="absolute bottom-4 left-4 max-w-[260px] rounded-2xl bg-[#070b14]/90 px-4 py-3 text-white shadow-xl backdrop-blur-md border border-white/15 sm:bottom-5 sm:left-5">
                 <div className="flex items-center gap-2 text-orange">
                   <Activity size={14} />
-                  <span className="text-[9px] font-extrabold uppercase tracking-[.18em]">Session Focus</span>
+                  <span className="text-[9px] font-extrabold uppercase tracking-[.18em]">TRI-SPORT EXCELLENCE</span>
                 </div>
-                <p className="mt-1.5 text-[12px] font-semibold leading-5 text-white/90">Effort, meet opportunity.</p>
+                <p className="mt-1 text-[11.5px] font-semibold leading-snug text-white/90">
+                  Football · Basketball · Cricket
+                </p>
               </div>
+
+              {/* Bottom right record badge */}
               <div className="absolute bottom-5 right-5 hidden items-center gap-2.5 rounded-xl border border-white/80 bg-white/95 px-3.5 py-2.5 shadow-lg backdrop-blur-md sm:flex">
                 <span className="grid h-8 w-8 place-items-center rounded-lg bg-orange/10 text-orange">
                   <Trophy size={16} />
                 </span>
                 <span>
-                  <span className="block text-[9px] font-semibold text-slate-400 uppercase tracking-wider">Progress Record</span>
+                  <span className="block text-[8.5px] font-bold text-slate-400 uppercase tracking-wider">Progress Pathway</span>
                   <span className="block text-[11px] font-extrabold text-navy">Measurable Growth</span>
                 </span>
               </div>
             </div>
-            <div className="absolute -bottom-5 right-7 hidden h-10 w-10 items-center justify-center rounded-full border-4 border-paper bg-orange text-white shadow-lg sm:flex transition hover:scale-110">
+
+            <div className="absolute -bottom-4 right-7 hidden h-10 w-10 items-center justify-center rounded-full border-4 border-paper bg-orange text-white shadow-lg sm:flex transition hover:scale-110">
               <ArrowDown size={16} />
             </div>
           </div>
