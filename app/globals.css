@@ -9,14 +9,63 @@
   --color-orange: #ff5500;
   --color-paper: #f8fafc;
   --color-line: #e2e8f0;
-  --font-sans: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Poppins", Arial, sans-serif;
+  --font-mono: Arial, "Poppins", sans-serif;
 }
 
-:root { color-scheme: light; }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; background-color: transparent; color: #0a0f1d; font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
-button, input, select, textarea { font: inherit; }
+:root {
+  color-scheme: light;
+  --font-primary: "Poppins", Arial, sans-serif;
+  --font-secondary: Arial, "Poppins", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: transparent;
+  color: #0a0f1d;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea {
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.font-poppins {
+  font-family: "Poppins", Arial, sans-serif !important;
+}
+
+.font-poppins-semibold {
+  font-family: "Poppins", Arial, sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.font-poppins-bold {
+  font-family: "Poppins", Arial, sans-serif !important;
+  font-weight: 700 !important;
+}
+
+.font-arial {
+  font-family: Arial, "Poppins", sans-serif !important;
+}
+
+.font-arial-bold {
+  font-family: Arial, "Poppins", sans-serif !important;
+  font-weight: 700 !important;
+}
+
+.font-mono {
+  font-family: Arial, "Poppins", sans-serif !important;
+}
 button, a { -webkit-tap-highlight-color: transparent; }
 a { color: inherit; text-decoration: none; }
 ::selection { background: #ff5500; color: #fff; }
