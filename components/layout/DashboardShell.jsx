@@ -53,7 +53,7 @@ export default function DashboardShell({ user, role, nav, children }) {
   const current = nav.find((item) => item.href === pathname) || nav.find((item) => item.href !== `/dashboard/${role}` && pathname.startsWith(item.href));
   const title = current?.label || "Overview";
 
-  const sidebar = <aside className={`fixed inset-y-0 left-0 z-40 flex w-[250px] flex-col border-r border-white/80 bg-white/85 backdrop-blur-2xl shadow-[0_10px_30px_rgba(7,11,20,0.03)] transition-transform duration-200 lg:static lg:translate-x-0 ${collapsed ? "lg:w-[80px]" : "lg:w-[250px]"} ${mobileOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"}`}>
+  const sidebar = <aside className={`fixed inset-y-0 left-0 z-40 flex w-[250px] flex-col border-r border-white/80 bg-white/80 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),0_10px_35px_rgba(7,11,20,0.03)] transition-transform duration-200 lg:static lg:translate-x-0 ${collapsed ? "lg:w-[80px]" : "lg:w-[250px]"} ${mobileOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"}`}>
     <div className="flex h-[74px] items-center justify-between border-b border-slate-100/80 px-5"><Link href="/" className="flex items-center gap-2.5 group"><div className="relative overflow-hidden rounded-xl border border-slate-200/80 bg-white p-0.5 shadow-2xs transition duration-200 group-hover:scale-105"><img src="/images/sportivo-logo.png" alt="Sportivo Logo" className="h-8 w-8 rounded-[9px] object-cover" /></div>{!collapsed && <span className="leading-tight"><b className="block text-[13px] font-black tracking-wide text-navy">SPORT<span className="text-orange">IVO</span></b><small className="text-[8px] font-extrabold tracking-[.22em] text-slate-400">ATHLETIC ACADEMY</small></span>}</Link><button onClick={() => setMobileOpen(false)} aria-label="Close navigation" className="grid h-8 w-8 place-items-center rounded-lg text-slate-500 hover:bg-slate-100 lg:hidden"><X size={17} /></button></div>
     <div className="px-5 pb-2 pt-6"><p className={`text-[9px] font-extrabold tracking-[.18em] text-slate-400 uppercase ${collapsed ? "lg:sr-only" : ""}`}>{sectionName[role]}</p></div>
     <nav aria-label={`${role} dashboard navigation`} className="flex-1 overflow-y-auto px-3 pb-4">
@@ -66,7 +66,7 @@ export default function DashboardShell({ user, role, nav, children }) {
             href={item.href}
             title={collapsed ? item.label : undefined}
             onClick={() => setMobileOpen(false)}
-            className={`mb-1.5 flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-[11.5px] font-semibold transition-all duration-200 ${active ? "bg-orange/10 text-orange shadow-2xs border border-orange/20" : "text-slate-600 hover:bg-slate-50/80 hover:text-navy"}`}
+            className={`mb-1.5 flex items-center gap-3 rounded-full px-4 py-2.5 text-[11.5px] font-semibold transition-all duration-200 ${active ? "bg-gradient-to-r from-orange/15 to-orange/5 text-orange shadow-xs border border-orange/25 backdrop-blur-md" : "text-slate-600 hover:bg-white/80 hover:text-navy hover:shadow-2xs"}`}
           >
             <Icon size={16} strokeWidth={active ? 2.4 : 1.8} className={active ? "text-orange" : ""} />
             <span className={collapsed ? "lg:hidden" : ""}>{item.label}</span>
@@ -77,7 +77,7 @@ export default function DashboardShell({ user, role, nav, children }) {
       <button
         onClick={() => signOut({ callbackUrl: "/" })}
         title={collapsed ? "Logout" : undefined}
-        className="mb-1 flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-[11.5px] font-semibold text-slate-500 transition hover:bg-red-50 hover:text-red-700"
+        className="mb-1 flex w-full items-center gap-3 rounded-full px-4 py-2.5 text-[11.5px] font-semibold text-slate-500 transition hover:bg-red-50 hover:text-red-700"
       >
         <LogOut size={16} strokeWidth={1.8} />
         <span className={collapsed ? "lg:hidden" : ""}>Logout</span>
@@ -87,10 +87,10 @@ export default function DashboardShell({ user, role, nav, children }) {
       <button className="hidden w-full items-center justify-center rounded-lg py-2 text-slate-400 hover:bg-slate-50 hover:text-navy lg:flex" aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} onClick={() => setCollapsed(!collapsed)}>
         {collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
       </button>
-      <div className={`mt-2 flex items-center gap-2.5 rounded-xl border border-white/90 bg-white/80 p-2.5 shadow-2xs backdrop-blur-md ${collapsed ? "lg:justify-center" : ""}`}>
+      <div className={`mt-2 flex items-center gap-2.5 rounded-full border border-white/95 bg-white/85 p-2 shadow-xs backdrop-blur-md ${collapsed ? "lg:justify-center" : ""}`}>
         <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-orange to-[#ff7a00] text-[10px] font-extrabold text-white shadow-2xs">{initials(user.name)}</span>
         {!collapsed && (
-          <span className="min-w-0">
+          <span className="min-w-0 pr-2">
             <b className="block truncate text-[10.5px] font-bold text-navy">{user.name}</b>
             <small className="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">
               {role === "student" && user.studentId ? `ID: #${user.studentId}` : `${role} account`}
@@ -102,7 +102,7 @@ export default function DashboardShell({ user, role, nav, children }) {
   </aside>;
 
   return <div className="min-h-screen lg:flex">{mobileOpen && <button className="fixed inset-0 z-30 bg-navy/30 backdrop-blur-xs lg:hidden" aria-label="Close navigation" onClick={() => setMobileOpen(false)} />}{sidebar}<div className="min-w-0 flex-1">
-    <header className="sticky top-0 z-30 flex h-[74px] items-center justify-between border-b border-white/80 bg-white/85 px-4 backdrop-blur-2xl shadow-2xs sm:px-7">
+    <header className="sticky top-0 z-30 flex h-[74px] items-center justify-between border-b border-white/80 bg-white/80 px-4 backdrop-blur-2xl shadow-xs sm:px-7">
       <div className="flex items-center gap-3">
         <button onClick={() => setMobileOpen(true)} className="grid h-9 w-9 place-items-center rounded-xl border border-slate-200/80 text-navy bg-white/80 hover:bg-white lg:hidden" aria-label="Open navigation"><Menu size={17} /></button>
         <div>
@@ -112,14 +112,14 @@ export default function DashboardShell({ user, role, nav, children }) {
       </div>
       <div className="flex items-center gap-2.5">
         {role === "student" && user.studentId && (
-          <span className="hidden sm:inline-flex items-center gap-1.5 rounded-lg border border-orange/20 bg-orange/10 px-2.5 py-1 text-[11px] font-bold text-orange shadow-2xs">
+          <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-orange/20 bg-orange/10 px-3 py-1 text-[11px] font-bold text-orange shadow-2xs">
             ID: #{user.studentId}
           </span>
         )}
-        <Link href="/" className="hidden items-center gap-1.5 rounded-lg border border-slate-200/70 bg-white/70 px-3 py-1.5 text-[10.5px] font-bold text-slate-600 hover:bg-white hover:text-navy shadow-2xs sm:inline-flex">Public site <ArrowUpRight size={13} /></Link>
+        <Link href="/" className="hidden items-center gap-1.5 rounded-full border border-white/90 bg-white/80 px-3.5 py-1.5 text-[10.5px] font-bold text-slate-600 hover:bg-white hover:text-navy shadow-xs sm:inline-flex">Public site <ArrowUpRight size={13} /></Link>
         <NotificationBell />
         <div className="relative">
-          <button onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} className="flex items-center gap-2 rounded-xl border border-white/90 bg-white/80 p-1.5 pr-2.5 hover:bg-white shadow-2xs backdrop-blur-md">
+          <button onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} className="flex items-center gap-2 rounded-full border border-white/95 bg-white/85 p-1.5 pr-3 hover:bg-white shadow-xs backdrop-blur-md">
             <span className="grid h-7 w-7 place-items-center rounded-full bg-orange/10 text-[9px] font-extrabold text-orange">{initials(user.name)}</span>
             <span className="hidden max-w-28 truncate text-[10.5px] font-bold text-navy sm:block">{user.name}</span>
             <ChevronDown size={13} className="text-slate-400" />

@@ -18,7 +18,7 @@ export default async function HomePage() {
   const featuredPlans = plans.filter((plan, index, list) => list.findIndex((candidate) => candidate.name === plan.name) === index).slice(0, 3);
   return <PublicLayout>
     <main>
-      <section className="overflow-hidden bg-paper">
+      <section className="overflow-hidden">
         <div className="container-wide grid items-center gap-10 py-12 md:grid-cols-[.86fr_1.14fr] md:gap-12 md:py-16 lg:py-[76px]">
           <div className="max-w-[520px] pb-4">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-orange/20 bg-orange/5 px-3.5 py-1.5 text-[11px] font-bold text-orange shadow-xs">
@@ -61,7 +61,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-slate-200/80 bg-white">
+      <section className="border-y border-white/80 bg-white/70 backdrop-blur-xl shadow-xs">
         <div className="container-wide grid grid-cols-2 gap-0 divide-x divide-y divide-slate-100 py-2 sm:py-3 md:grid-cols-4 md:divide-y-0">
           {[
             ["3", "Disciplines", "Cricket · Football · Basketball"],
@@ -83,7 +83,7 @@ export default async function HomePage() {
         <div className="mt-8 grid gap-5 md:grid-cols-3">{sports.slice(0, 3).map((sport, i) => <SportCard key={sport.slug || sport._id} sport={sport} index={i} />)}</div>
       </section>
 
-      <section className="bg-paper py-16 sm:py-20"><div className="container-wide grid items-center gap-10 lg:grid-cols-[.8fr_1.2fr]">
+      <section className="py-16 sm:py-20"><div className="container-wide grid items-center gap-10 lg:grid-cols-[.8fr_1.2fr]">
         <div><p className="eyebrow">The Sportivo way</p><h2 className="section-title mt-2 max-w-md">More than drills.<br />A place to grow.</h2><p className="section-copy mt-4 max-w-md">Great coaching builds the athlete and the person. We keep the work focused, the feedback honest, and the next step clear.</p><Button href="/about" variant="secondary" className="mt-6">Our approach <ArrowRight size={14} /></Button></div>
         <div className="grid gap-3 sm:grid-cols-2">
           {[[<ShieldCheck key="care" size={18} />, "Coaching with care", "Small groups mean thoughtful feedback and room for every player."], [<Activity key="progress" size={18} />, "Progress you can follow", "Training notes and skill updates turn effort into a clear journey."], [<Users key="team" size={18} />, "A team around you", "Positive teammates make it easier to keep showing up."], [<Clock3 key="schedule" size={18} />, "Built for real life", "A steady routine fits around school, work, and everything else." ]].map(([icon, title, body]) => <div key={title} className="surface-card p-5"><span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-soft text-blue">{icon}</span><h3 className="mt-4 text-[13px] font-bold text-navy">{title}</h3><p className="mt-2 text-[11px] leading-6 text-slate-500">{body}</p></div>)}
@@ -95,7 +95,7 @@ export default async function HomePage() {
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{featuredCoaches.map((coach, i) => <CoachCard key={coach.slug || coach._id} coach={coach} index={i} />)}</div>
       </section>
 
-      <section className="bg-[#f8faff] py-16 sm:py-20"><div className="container-wide">
+      <section className="py-16 sm:py-20"><div className="container-wide">
         <div className="mx-auto max-w-2xl text-center"><p className="eyebrow">A good plan for your season</p><h2 className="section-title mt-2">Start simple. Keep getting better.</h2><p className="section-copy mt-3">Choose a membership that gives you the space to build a lasting routine.</p></div>
         <div className="mt-9 grid gap-4 md:grid-cols-3">{featuredPlans.map((plan, i) => <MembershipCard key={plan.slug || plan._id} plan={plan} featured={i === 1} />)}</div>
         <p className="mt-5 text-center text-[10px] text-slate-400">Plans are available for cricket, football, and basketball. Select your sport during enrolment.</p>
