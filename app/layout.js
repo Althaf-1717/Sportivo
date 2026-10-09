@@ -1,5 +1,6 @@
 import "./globals.css";
 import ClickSparkEffect from "@/components/ui/ClickSparkEffect";
+import GlassBackground from "@/components/ui/GlassBackground";
 
 export const metadata = {
   metadataBase: new URL(process.env.AUTH_URL || "http://localhost:3000"),
@@ -16,7 +17,7 @@ export const metadata = {
   },
 };
 
-export const viewport = { themeColor: "#0b1f3a", width: "device-width", initialScale: 1 };
+export const viewport = { themeColor: "#070b14", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }) {
   return (
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        <GlassBackground />
         <ClickSparkEffect />
         {children}
       </body>

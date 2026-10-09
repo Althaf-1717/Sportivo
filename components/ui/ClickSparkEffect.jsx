@@ -24,13 +24,6 @@ export default function ClickSparkEffect() {
         const btn = target.closest("button, .btn-primary, .btn-secondary, [role='button'], input[type='submit']");
         if (!btn) return;
 
-        // Ensure button confines children
-        const computedStyle = window.getComputedStyle(btn);
-        if (computedStyle.position === "static") {
-          btn.style.position = "relative";
-        }
-        btn.style.overflow = "hidden";
-
         // Remove any existing shine overlay in this button
         const existingShines = btn.querySelectorAll(".btn-click-shine");
         existingShines.forEach((s) => s.remove());
@@ -38,13 +31,12 @@ export default function ClickSparkEffect() {
         // Create light shine beam element
         const shine = document.createElement("span");
         shine.className = "btn-click-shine";
-        shine.style.borderRadius = computedStyle.borderRadius;
         btn.appendChild(shine);
 
         // Clean up shine element after animation finishes
         setTimeout(() => {
           if (shine.parentNode) shine.remove();
-        }, 600);
+        }, 550);
       } catch {
         // Safe fallback
       }

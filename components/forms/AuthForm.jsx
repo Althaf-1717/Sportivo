@@ -237,23 +237,25 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
   }
 
   return (
-    <div className="w-full max-w-[440px]">
-      <Link href="/" className="mb-6 inline-flex items-center gap-2.5">
-        <img src="/images/sportivo-logo.png" alt="Sportivo Logo" className="h-10 w-10 rounded-xl object-cover shadow-xs" />
+    <div className="w-full max-w-[460px] rounded-3xl border border-white/80 bg-white/80 p-7 sm:p-9 backdrop-blur-2xl shadow-[0_20px_50px_-10px_rgba(7,11,20,0.08),inset_0_1px_2px_rgba(255,255,255,1)]">
+      <Link href="/" className="mb-6 inline-flex items-center gap-2.5 group">
+        <div className="relative overflow-hidden rounded-xl border border-slate-200/80 bg-white p-0.5 shadow-2xs transition duration-200 group-hover:scale-105">
+          <img src="/images/sportivo-logo.png" alt="Sportivo Logo" className="h-9 w-9 rounded-[10px] object-cover" />
+        </div>
         <span>
           <span className="block text-[15px] font-black tracking-[-.04em] text-navy">SPORT<span className="text-orange">IVO</span></span>
-          <span className="block text-[8px] font-bold tracking-[.2em] text-slate-400">SPORTS ACADEMY</span>
+          <span className="block text-[8px] font-extrabold tracking-[.22em] text-slate-400">ATHLETIC ACADEMY</span>
         </span>
       </Link>
 
       {/* PORTAL SELECTOR TABS (for login mode) */}
       {!register && !adminCodeStep && (
-        <div className="mb-6 grid grid-cols-3 gap-1 rounded-xl border border-slate-200 bg-slate-100 p-1">
+        <div className="mb-6 grid grid-cols-3 gap-1 rounded-2xl border border-slate-200/80 bg-slate-100/80 p-1.5 backdrop-blur-md">
           <button
             type="button"
             onClick={() => switchPortal("student")}
-            className={`flex items-center justify-center gap-1.5 rounded-lg py-2 text-[11px] font-bold transition ${
-              activePortal === "student" ? "bg-white text-navy shadow-xs" : "text-slate-500 hover:text-navy"
+            className={`flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-[11px] font-bold transition-all duration-200 ${
+              activePortal === "student" ? "bg-white text-navy shadow-xs ring-1 ring-slate-200/60" : "text-slate-500 hover:text-navy hover:bg-white/50"
             }`}
           >
             <UserRound size={13} className={activePortal === "student" ? "text-blue" : ""} />
@@ -263,8 +265,8 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
           <button
             type="button"
             onClick={() => switchPortal("coach")}
-            className={`flex items-center justify-center gap-1.5 rounded-lg py-2 text-[11px] font-bold transition ${
-              activePortal === "coach" ? "bg-white text-navy shadow-xs" : "text-slate-500 hover:text-navy"
+            className={`flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-[11px] font-bold transition-all duration-200 ${
+              activePortal === "coach" ? "bg-white text-navy shadow-xs ring-1 ring-slate-200/60" : "text-slate-500 hover:text-navy hover:bg-white/50"
             }`}
           >
             <Activity size={13} className={activePortal === "coach" ? "text-orange" : ""} />
@@ -274,8 +276,8 @@ export default function AuthForm({ mode = "login", googleEnabled = false, databa
           <button
             type="button"
             onClick={() => switchPortal("admin")}
-            className={`flex items-center justify-center gap-1.5 rounded-lg py-2 text-[11px] font-bold transition ${
-              activePortal === "admin" ? "bg-white text-navy shadow-xs" : "text-slate-500 hover:text-navy"
+            className={`flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-[11px] font-bold transition-all duration-200 ${
+              activePortal === "admin" ? "bg-white text-navy shadow-xs ring-1 ring-slate-200/60" : "text-slate-500 hover:text-navy hover:bg-white/50"
             }`}
           >
             <ShieldCheck size={13} className={activePortal === "admin" ? "text-emerald-600" : ""} />

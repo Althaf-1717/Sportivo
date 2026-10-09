@@ -19,33 +19,91 @@ export default async function HomePage() {
     <main>
       <section className="overflow-hidden bg-paper">
         <div className="container-wide grid items-center gap-10 py-12 md:grid-cols-[.86fr_1.14fr] md:gap-12 md:py-16 lg:py-[76px]">
-          <div className="max-w-[500px] pb-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue/10 bg-white px-3 py-1.5 text-[10px] font-semibold text-slate-600 shadow-sm"><span className="h-1.5 w-1.5 rounded-full bg-orange" /> Coaching that moves with you</div>
-            <p className="eyebrow mt-7">A stronger game starts here</p>
-            <h1 className="mt-3 text-[42px] font-bold leading-[1.12] tracking-[-.065em] text-navy sm:text-[52px] lg:text-[61px]">Train with purpose.<br /><span className="text-blue">Play with belief.</span></h1>
-            <p className="mt-5 max-w-[440px] text-[14px] leading-7 text-slate-600">Find your sport, learn from people who care, and see how every session adds up.</p>
-            <div className="mt-7 flex flex-wrap items-center gap-3"><Button href="/sports">Explore sports <ArrowRight size={15} /></Button><Button href="/about" variant="secondary"><CirclePlay size={15} /> Get to know us</Button></div>
-            <div className="mt-10 flex items-center gap-4 border-t border-slate-200 pt-6">
-              <div className="flex -space-x-2" aria-label="Academy community"><span className="grid h-8 w-8 place-items-center rounded-full border-2 border-paper bg-blue-soft text-[9px] font-bold text-blue">AM</span><span className="grid h-8 w-8 place-items-center rounded-full border-2 border-paper bg-orange/10 text-[9px] font-bold text-orange">KR</span><span className="grid h-8 w-8 place-items-center rounded-full border-2 border-paper bg-emerald-50 text-[9px] font-bold text-emerald-700">DS</span><span className="grid h-8 w-8 place-items-center rounded-full border-2 border-paper bg-navy text-[9px] font-bold text-white">+</span></div>
-              <div><p className="text-[11px] font-bold text-navy">Better together, every week</p><p className="mt-0.5 text-[10px] text-slate-500">Good coaching makes room to grow.</p></div>
+          <div className="max-w-[520px] pb-4">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-orange/20 bg-orange/5 px-3.5 py-1.5 text-[11px] font-bold text-orange shadow-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange opacity-75"></span>
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-orange"></span>
+              </span>
+              <span>2026 ATHLETIC SEASON · ENROLMENT ACTIVE</span>
+            </div>
+            <p className="eyebrow mt-6">A stronger game starts here</p>
+            <h1 className="mt-3 text-[34px] xs:text-[40px] sm:text-[52px] lg:text-[62px] font-extrabold leading-[1.08] tracking-[-.045em] text-navy">
+              Train with purpose.<br />
+              <span className="text-orange">Play with belief.</span>
+            </h1>
+            <p className="mt-5 max-w-[460px] text-[14.5px] leading-7 text-slate-600 font-normal">
+              Bengaluru’s premier athletic academy for cricket, football, and basketball. Dedicated specialist coaches, small training cohorts, and verified digital skill progression.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Button href="/sports" className="!px-6 !py-3 !text-sm shadow-md">
+                Explore Sports <ArrowRight size={15} />
+              </Button>
+              <Button href="/about" variant="secondary" className="!px-6 !py-3 !text-sm">
+                <CirclePlay size={15} /> Academy Story
+              </Button>
+            </div>
+            <div className="mt-10 flex items-center gap-4 border-t border-slate-200/80 pt-6">
+              <div className="flex -space-x-2" aria-label="Academy community">
+                <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-blue-soft text-[9px] font-bold text-blue shadow-xs">AM</span>
+                <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-orange/10 text-[9px] font-bold text-orange shadow-xs">KR</span>
+                <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-emerald-50 text-[9px] font-bold text-emerald-700 shadow-xs">DS</span>
+                <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-navy text-[9px] font-bold text-white shadow-xs">+</span>
+              </div>
+              <div>
+                <p className="text-[11.5px] font-bold text-navy">500+ Athletes in Bengaluru</p>
+                <p className="mt-0.5 text-[10px] text-slate-500 font-medium">Developing skills, discipline, and competitive belief.</p>
+              </div>
             </div>
           </div>
           <div className="relative mx-auto w-full max-w-[630px] md:ml-auto">
-            <div className="relative aspect-[1.08/1] overflow-hidden rounded-[24px] bg-[#c6d4e4] shadow-[0_24px_64px_rgba(11,31,58,.18)] sm:aspect-[1.2/1]">
+            <div className="relative aspect-[1.08/1] overflow-hidden rounded-[24px] bg-[#c6d4e4] shadow-[0_24px_64px_rgba(7,11,20,.18)] sm:aspect-[1.2/1] border border-slate-200/60">
               <Image src="/images/hero-football.png" alt="A Sportivo football player practicing on the training pitch" fill priority sizes="(max-width: 768px) 100vw, 55vw" className="object-cover object-[59%_center]" />
-              <div className="absolute inset-0 bg-navy/10" />
-              <div className="absolute left-4 top-4 rounded-xl border border-white/60 bg-white/90 px-3 py-2 backdrop-blur-sm sm:left-5 sm:top-5"><p className="text-[8px] font-bold uppercase tracking-[.15em] text-slate-400">SPORTIVO · EST. 2024</p><p className="mt-1 text-[10px] font-semibold text-navy">Bengaluru, India</p></div>
-              <div className="absolute bottom-4 left-4 max-w-[240px] rounded-2xl bg-navy px-4 py-3 text-white sm:bottom-5 sm:left-5"><div className="flex items-center gap-2 text-orange"><Activity size={14} /><span className="text-[9px] font-bold uppercase tracking-[.15em]">One session at a time</span></div><p className="mt-2 text-[12px] font-semibold leading-5">Effort, meet opportunity.</p></div>
-              <div className="absolute bottom-5 right-5 hidden items-center gap-2 rounded-xl bg-white px-3 py-2.5 shadow-lg sm:flex"><span className="grid h-8 w-8 place-items-center rounded-lg bg-blue-soft text-blue"><Trophy size={15} /></span><span><span className="block text-[9px] text-slate-500">Your progress</span><span className="block text-[11px] font-bold text-navy">Worth showing up for</span></span></div>
+              <div className="absolute inset-0 bg-navy/15" />
+              <div className="absolute left-4 top-4 rounded-xl border border-white/70 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-md sm:left-5 sm:top-5">
+                <p className="text-[8px] font-extrabold uppercase tracking-[.18em] text-slate-400">SPORTIVO · EST. 2024</p>
+                <p className="mt-0.5 text-[10.5px] font-bold text-navy">Bengaluru, India</p>
+              </div>
+              <div className="absolute bottom-4 left-4 max-w-[240px] rounded-2xl bg-navy/95 px-4 py-3 text-white shadow-xl backdrop-blur-md border border-white/10 sm:bottom-5 sm:left-5">
+                <div className="flex items-center gap-2 text-orange">
+                  <Activity size={14} />
+                  <span className="text-[9px] font-extrabold uppercase tracking-[.18em]">Session Focus</span>
+                </div>
+                <p className="mt-1.5 text-[12px] font-semibold leading-5 text-white/90">Effort, meet opportunity.</p>
+              </div>
+              <div className="absolute bottom-5 right-5 hidden items-center gap-2.5 rounded-xl border border-white/80 bg-white/95 px-3.5 py-2.5 shadow-lg backdrop-blur-md sm:flex">
+                <span className="grid h-8 w-8 place-items-center rounded-lg bg-orange/10 text-orange">
+                  <Trophy size={16} />
+                </span>
+                <span>
+                  <span className="block text-[9px] font-semibold text-slate-400 uppercase tracking-wider">Progress Record</span>
+                  <span className="block text-[11px] font-extrabold text-navy">Measurable Growth</span>
+                </span>
+              </div>
             </div>
-            <div className="absolute -bottom-5 right-7 hidden h-10 w-10 items-center justify-center rounded-full border-4 border-paper bg-orange text-white shadow-md sm:flex"><ArrowDown size={16} /></div>
+            <div className="absolute -bottom-5 right-7 hidden h-10 w-10 items-center justify-center rounded-full border-4 border-paper bg-orange text-white shadow-lg sm:flex transition hover:scale-110">
+              <ArrowDown size={16} />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="border-y border-slate-100 bg-white"><div className="container-wide grid grid-cols-2 gap-0 divide-x divide-y divide-slate-100 py-1 md:grid-cols-4 md:divide-y-0">
-        {[["3", "sports to explore"], ["6+", "specialist coaches"], ["Small", "training groups"], ["Your pace", "progress that’s personal"]].map(([value, label]) => <div key={label} className="px-4 py-5 text-center sm:py-6"><p className="text-lg font-bold tracking-[-.04em] text-navy">{value}</p><p className="mt-1 text-[9px] font-medium text-slate-500 sm:text-[10px]">{label}</p></div>)}
-      </div></section>
+      <section className="border-y border-slate-200/80 bg-white">
+        <div className="container-wide grid grid-cols-2 gap-0 divide-x divide-y divide-slate-100 py-2 sm:py-3 md:grid-cols-4 md:divide-y-0">
+          {[
+            ["3", "Disciplines", "Cricket · Football · Basketball"],
+            ["6+", "Pro Coaches", "Specialist player development"],
+            ["1 : 6", "Coach Ratio", "Small training cohorts"],
+            ["100%", "Digital Tracking", "Attendance & skill milestones"]
+          ].map(([value, label, sub]) => (
+            <div key={label} className="px-5 py-4 text-center sm:py-5">
+              <p className="text-2xl font-black tracking-[-0.04em] text-navy sm:text-3xl">{value}</p>
+              <p className="mt-1 text-[11px] font-bold text-navy uppercase tracking-wider">{label}</p>
+              <p className="mt-0.5 text-[9.5px] font-medium text-slate-400 hidden sm:block">{sub}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section className="container-wide py-16 sm:py-20" id="sports">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="eyebrow">Find your game</p><h2 className="section-title mt-2">Good things start with a sport.</h2><p className="section-copy mt-3 max-w-xl">Different games, one shared belief: the right support makes practice count.</p></div><Link href="/sports" className="inline-flex w-fit items-center gap-2 text-[11px] font-bold text-blue">All sports <ArrowUpRight size={14} /></Link></div>

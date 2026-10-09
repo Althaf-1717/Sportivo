@@ -9,28 +9,35 @@ export default function CoachCard({ coach, index = 0 }) {
   const slug = coach.slug || coach._id;
   const sport = coach.specialization || coach.sport || "Player development";
   return (
-    <Link href={`/coaches/${slug}`} className="group surface-card flex h-full flex-col p-5 transition duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(11,31,58,.1)]">
+    <Link
+      href={`/coaches/${slug}`}
+      className="group surface-card flex h-full flex-col p-5 transition duration-300 hover:-translate-y-1.5 hover:border-orange/30 hover:shadow-[0_16px_40px_rgba(7,11,20,.1)]"
+    >
       <div className="flex items-start justify-between">
-      {coach.image || coach.user?.image ? (
-        <img
-          src={coach.image || coach.user?.image}
-          alt={name}
-          className="h-14 w-14 rounded-2xl object-cover border border-slate-200 shadow-sm"
-        />
-      ) : (
-        <div className={`grid h-14 w-14 place-items-center rounded-2xl text-base font-bold ${colors[index % colors.length]}`}>
-          {coach.initials || name.split(" ").map((word) => word[0]).slice(0, 2).join("")}
-        </div>
-      )}
-      <Badge tone="green"><BadgeCheck size={12} className="mr-1" /> Academy coach</Badge>
-    </div>
-    <h3 className="mt-5 text-base font-bold text-navy">{name}</h3>
-    <p className="mt-1 text-[11px] font-semibold text-blue">{coach.role || sport}</p>
-    <p className="mt-3 line-clamp-2 flex-1 text-xs leading-6 text-slate-500">{coach.bio || `${coach.experience || "Experienced"} coaching players through focused sessions and thoughtful feedback.`}</p>
-    <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-[10px] text-slate-500">
-      <span>{coach.experience ? `${coach.experience} experience` : "Small-group coaching"}</span>
-      <ArrowUpRight size={14} className="text-blue transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-    </div>
-  </Link>
-);
+        {coach.image || coach.user?.image ? (
+          <div className="relative">
+            <img
+              src={coach.image || coach.user?.image}
+              alt={name}
+              className="h-14 w-14 rounded-2xl object-cover border-2 border-white shadow-sm ring-1 ring-slate-200/80 transition duration-300 group-hover:ring-orange/40"
+            />
+          </div>
+        ) : (
+          <div className={`grid h-14 w-14 place-items-center rounded-2xl text-base font-bold shadow-2xs ${colors[index % colors.length]}`}>
+            {coach.initials || name.split(" ").map((word) => word[0]).slice(0, 2).join("")}
+          </div>
+        )}
+        <Badge tone="green"><BadgeCheck size={12} /> Pro Coach</Badge>
+      </div>
+      <h3 className="mt-4 text-base font-bold text-navy transition duration-200 group-hover:text-orange">{name}</h3>
+      <p className="mt-0.5 text-[11px] font-extrabold text-blue uppercase tracking-wider">{coach.role || sport}</p>
+      <p className="mt-3 line-clamp-2 flex-1 text-xs leading-6 text-slate-500 font-normal">
+        {coach.bio || `${coach.experience || "Experienced"} coaching athletes through structured technique and dedicated drills.`}
+      </p>
+      <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3.5 text-[10.5px] font-medium text-slate-400">
+        <span className="font-semibold text-slate-600">{coach.experience ? `${coach.experience} yrs coaching experience` : "Small-group cohort"}</span>
+        <ArrowUpRight size={14} className="text-orange transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+      </div>
+    </Link>
+  );
 }
