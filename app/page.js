@@ -1,118 +1,412 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, ArrowRight, ArrowUpRight, CirclePlay, Clock3, ShieldCheck, Sparkles, Users, Trophy, Activity } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Clock3,
+  Lock,
+  Play,
+  ShieldCheck,
+  Sparkles,
+  Users,
+  Activity,
+  Award,
+} from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
 import SportCard from "@/components/sports/SportCard";
 import CoachCard from "@/components/coaches/CoachCard";
 import MembershipCard from "@/components/membership/MembershipCard";
-import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
+import HeroDashboardMockup from "@/components/home/HeroDashboardMockup";
+import ProblemSolutionSection from "@/components/home/ProblemSolutionSection";
+import ScrollStorytelling from "@/components/home/ScrollStorytelling";
+import FaqAccordion from "@/components/home/FaqAccordion";
+import { ScrollReveal, CountUp } from "@/components/ui/ScrollReveal";
 import { getSports, getCoaches, getMembershipPlans } from "@/lib/public-data";
-import InteractiveSportsGalaxy from "@/components/ui/InteractiveSportsGalaxy";
 
 export const revalidate = 300;
 
 export default async function HomePage() {
-  const [sports, coaches, plans] = await Promise.all([getSports(), getCoaches(), getMembershipPlans()]);
+  const [sports, coaches, plans] = await Promise.all([
+    getSports(),
+    getCoaches(),
+    getMembershipPlans(),
+  ]);
   const featuredCoaches = coaches.slice(0, 3);
-  const featuredPlans = plans.filter((plan, index, list) => list.findIndex((candidate) => candidate.name === plan.name) === index).slice(0, 3);
-  return <PublicLayout>
-    <main>
-      <section className="overflow-hidden">
-        <div className="container-wide grid items-center gap-10 py-12 md:grid-cols-[.86fr_1.14fr] md:gap-12 md:py-16 lg:py-[76px]">
-          <div className="max-w-[520px] pb-4">
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-orange/20 bg-orange/5 px-3.5 py-1.5 text-[11px] font-bold text-orange shadow-xs">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-orange"></span>
-              </span>
-              <span>2026 ATHLETIC SEASON · ENROLMENT ACTIVE</span>
-            </div>
-            <p className="eyebrow mt-6">A stronger game starts here</p>
-            <h1 className="mt-3 text-[34px] xs:text-[40px] sm:text-[52px] lg:text-[62px] font-extrabold leading-[1.08] tracking-[-.045em] text-navy">
-              Train with purpose.<br />
-              <span className="text-orange">Play with belief.</span>
-            </h1>
-            <p className="mt-5 max-w-[460px] text-[14.5px] leading-7 text-slate-600 font-normal">
-              Bengaluru’s premier athletic academy for cricket, football, and basketball. Dedicated specialist coaches, small training cohorts, and verified digital skill progression.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button href="/sports" className="!px-6 !py-3 !text-sm shadow-md">
-                Explore Sports <ArrowRight size={15} />
-              </Button>
-              <Button href="/about" variant="secondary" className="!px-6 !py-3 !text-sm">
-                <CirclePlay size={15} /> Academy Story
-              </Button>
-            </div>
-            <div className="mt-10 flex items-center gap-4 border-t border-slate-200/80 pt-6">
-              <div className="flex -space-x-2" aria-label="Academy community">
-                <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-blue-soft text-[9px] font-bold text-blue shadow-xs">AM</span>
-                <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-orange/10 text-[9px] font-bold text-orange shadow-xs">KR</span>
-                <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-emerald-50 text-[9px] font-bold text-emerald-700 shadow-xs">DS</span>
-                <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-navy text-[9px] font-bold text-white shadow-xs">+</span>
+  const featuredPlans = plans
+    .filter(
+      (plan, index, list) =>
+        list.findIndex((candidate) => candidate.name === plan.name) === index
+    )
+    .slice(0, 3);
+
+  return (
+    <PublicLayout>
+      <main className="relative z-10 overflow-x-clip">
+        {/* 1. HERO SECTION (Clienter-Inspired Centered Headline + Dual CTAs + Trust Row + Live Product Mockup) */}
+        <section className="relative pt-10 pb-16 sm:pt-16 sm:pb-24">
+          <div className="mx-auto max-w-5xl px-4 text-center sm:px-6">
+            <ScrollReveal>
+              <Link
+                href="/sports"
+                className="group mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200/90 bg-orange-50/85 py-1.5 pl-3 pr-4 text-xs sm:text-sm font-semibold text-orange-800 shadow-2xs backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:shadow-[0_10px_28px_-12px_rgba(249,115,22,0.5)]"
+              >
+                <span className="inline-flex items-center gap-1 rounded-full bg-orange-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                  <Sparkles size={11} /> New
+                </span>
+                <span>2026 Athletic Season — Enrolment & Trial Sessions Open</span>
+                <ArrowRight
+                  size={14}
+                  className="-translate-x-0.5 text-orange-600 transition-transform duration-200 group-hover:translate-x-0.5"
+                />
+              </Link>
+            </ScrollReveal>
+
+            <ScrollReveal delay={80}>
+              <h1 className="text-balance text-4xl font-extrabold leading-[1.08] tracking-tight text-gray-900 sm:text-6xl lg:text-[68px]">
+                The coaching &amp; progress system{" "}
+                <br className="hidden sm:block" />
+                that elevates your{" "}
+                <span className="text-gradient-brand italic font-extrabold drop-shadow-[0_2px_20px_rgba(249,115,22,0.22)]">
+                  game
+                </span>
+              </h1>
+            </ScrollReveal>
+
+            <ScrollReveal delay={150}>
+              <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-stone-600 sm:text-base">
+                One academy for specialist coaching, 1 : 6 small-group cohorts, live digital attendance, verified skill evaluations, and season memberships across Cricket, Football, and Basketball in Bengaluru.
+              </p>
+            </ScrollReveal>
+
+            <ScrollReveal delay={220}>
+              <div className="mt-9 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
+                <Link
+                  href="/register"
+                  className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-gray-900 px-8 py-4 text-base font-semibold text-white shadow-[0_12px_34px_-12px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-[0_18px_44px_-12px_rgba(249,115,22,0.55)] sm:w-auto"
+                >
+                  <span>Start training</span>
+                  <ArrowRight
+                    size={16}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </Link>
+
+                <a
+                  href="#storytelling"
+                  className="group relative inline-flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full border border-stone-200/90 bg-white/80 px-7 py-4 text-base font-semibold text-gray-800 shadow-2xs backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:text-orange-700 hover:shadow-[0_14px_36px_-14px_rgba(249,115,22,0.45)] sm:w-auto"
+                >
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600 transition-colors duration-300 group-hover:bg-orange-600 group-hover:text-white">
+                    <Play size={11} className="translate-x-[0.5px] fill-current" />
+                  </span>
+                  <span>See how it works</span>
+                </a>
               </div>
-              <div>
-                <p className="text-[11.5px] font-bold text-navy">500+ Athletes in Bengaluru</p>
-                <p className="mt-0.5 text-[10px] text-slate-500 font-medium">Developing skills, discipline, and competitive belief.</p>
+            </ScrollReveal>
+
+            {/* Trust-Badge Row */}
+            <ScrollReveal delay={290}>
+              <div className="mx-auto mt-8 flex max-w-4xl flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-xs sm:text-sm font-medium text-stone-600">
+                <span className="inline-flex items-center gap-1.5">
+                  <ShieldCheck size={16} className="text-orange-600" />
+                  Certified Pro Coaches
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Users size={16} className="text-orange-600" />
+                  Strict 1 : 6 Cohort Ratio
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Activity size={16} className="text-orange-600" />
+                  Live Attendance &amp; Skill Portal
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Check size={16} className="text-orange-600" />
+                  Flexible Season Plans
+                </span>
               </div>
+            </ScrollReveal>
+          </div>
+
+          {/* Realistic Interactive Live Dashboard Mockup */}
+          <ScrollReveal delay={200}>
+            <HeroDashboardMockup />
+          </ScrollReveal>
+        </section>
+
+        {/* 2. ANIMATED NUMBER COUNT-UPS STRIP */}
+        <section className="border-y border-stone-200/80 bg-white/75 backdrop-blur-md">
+          <div className="container-wide grid grid-cols-2 divide-x divide-y divide-stone-200/60 py-4 sm:py-6 md:grid-cols-4 md:divide-y-0">
+            {[
+              { end: 500, suffix: "+", label: "Active Athletes", sub: "Training across Bengaluru" },
+              { end: 96, suffix: "%", label: "Attendance Rate", sub: "Verified digital check-ins" },
+              { end: 6, prefix: "1 : ", suffix: "", label: "Coach Ratio", sub: "Small-group personal focus" },
+              { end: 100, suffix: "%", label: "Skill Tracking", sub: "Live coach evaluations" },
+            ].map((stat) => (
+              <div key={stat.label} className="px-4 py-4 text-center sm:px-6">
+                <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                  <CountUp
+                    end={stat.end}
+                    prefix={stat.prefix || ""}
+                    suffix={stat.suffix || ""}
+                  />
+                </p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-wider text-orange-600">
+                  {stat.label}
+                </p>
+                <p className="mt-0.5 hidden text-[11px] text-stone-500 sm:block">
+                  {stat.sub}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 3. INFINITE MARQUEE + PROBLEM VS. SOLUTION COMPARISON */}
+        <ProblemSolutionSection />
+
+        {/* 4. STICKY 5-ACT SCROLL STORYTELLING SECTION */}
+        <ScrollStorytelling />
+
+        {/* 5. SPORTS PROGRAMMES GRID */}
+        <section id="sports" className="container-wide py-20 sm:py-24">
+          <ScrollReveal className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <span className="eyebrow">Find your discipline</span>
+              <h2 className="section-title mt-2">
+                Three sports. One{" "}
+                <span className="text-gradient-brand italic">standard</span>.
+              </h2>
+              <p className="section-copy mt-3 max-w-xl">
+                Every programme combines turf drills, match simulation, and digital skill milestones tailored to your level.
+              </p>
+            </div>
+            <Link
+              href="/sports"
+              className="group inline-flex w-fit items-center gap-1.5 rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-bold text-gray-900 shadow-2xs transition hover:border-orange-300 hover:text-orange-600"
+            >
+              <span>View all sports</span>
+              <ArrowUpRight
+                size={14}
+                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </Link>
+          </ScrollReveal>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {sports.slice(0, 3).map((sport, i) => (
+              <ScrollReveal key={sport.slug || sport._id} delay={i * 90}>
+                <SportCard sport={sport} index={i} />
+              </ScrollReveal>
+            ))}
+          </div>
+        </section>
+
+        {/* 6. FEATURE HIGHLIGHTS WITH MOCK UI CARDS */}
+        <section className="py-20 sm:py-24">
+          <div className="container-wide">
+            <ScrollReveal className="mx-auto max-w-3xl text-center">
+              <span className="eyebrow">Built-in clarity</span>
+              <h2 className="section-title mt-2">
+                Turn every training session into{" "}
+                <span className="text-gradient-brand italic">
+                  verified progress
+                </span>
+              </h2>
+              <p className="section-copy mx-auto mt-3 max-w-2xl">
+                Consistency is the hardest thing for an developing athlete to build — so Sportivo builds the system around you.
+              </p>
+            </ScrollReveal>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  icon: ShieldCheck,
+                  badge: "1 : 6 Max",
+                  title: "Small-Cohort Coaching",
+                  body: "Capped training groups ensure every athlete gets high-rep drills and immediate technical correction.",
+                  mockLabel: "Cohort Capacity",
+                  mockValue: "6 / 6 Athletes Active",
+                },
+                {
+                  icon: Activity,
+                  badge: "Real-Time",
+                  title: "Verified Skill Ratings",
+                  body: "Coaches grade technique, footwork, and match awareness after assessments so growth is never a mystery.",
+                  mockLabel: "Latest Evaluation",
+                  mockValue: "92/100 · Match-Ready",
+                },
+                {
+                  icon: Users,
+                  badge: "3 Portals",
+                  title: "Connected Ecosystem",
+                  body: "Dedicated dashboards for Athletes, Coaches, and Academy Admins keep everyone aligned in one login.",
+                  mockLabel: "Portal Status",
+                  mockValue: "Synced Across Devices",
+                },
+                {
+                  icon: Clock3,
+                  badge: "Flexible",
+                  title: "Built for Real Schedules",
+                  body: "Morning and evening turf slots designed to fit seamlessly around school, college, and exams.",
+                  mockLabel: "Next Turf Slot",
+                  mockValue: "Today · 4:30 PM IST",
+                },
+              ].map((feat, idx) => {
+                const Icon = feat.icon;
+                return (
+                  <ScrollReveal key={feat.title} delay={idx * 80}>
+                    <div className="surface-card flex h-full flex-col justify-between p-6 hover:-translate-y-1">
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <span className="grid h-11 w-11 place-items-center rounded-2xl border border-orange-200/80 bg-orange-50 text-orange-600">
+                            <Icon size={20} />
+                          </span>
+                          <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-600">
+                            {feat.badge}
+                          </span>
+                        </div>
+                        <h3 className="mt-5 text-base font-bold text-gray-900">
+                          {feat.title}
+                        </h3>
+                        <p className="mt-2 text-xs leading-relaxed text-stone-600">
+                          {feat.body}
+                        </p>
+                      </div>
+
+                      {/* Mini Mock UI Sub-Card */}
+                      <div className="mt-5 rounded-xl border border-stone-200/80 bg-[#FAF7F2] px-3.5 py-2.5">
+                        <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">
+                          {feat.mockLabel}
+                        </p>
+                        <p className="mt-0.5 text-xs font-bold text-gray-900">
+                          {feat.mockValue}
+                        </p>
+                      </div>
+                    </div>
+                  </ScrollReveal>
+                );
+              })}
             </div>
           </div>
-          <InteractiveSportsGalaxy />
-        </div>
-      </section>
+        </section>
 
-      <section className="border-y border-white/80 bg-white/70 backdrop-blur-xl shadow-xs">
-        <div className="container-wide grid grid-cols-2 gap-0 divide-x divide-y divide-slate-100 py-2 sm:py-3 md:grid-cols-4 md:divide-y-0">
-          {[
-            ["3", "Disciplines", "Cricket · Football · Basketball"],
-            ["6+", "Pro Coaches", "Specialist player development"],
-            ["1 : 6", "Coach Ratio", "Small training cohorts"],
-            ["100%", "Digital Tracking", "Attendance & skill milestones"]
-          ].map(([value, label, sub]) => (
-            <div key={label} className="px-5 py-4 text-center sm:py-5">
-              <p className="text-2xl font-black tracking-[-0.04em] text-navy sm:text-3xl">{value}</p>
-              <p className="mt-1 text-[11px] font-bold text-navy uppercase tracking-wider">{label}</p>
-              <p className="mt-0.5 text-[9.5px] font-medium text-slate-400 hidden sm:block">{sub}</p>
+        {/* 7. COACHING TEAM SHOWCASE */}
+        <section className="container-wide py-20 sm:py-24">
+          <ScrollReveal className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <span className="eyebrow">People who make a difference</span>
+              <h2 className="section-title mt-2">
+                Meet your{" "}
+                <span className="text-gradient-brand italic">specialist</span>{" "}
+                coaches.
+              </h2>
+              <p className="section-copy mt-3 max-w-xl">
+                Accredited mentors with competitive playing backgrounds who know how to bring out your best game.
+              </p>
             </div>
-          ))}
-        </div>
-      </section>
+            <Link
+              href="/coaches"
+              className="group inline-flex w-fit items-center gap-1.5 rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-bold text-gray-900 shadow-2xs transition hover:border-orange-300 hover:text-orange-600"
+            >
+              <span>Meet every coach</span>
+              <ArrowUpRight
+                size={14}
+                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </Link>
+          </ScrollReveal>
 
-      <section className="container-wide py-16 sm:py-20" id="sports">
-        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="eyebrow">Find your game</p><h2 className="section-title mt-2">Good things start with a sport.</h2><p className="section-copy mt-3 max-w-xl">Different games, one shared belief: the right support makes practice count.</p></div><Link href="/sports" className="inline-flex w-fit items-center gap-2 text-[11px] font-bold text-blue">All sports <ArrowUpRight size={14} /></Link></div>
-        <div className="mt-8 grid gap-5 md:grid-cols-3">{sports.slice(0, 3).map((sport, i) => <SportCard key={sport.slug || sport._id} sport={sport} index={i} />)}</div>
-      </section>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredCoaches.map((coach, i) => (
+              <ScrollReveal key={coach.slug || coach._id} delay={i * 90}>
+                <CoachCard coach={coach} index={i} />
+              </ScrollReveal>
+            ))}
+          </div>
+        </section>
 
-      <section className="py-16 sm:py-20"><div className="container-wide grid items-center gap-10 lg:grid-cols-[.8fr_1.2fr]">
-        <div><p className="eyebrow">The Sportivo way</p><h2 className="section-title mt-2 max-w-md">More than drills.<br />A place to grow.</h2><p className="section-copy mt-4 max-w-md">Great coaching builds the athlete and the person. We keep the work focused, the feedback honest, and the next step clear.</p><Button href="/about" variant="secondary" className="mt-6">Our approach <ArrowRight size={14} /></Button></div>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {[[<ShieldCheck key="care" size={18} />, "Coaching with care", "Small groups mean thoughtful feedback and room for every player."], [<Activity key="progress" size={18} />, "Progress you can follow", "Training notes and skill updates turn effort into a clear journey."], [<Users key="team" size={18} />, "A team around you", "Positive teammates make it easier to keep showing up."], [<Clock3 key="schedule" size={18} />, "Built for real life", "A steady routine fits around school, work, and everything else." ]].map(([icon, title, body]) => <div key={title} className="surface-card p-5"><span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-soft text-blue">{icon}</span><h3 className="mt-4 text-[13px] font-bold text-navy">{title}</h3><p className="mt-2 text-[11px] leading-6 text-slate-500">{body}</p></div>)}
-        </div>
-      </div></section>
+        {/* 8. PRICING / MEMBERSHIP PLANS */}
+        <section className="py-20 sm:py-24">
+          <div className="container-wide">
+            <ScrollReveal className="mx-auto max-w-2xl text-center">
+              <span className="eyebrow">Membership plans</span>
+              <h2 className="section-title mt-2">
+                Simple,{" "}
+                <span className="text-gradient-brand italic">honest</span>{" "}
+                season plans
+              </h2>
+              <p className="section-copy mt-3">
+                Choose the training pace that fits your season. Every plan includes specialist coaching and full portal access.
+              </p>
+            </ScrollReveal>
 
-      <section className="container-wide py-16 sm:py-20">
-        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="eyebrow">People who make a difference</p><h2 className="section-title mt-2">Meet your coaching team.</h2><p className="section-copy mt-3 max-w-xl">Skilled, supportive coaches who know the game — and how to help you enjoy it.</p></div><Link href="/coaches" className="inline-flex w-fit items-center gap-2 text-[11px] font-bold text-blue">Meet every coach <ArrowUpRight size={14} /></Link></div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{featuredCoaches.map((coach, i) => <CoachCard key={coach.slug || coach._id} coach={coach} index={i} />)}</div>
-      </section>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {featuredPlans.map((plan, i) => (
+                <ScrollReveal key={plan.slug || plan._id} delay={i * 90}>
+                  <MembershipCard plan={plan} featured={i === 1} index={i} />
+                </ScrollReveal>
+              ))}
+            </div>
 
-      <section className="py-16 sm:py-20"><div className="container-wide">
-        <div className="mx-auto max-w-2xl text-center"><p className="eyebrow">A good plan for your season</p><h2 className="section-title mt-2">Start simple. Keep getting better.</h2><p className="section-copy mt-3">Choose a membership that gives you the space to build a lasting routine.</p></div>
-        <div className="mt-9 grid gap-4 md:grid-cols-3">{featuredPlans.map((plan, i) => <MembershipCard key={plan.slug || plan._id} plan={plan} featured={i === 1} />)}</div>
-        <p className="mt-5 text-center text-[10px] text-slate-400">Plans are available for cricket, football, and basketball. Select your sport during enrolment.</p>
-      </div></section>
+            <p className="mt-6 text-center text-xs text-stone-500">
+              Plans are available for Cricket, Football, and Basketball. Select your sport during enrolment.
+            </p>
+          </div>
+        </section>
 
-      <section className="container-wide py-16 sm:py-20"><div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="eyebrow">Small steps. Real confidence.</p><h2 className="section-title mt-2">The moments that make practice matter.</h2><p className="section-copy mt-3 max-w-xl">A few sample stories show the kind of progress thoughtful coaching can support.</p></div><span className="pill w-fit">Sample member stories</span></div><div className="mt-8 grid gap-4 md:grid-cols-3">{[
-          ["“I used to rush every shot. Now I take a breath, trust my footwork, and enjoy being at the crease.”", "A developing cricketer", "Cricket"],
-          ["“The small group made it easier to ask questions. I’m more confident on the ball and in the team.”", "A youth footballer", "Football"],
-          ["“I can see what I’ve been working on and what comes next. That keeps me excited to train.”", "A basketball athlete", "Basketball"],
-        ].map(([quote, person, sport]) => <figure key={person} className="surface-card flex h-full flex-col p-5"><span aria-hidden="true" className="text-2xl font-bold leading-none text-orange">“</span><blockquote className="mt-3 flex-1 text-[12px] leading-6 text-slate-600">{quote.slice(1, -1)}</blockquote><figcaption className="mt-5 flex items-center justify-between gap-3 border-t border-slate-100 pt-4"><span className="text-[11px] font-bold text-navy">{person}</span><span className="rounded-full bg-blue-soft px-2.5 py-1 text-[9px] font-semibold text-blue">{sport}</span></figcaption></figure>)}
-        </div><p className="mt-3 text-[9px] text-slate-400">Illustrative copy for this project demo; no real member testimonial is implied.</p></section>
+        {/* 9. INTERACTIVE FAQ ACCORDION */}
+        <FaqAccordion />
 
-      <section className="container-wide py-16 sm:py-20"><div className="grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-center"><div><p className="eyebrow">How it works</p><h2 className="section-title mt-2">Three steps.<br />A better routine.</h2><p className="section-copy mt-4">Getting started should feel easy. We’ll help with the rest.</p><Button href="/login" className="mt-6">Take your first step <ArrowRight size={14} /></Button></div><div className="grid gap-3 sm:grid-cols-3">
-          {[["01", "Choose your sport", "Explore the games and training that feel right for you."], ["02", "Meet your coach", "Find the specialist and membership that fit your goals."], ["03", "Show up & grow", "Track attendance, review progress, and celebrate the work."]].map(([n, title, body], i) => <div key={n} className="relative rounded-2xl border border-slate-200 p-5"><span className={`text-[11px] font-bold ${i === 2 ? "text-orange" : "text-blue"}`}>{n}</span><h3 className="mt-5 text-[13px] font-bold text-navy">{title}</h3><p className="mt-2 text-[11px] leading-6 text-slate-500">{body}</p></div>)}
-        </div></div></section>
+        {/* 10. BOLD CLOSING CTA (Clienter Espresso Dark + Ember Glow Style) */}
+        <section className="container-wide pb-20 sm:pb-28">
+          <ScrollReveal>
+            <div className="relative overflow-hidden rounded-[32px] bg-[#1c1411] px-6 py-14 text-center text-white shadow-[0_32px_80px_-20px_rgba(28,20,17,0.65)] sm:px-12 sm:py-20">
+              {/* Warm Ember Radial Glow */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 top-0 h-80 w-[42rem] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgba(234,88,12,0.28),transparent_70%)] blur-2xl"
+              />
 
-      <section className="container-wide pb-16 sm:pb-20"><div className="overflow-hidden rounded-[22px] bg-navy px-6 py-9 text-white sm:px-10 sm:py-11"><div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center"><div><Badge tone="orange"><Sparkles size={11} className="mr-1" /> Your next chapter</Badge><h2 className="mt-4 text-[25px] font-bold tracking-[-.04em] sm:text-[31px]">The best time to begin is your next session.</h2><p className="mt-2 max-w-xl text-xs leading-6 text-white/60">Join a community that puts thoughtful coaching and steady progress first.</p></div><Button href="/register" className="shrink-0">Join Sportivo <ArrowUpRight size={14} /></Button></div></div></section>
-    </main>
-  </PublicLayout>;
+              <div className="relative z-10 mx-auto max-w-2xl">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-orange-300 backdrop-blur">
+                  <ShieldCheck size={14} className="text-orange-400" />
+                  2026 Season · Open Enrolment
+                </span>
+
+                <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-white sm:text-5xl leading-[1.12]">
+                  Start building your game the{" "}
+                  <span className="text-gradient-brand italic font-bold">
+                    focused
+                  </span>{" "}
+                  way
+                </h2>
+
+                <p className="mx-auto mt-5 max-w-xl text-sm sm:text-base leading-relaxed text-stone-300">
+                  Create your athlete account, pick your sport, and join a 1 : 6 cohort coached by specialists in minutes.
+                </p>
+
+                <div className="mt-9 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
+                  <Link
+                    href="/register"
+                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-orange-500 to-orange-600 px-8 py-4 text-base font-semibold text-white shadow-[0_14px_34px_-8px_rgba(234,88,12,0.65)] transition-all hover:brightness-110 sm:w-auto"
+                  >
+                    <span>Join Sportivo</span>
+                    <ArrowRight
+                      size={16}
+                      className="transition-transform group-hover:translate-x-0.5"
+                    />
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="inline-flex w-full items-center justify-center rounded-full border border-white/20 px-8 py-4 text-base font-semibold text-stone-200 transition-colors hover:border-white/40 hover:bg-white/[0.06] sm:w-auto"
+                  >
+                    Sign in to portal
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </section>
+      </main>
+    </PublicLayout>
+  );
 }

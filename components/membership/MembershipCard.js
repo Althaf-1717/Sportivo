@@ -1,61 +1,87 @@
-import { ArrowUpRight, Check, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Check, Sparkles } from "lucide-react";
 import { money } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
 
-export default function MembershipCard({ plan, featured = false }) {
+export default function MembershipCard({ plan, featured = false, index = 0 }) {
   return (
     <article
-      className={`relative flex h-full flex-col rounded-2xl border p-6 sm:p-7 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 ${
+      className={`relative flex h-full flex-col rounded-3xl border p-7 sm:p-8 transition-all duration-300 hover:-translate-y-1.5 ${
         featured
-          ? "border-orange/30 bg-[#070b14]/90 text-white shadow-[0_24px_60px_-10px_rgba(7,11,20,0.4),inset_0_1px_0_rgba(255,255,255,0.22)] ring-1 ring-orange/20"
-          : "border-white/80 bg-white/75 text-navy shadow-[0_12px_36px_-6px_rgba(7,11,20,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:border-white hover:bg-white/85 hover:shadow-[0_20px_45px_-8px_rgba(7,11,20,0.09)]"
+          ? "border-orange-500/40 bg-[#1c1411] text-white shadow-[0_28px_70px_-15px_rgba(234,88,12,0.32)] ring-2 ring-orange-500/40"
+          : "border-stone-200/90 bg-white text-gray-900 shadow-[0_18px_48px_-15px_rgba(28,25,23,0.07)] hover:border-orange-300"
       }`}
     >
       {featured && (
-        <span className="absolute -top-3.5 right-6 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-orange to-[#ff7a00] px-3.5 py-1 text-[9.5px] font-extrabold uppercase tracking-[.14em] text-white shadow-md">
-          <Sparkles size={11} /> Most popular
+        <span className="absolute -top-3.5 right-6 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-white shadow-md">
+          <Sparkles size={11} /> Most Popular
         </span>
       )}
-      <p
-        className={`text-[11px] font-extrabold uppercase tracking-[.16em] ${
-          featured ? "text-orange" : "text-blue"
-        }`}
-      >
-        {plan.name} Tier
-      </p>
-      <div className="mt-3.5 flex items-baseline gap-2">
-        <strong className="text-[34px] font-black tracking-[-.05em] font-mono">
+
+      <div className="flex items-center justify-between">
+        <p
+          className={`text-xs font-extrabold uppercase tracking-[0.16em] ${
+            featured ? "text-orange-400" : "text-orange-600"
+          }`}
+        >
+          {plan.name} Plan
+        </p>
+        <span
+          className={`text-xs font-bold ${
+            featured ? "text-white/40" : "text-stone-400"
+          }`}
+        >
+          0{index + 1 || (featured ? 2 : 1)}
+        </span>
+      </div>
+
+      <div className="mt-4 flex items-baseline gap-2">
+        <strong className="text-4xl font-extrabold tracking-tight">
           {money(plan.price)}
         </strong>
         <span
-          className={`text-[11.5px] font-medium ${
-            featured ? "text-white/60" : "text-slate-500"
+          className={`text-xs font-medium ${
+            featured ? "text-stone-400" : "text-stone-500"
           }`}
         >
           / {plan.durationLabel || `${plan.duration} months`}
         </span>
       </div>
+
       <p
-        className={`mt-3 min-h-10 text-xs leading-5 font-normal ${
-          featured ? "text-white/70" : "text-slate-600"
+        className={`mt-3 min-h-10 text-xs leading-relaxed ${
+          featured ? "text-stone-300" : "text-stone-600"
         }`}
       >
         {plan.description}
       </p>
+
       <div
-        className={`my-5 h-px ${featured ? "bg-white/12" : "bg-slate-200/80"}`}
+        className={`my-6 h-px ${
+          featured ? "bg-white/12" : "bg-stone-200/80"
+        }`}
       />
+
+      <p
+        className={`mb-3 text-[11px] font-bold uppercase tracking-wider ${
+          featured ? "text-stone-400" : "text-stone-400"
+        }`}
+      >
+        Includes
+      </p>
+
       <ul className="grid flex-1 content-start gap-3">
         {(plan.features || []).map((feature) => (
           <li
             key={feature}
-            className={`flex items-start gap-2.5 text-[11.5px] leading-5 font-medium ${
-              featured ? "text-white/85" : "text-slate-600"
+            className={`flex items-start gap-2.5 text-xs leading-5 font-medium ${
+              featured ? "text-stone-200" : "text-stone-700"
             }`}
           >
             <span
               className={`mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full ${
-                featured ? "bg-orange/20 text-orange" : "bg-emerald-50 text-emerald-600"
+                featured
+                  ? "bg-orange-500/20 text-orange-400"
+                  : "bg-orange-50 text-orange-600"
               }`}
             >
               <Check size={11} strokeWidth={3} />
@@ -64,13 +90,21 @@ export default function MembershipCard({ plan, featured = false }) {
           </li>
         ))}
       </ul>
-      <Button
+
+      <Link
         href={`/login?plan=${plan.slug || plan._id}`}
-        variant={featured ? "primary" : "secondary"}
-        className="mt-7 w-full shadow-md"
+        className={`group mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full py-3.5 px-6 text-xs font-bold transition-all duration-200 ${
+          featured
+            ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-[0_12px_30px_-8px_rgba(234,88,12,0.6)] hover:brightness-110"
+            : "bg-gray-900 text-white hover:bg-orange-600 shadow-sm"
+        }`}
       >
-        Choose {plan.name} <ArrowUpRight size={14} />
-      </Button>
+        <span>Choose {plan.name}</span>
+        <ArrowRight
+          size={14}
+          className="transition-transform duration-200 group-hover:translate-x-1"
+        />
+      </Link>
     </article>
   );
 }

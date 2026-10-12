@@ -3,83 +3,118 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-slate-200/60 bg-[#070b14] text-white overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="pointer-events-none absolute -bottom-32 left-1/2 -translate-x-1/2 h-72 w-[600px] rounded-full bg-blue/15 blur-[120px]" />
+    <footer className="relative overflow-hidden border-t border-stone-200/70 bg-white/60 backdrop-blur-sm">
+      {/* Ambient Warm Radial Glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-32 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(249,115,22,0.12),transparent_65%)] blur-2xl"
+      />
 
-      <div className="container-wide relative z-10 grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:py-16">
-        <div>
-          <Link href="/" className="inline-flex items-center gap-3 group">
-            <img
-              src="/images/sportivo-logo.png"
-              alt="Sportivo Logo"
-              className="h-10 w-10 rounded-xl object-cover bg-white p-0.5 shadow-md ring-1 ring-white/20 transition-transform duration-300 group-hover:scale-105"
-            />
-            <span>
-              <b className="block text-[15px] font-black tracking-wide text-white">
-                SPORT<span className="text-orange">IVO</span>
-              </b>
-              <small className="text-[8px] font-bold tracking-[.25em] text-white/50">
-                SPORTS ACADEMY
-              </small>
-            </span>
-          </Link>
-          <p className="mt-4 max-w-xs text-xs leading-relaxed text-slate-400">
-            Elite coaching, structured developmental pathways, and verified training progression for athletes of all levels.
-          </p>
-        </div>
+      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-6">
+          <div className="col-span-2">
+            <Link href="/" className="inline-flex items-center gap-2.5 group">
+              <img
+                src="/images/sportivo-logo.png"
+                alt="Sportivo Logo"
+                width={32}
+                height={32}
+                className="h-8 w-8 rounded-lg object-cover ring-1 ring-black/5 transition-transform duration-200 group-hover:scale-105"
+              />
+              <span className="text-lg font-bold tracking-tight text-gray-900">
+                Sport<span className="text-orange-600">ivo</span>
+              </span>
+            </Link>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-stone-500">
+              Train without the chaos. The all-in-one athletic academy & digital progress operating system built for cricket, football, and basketball athletes in Bengaluru.
+            </p>
+            <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-3 py-1 text-xs font-semibold text-emerald-700">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              2026 Season · All Grounds Active
+            </div>
+          </div>
 
-        <div>
-          <h2 className="text-[11px] font-bold uppercase tracking-[.18em] text-white/80">Explore</h2>
-          <div className="mt-4 grid gap-2.5 text-xs text-slate-400">
-            <Link href="/sports" className="transition hover:text-white hover:translate-x-0.5 inline-block">
-              Sports Programs
-            </Link>
-            <Link href="/coaches" className="transition hover:text-white hover:translate-x-0.5 inline-block">
-              Academy Coaches
-            </Link>
-            <Link href="/membership" className="transition hover:text-white hover:translate-x-0.5 inline-block">
-              Membership Tiers
-            </Link>
-            <Link href="/about" className="transition hover:text-white hover:translate-x-0.5 inline-block">
-              Our Story & Methodology
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-gray-900">
+              Programmes
+            </h2>
+            <div className="mt-4 grid gap-2.5 text-sm text-stone-500">
+              <Link href="/sports/cricket" className="transition hover:text-orange-600">
+                Cricket Academy
+              </Link>
+              <Link href="/sports/football" className="transition hover:text-orange-600">
+                Football Academy
+              </Link>
+              <Link href="/sports/basketball" className="transition hover:text-orange-600">
+                Basketball Academy
+              </Link>
+              <Link href="/sports" className="transition hover:text-orange-600">
+                All Sports
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-gray-900">
+              Academy
+            </h2>
+            <div className="mt-4 grid gap-2.5 text-sm text-stone-500">
+              <Link href="/coaches" className="transition hover:text-orange-600">
+                Pro Coaches
+              </Link>
+              <Link href="/membership" className="transition hover:text-orange-600">
+                Membership Plans
+              </Link>
+              <Link href="/about" className="transition hover:text-orange-600">
+                Our Story
+              </Link>
+              <Link href="/contact" className="transition hover:text-orange-600">
+                Contact Us
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-gray-900">
+              Portals
+            </h2>
+            <div className="mt-4 grid gap-2.5 text-sm text-stone-500">
+              <Link href="/login?portal=student" className="transition hover:text-orange-600">
+                Athlete Login
+              </Link>
+              <Link href="/login?portal=coach" className="transition hover:text-orange-600">
+                Coach Login
+              </Link>
+              <Link href="/login?portal=admin" className="transition hover:text-orange-600">
+                Admin Portal
+              </Link>
+              <Link href="/register" className="transition hover:text-orange-600">
+                Create Account
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-gray-900">
+              Start Today
+            </h2>
+            <p className="mt-4 text-xs leading-relaxed text-stone-500">
+              Book your first session and get paired with a specialist coach.
+            </p>
+            <Link
+              href="/register"
+              className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 transition hover:text-orange-700 hover:translate-x-0.5"
+            >
+              Join Sportivo <ArrowUpRight size={14} />
             </Link>
           </div>
         </div>
 
-        <div>
-          <h2 className="text-[11px] font-bold uppercase tracking-[.18em] text-white/80">Your Academy</h2>
-          <div className="mt-4 grid gap-2.5 text-xs text-slate-400">
-            <Link href="/register" className="transition hover:text-white hover:translate-x-0.5 inline-block">
-              Athlete Registration
-            </Link>
-            <Link href="/login" className="transition hover:text-white hover:translate-x-0.5 inline-block">
-              Member Sign In
-            </Link>
-            <Link href="/contact" className="transition hover:text-white hover:translate-x-0.5 inline-block">
-              Contact Academy
-            </Link>
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)]">
-          <p className="text-xs font-bold text-white">Ready for your next session?</p>
-          <p className="mt-2 text-[11px] leading-5 text-slate-400">
-            Explore sports programs, meet verified coaches, and start your trial today.
+        <div className="mt-12 flex flex-col gap-3 border-t border-stone-200/70 pt-6 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Sportivo Athletic Academy Bengaluru. All rights reserved.</p>
+          <p className="font-medium text-stone-400">
+            Train with purpose · Play with belief
           </p>
-          <Link
-            href="/sports"
-            className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-bold text-orange transition hover:text-orange/80 hover:translate-x-1"
-          >
-            Explore sports <ArrowUpRight size={13} />
-          </Link>
-        </div>
-      </div>
-
-      <div className="relative z-10 border-t border-white/10">
-        <div className="container-wide flex flex-col gap-2 py-5 text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Sportivo Sports Academy India. Train well. Play well.</p>
-          <p className="text-[10px] tracking-wide text-slate-500">Built for the love of the game.</p>
         </div>
       </div>
     </footer>

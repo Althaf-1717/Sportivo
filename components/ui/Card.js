@@ -4,7 +4,7 @@ export function Card({ className, children, ...props }) {
   return (
     <div
       className={cx(
-        "relative overflow-hidden rounded-2xl border border-white/80 bg-white/75 backdrop-blur-xl shadow-[0_10px_30px_-5px_rgba(7,11,20,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] transition-all duration-300 hover:border-white hover:bg-white/85 hover:shadow-[0_18px_40px_-10px_rgba(7,11,20,0.09)]",
+        "relative overflow-hidden rounded-3xl border border-stone-200/90 bg-white/95 backdrop-blur-xl shadow-[0_14px_38px_-12px_rgba(28,25,23,0.06)] transition-all duration-300 hover:border-orange-300/80 hover:shadow-[0_22px_50px_-14px_rgba(234,88,12,0.12)]",
         className
       )}
       {...props}
