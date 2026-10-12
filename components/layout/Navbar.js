@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import InteractivePillButton from "@/components/ui/InteractivePillButton";
 import {
   ArrowRight,
   ChevronDown,
@@ -242,16 +243,17 @@ export default function Navbar() {
           >
             Sign in
           </Link>
-          <Link
+          <InteractivePillButton
             href="/register"
-            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_34px_-12px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-[0_18px_44px_-12px_rgba(249,115,22,0.55)]"
+            orbSize={34}
+            className="px-4 py-2 text-sm"
           >
             <span>Start training</span>
             <ArrowRight
               size={14}
               className="transition-transform duration-200 group-hover:translate-x-0.5"
             />
-          </Link>
+          </InteractivePillButton>
         </div>
 
         {/* Mobile Menu Button */}
@@ -296,13 +298,14 @@ export default function Navbar() {
             >
               Sign in
             </Link>
-            <Link
+            <InteractivePillButton
               href="/register"
               onClick={() => setOpen(false)}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gray-900 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-orange-600"
+              className="w-full py-2.5 text-sm"
             >
-              Start training <ArrowRight size={14} />
-            </Link>
+              <span>Start training</span>
+              <ArrowRight size={14} />
+            </InteractivePillButton>
           </div>
         </div>
       )}

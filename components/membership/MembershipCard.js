@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Check, Sparkles } from "lucide-react";
 import { money } from "@/lib/utils";
+import InteractivePillButton from "@/components/ui/InteractivePillButton";
 
 export default function MembershipCard({ plan, featured = false, index = 0 }) {
   return (
@@ -91,20 +92,18 @@ export default function MembershipCard({ plan, featured = false, index = 0 }) {
         ))}
       </ul>
 
-      <Link
+      <InteractivePillButton
         href={`/login?plan=${plan.slug || plan._id}`}
-        className={`group mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full py-3.5 px-6 text-xs font-bold transition-all duration-200 ${
-          featured
-            ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-[0_12px_30px_-8px_rgba(234,88,12,0.6)] hover:brightness-110"
-            : "bg-gray-900 text-white hover:bg-orange-600 shadow-sm"
-        }`}
+        variant={featured ? "orange" : "dark"}
+        orbSize={36}
+        className="mt-8 w-full py-3.5 px-6 text-xs font-bold"
       >
         <span>Choose {plan.name}</span>
         <ArrowRight
           size={14}
           className="transition-transform duration-200 group-hover:translate-x-1"
         />
-      </Link>
+      </InteractivePillButton>
     </article>
   );
 }

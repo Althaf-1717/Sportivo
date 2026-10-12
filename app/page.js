@@ -20,6 +20,7 @@ import HeroDashboardMockup from "@/components/home/HeroDashboardMockup";
 import ProblemSolutionSection from "@/components/home/ProblemSolutionSection";
 import ScrollStorytelling from "@/components/home/ScrollStorytelling";
 import FaqAccordion from "@/components/home/FaqAccordion";
+import InteractivePillButton from "@/components/ui/InteractivePillButton";
 import { ScrollReveal, CountUp } from "@/components/ui/ScrollReveal";
 import { getSports, getCoaches, getMembershipPlans } from "@/lib/public-data";
 
@@ -80,20 +81,21 @@ export default async function HomePage() {
 
             <ScrollReveal delay={220}>
               <div className="mt-9 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
-                <Link
+                <InteractivePillButton
                   href="/register"
-                  className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-gray-900 px-8 py-4 text-base font-semibold text-white shadow-[0_12px_34px_-12px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-[0_18px_44px_-12px_rgba(249,115,22,0.55)] sm:w-auto"
+                  orbSize={44}
+                  className="w-full px-8 py-4 text-base sm:w-auto"
                 >
                   <span>Start training</span>
                   <ArrowRight
                     size={16}
                     className="transition-transform duration-300 group-hover:translate-x-1"
                   />
-                </Link>
+                </InteractivePillButton>
 
                 <a
                   href="#storytelling"
-                  className="group relative inline-flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full border border-stone-200/90 bg-white/80 px-7 py-4 text-base font-semibold text-gray-800 shadow-2xs backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:text-orange-700 hover:shadow-[0_14px_36px_-14px_rgba(249,115,22,0.45)] sm:w-auto"
+                  className="group relative inline-flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full border border-stone-200/90 bg-white/80 px-7 py-4 text-base font-semibold !text-gray-800 shadow-2xs backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:!text-orange-700 hover:shadow-[0_14px_36px_-14px_rgba(249,115,22,0.45)] sm:w-auto"
                 >
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600 transition-colors duration-300 group-hover:bg-orange-600 group-hover:text-white">
                     <Play size={11} className="translate-x-[0.5px] fill-current" />
@@ -385,19 +387,21 @@ export default async function HomePage() {
                 </p>
 
                 <div className="mt-9 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
-                  <Link
+                  <InteractivePillButton
                     href="/register"
-                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-orange-500 to-orange-600 px-8 py-4 text-base font-semibold text-white shadow-[0_14px_34px_-8px_rgba(234,88,12,0.65)] transition-all hover:brightness-110 sm:w-auto"
+                    variant="orange"
+                    orbSize={44}
+                    className="w-full px-8 py-4 text-base sm:w-auto"
                   >
                     <span>Join Sportivo</span>
                     <ArrowRight
                       size={16}
                       className="transition-transform group-hover:translate-x-0.5"
                     />
-                  </Link>
+                  </InteractivePillButton>
                   <Link
                     href="/login"
-                    className="inline-flex w-full items-center justify-center rounded-full border border-white/20 px-8 py-4 text-base font-semibold text-stone-200 transition-colors hover:border-white/40 hover:bg-white/[0.06] sm:w-auto"
+                    className="inline-flex w-full items-center justify-center rounded-full border border-white/20 px-8 py-4 text-base font-semibold !text-stone-200 transition-colors hover:border-white/40 hover:bg-white/[0.06] sm:w-auto"
                   >
                     Sign in to portal
                   </Link>
