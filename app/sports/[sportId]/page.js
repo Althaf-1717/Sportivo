@@ -1,17 +1,9 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import {
-  ArrowRight,
-  Check,
-  Clock3,
-  Users,
-  Activity,
-  ShieldCheck,
-  Trophy,
-} from "lucide-react";
+import { ArrowRight, Check, Clock3, Users, ShieldCheck } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import SportIcon from "@/components/ui/SportIcon";
 import {
   getSportBySlug,
   getSports,
@@ -20,6 +12,15 @@ import {
 } from "@/lib/public-data";
 import CoachCard from "@/components/coaches/CoachCard";
 import MembershipCard from "@/components/membership/MembershipCard";
+
+function getMatchedSportImage(sport) {
+  const key = `${sport?.slug || ""} ${sport?.name || ""}`.toLowerCase();
+  if (key.includes("cricket")) return "/images/sport-cricket.jpg";
+  if (key.includes("football") || key.includes("soccer"))
+    return "/images/sport-football.jpg";
+  if (key.includes("basketball")) return "/images/sport-basketball.jpg";
+  return "/images/sport-cricket.jpg";
+}
 
 export async function generateStaticParams() {
   const sports = await getSports();
@@ -54,12 +55,13 @@ export default async function SportDetailsPage({ params }) {
       plan.sport.name === sport.name ||
       plan.sport === sport.name
   );
+  const sportImage = getMatchedSportImage(sport);
 
   return (
     <PublicLayout>
       <main>
         <section className="py-12 sm:py-16">
-          <div className="container-wide grid items-center gap-10 md:grid-cols-[1fr_1.05fr]">
+          <div className="container-wide grid items-center gap-10 md:grid-cols-[1fr_1.08fr]">
             <div>
               <Badge>{sport.name} programme</Badge>
               <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
@@ -90,67 +92,32 @@ export default async function SportDetailsPage({ params }) {
               </div>
             </div>
 
-            {/* Warm Clienter-Style Live Sport Programme Telemetry Showcase Card */}
-            <div className="relative overflow-hidden rounded-3xl border border-stone-200/90 bg-gradient-to-br from-[#1c1410] via-[#341a0d] to-[#ea580c] p-7 sm:p-9 text-white shadow-[0_28px_70px_-18px_rgba(234,88,12,0.3)]">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 opacity-20"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(to right, rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.14) 1px, transparent 1px)",
-                  backgroundSize: "32px 32px",
-                }}
+            {/* Golden-Hour Matched Sport Photography Card */}
+            <div className="relative aspect-[16/10] overflow-hidden rounded-3xl border border-stone-200/90 bg-stone-900 shadow-[0_28px_70px_-18px_rgba(234,88,12,0.28)]">
+              <Image
+                src={sportImage}
+                alt={`${sport.name} at Sportivo`}
+                fill
+                priority
+                sizes="(max-width:768px) 100vw, 50vw"
+                className="object-cover"
               />
-              <div className="relative z-10 flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-bold text-orange-200 backdrop-blur-md">
-                  <ShieldCheck size={14} className="text-orange-400" />
-                  Verified {sport.name} Curriculum
+              <div className="absolute inset-0 bg-gradient-to-t from-[#19110d]/80 via-transparent to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between rounded-2xl border border-white/20 bg-black/45 px-4 py-3 text-white backdrop-blur-md">
+                <div className="flex items-center gap-2.5">
+                  <ShieldCheck size={18} className="text-orange-400" />
+                  <div>
+                    <p className="text-xs font-bold">
+                      Sportivo {sport.name} Wing
+                    </p>
+                    <p className="text-[11px] text-orange-200/80">
+                      1 : 6 Specialist Coaching · Live Skill Tracking
+                    </p>
+                  </div>
+                </div>
+                <span className="rounded-full bg-orange-600 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+                  96% Attendance
                 </span>
-                <span className="rounded-full bg-emerald-500/20 border border-emerald-400/30 px-3 py-1 text-xs font-bold text-emerald-300">
-                  2026 Batches Open
-                </span>
-              </div>
-
-              <div className="relative z-10 mt-8 flex items-center gap-5">
-                <div className="grid h-20 w-20 shrink-0 place-items-center rounded-3xl border border-white/90 bg-white shadow-xl">
-                  <SportIcon
-                    sport={sport.name || sport.slug}
-                    className="h-11 w-11"
-                    floating={false}
-                  />
-                </div>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-orange-200/80">
-                    Sportivo {sport.name} Wing
-                  </p>
-                  <h2 className="mt-1 text-2xl font-extrabold text-white">
-                    Live Cohort &amp; Skill Tracking
-                  </h2>
-                  <p className="mt-1 text-xs text-orange-100/80">
-                    Every drill, attendance check-in, and evaluation synced to your portal.
-                  </p>
-                </div>
-              </div>
-
-              <div className="relative z-10 mt-8 grid grid-cols-3 gap-3">
-                <div className="rounded-2xl border border-white/15 bg-black/25 p-3.5 backdrop-blur-md">
-                  <p className="text-[11px] text-orange-200/75">Cohort Size</p>
-                  <p className="mt-1 text-lg font-extrabold text-white">
-                    1 : 6 Max
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-white/15 bg-black/25 p-3.5 backdrop-blur-md">
-                  <p className="text-[11px] text-orange-200/75">Attendance</p>
-                  <p className="mt-1 text-lg font-extrabold text-emerald-300">
-                    96% Rate
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-white/15 bg-black/25 p-3.5 backdrop-blur-md">
-                  <p className="text-[11px] text-orange-200/75">Evaluations</p>
-                  <p className="mt-1 text-lg font-extrabold text-orange-300">
-                    Bi-Weekly
-                  </p>
-                </div>
               </div>
             </div>
           </div>
@@ -181,7 +148,7 @@ export default async function SportDetailsPage({ params }) {
                 key={item}
                 className="flex items-center gap-3 rounded-2xl border border-stone-200/90 bg-white p-4 text-xs font-bold text-gray-900 shadow-2xs"
               >
-                <span className="grid h-8 w-8 place-items-center rounded-xl bg-orange-50 text-orange-600 border border-orange-200/70">
+                <span className="grid h-8 w-8 place-items-center rounded-xl border border-orange-200/70 bg-orange-50 text-orange-600">
                   <Check size={15} />
                 </span>
                 {item}

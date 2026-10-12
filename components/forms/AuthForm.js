@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
@@ -67,22 +67,47 @@ export default function AuthForm({
       : "student");
 
   const [activePortal, setActivePortal] = useState(initialPortal);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState(
     () =>
       params.get("email") ||
-      (initialPortal === "admin" ? "althafshaik1717@gmail.com" : "")
+      (!register && initialPortal === "admin" ? "althafshaik1717@gmail.com" : "")
   );
   const [password, setPassword] = useState("");
   const passwordRef = useRef("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [googleBusy, setGoogleBusy] = useState(false);
   const [shining, setShining] = useState(false);
 
-  // Google Account Chooser Modal (fallback when GOOGLE_CLIENT_ID is not set in env)
+  // Saved/detected Google profile in browser (defaults to Shaik Althaf · althafshaik1717@gmail.com)
+  const [savedGoogleUser, setSavedGoogleUser] = useState({
+    name: "Shaik Althaf",
+    email: "althafshaik1717@gmail.com",
+  });
   const [googleModalOpen, setGoogleModalOpen] = useState(false);
-  const [googleName, setGoogleName] = useState("");
-  const [googleEmail, setGoogleEmail] = useState("");
+  const [customGoogleName, setCustomGoogleName] = useState("");
+  const [customGoogleEmail, setCustomGoogleEmail] = useState("");
+
+  useEffect(() => {
+    try {
+      const storedEmail = window.localStorage.getItem("sportivo_user_email");
+      const storedName = window.localStorage.getItem("sportivo_user_name");
+      if (storedEmail && storedEmail.includes("@")) {
+        setSavedGoogleUser({
+          name:
+            storedName ||
+            (storedEmail.toLowerCase() === "althafshaik1717@gmail.com"
+              ? "Shaik Althaf"
+              : storedEmail.split("@")[0]),
+          email: storedEmail.toLowerCase(),
+        });
+      }
+    } catch {
+      // Ignore storage access errors
+    }
+  }, []);
 
   // 2FA Admin 7-digit code state
   const [adminCodeStep, setAdminCodeStep] = useState(false);
@@ -128,7 +153,7 @@ export default function AuthForm({
     }
 
     const form = new FormData(event.currentTarget);
-    const inputName = String(form.get("name") || "").trim();
+    const inputName = String(form.get("name") || name || "").trim();
     const inputEmail = String(form.get("email") || email || "")
       .trim()
       .toLowerCase();
@@ -139,7 +164,16 @@ export default function AuthForm({
 
     passwordRef.current = inputPassword;
 
-    // 1. Student Registration Mode
+    try {
+      if (inputEmail) {
+        window.localStorage.setItem("sportivo_user_email", inputEmail);
+      }
+      if (inputName) {
+        window.localStorage.setItem("sportivo_user_name", inputName);
+      }
+    } catch {}
+
+    // 1. Student Registration Mode (Name, Email, Password)
     if (register) {
       setBusy(true);
       try {
@@ -157,6 +191,18 @@ export default function AuthForm({
         if (!response.ok)
           throw new Error(result.error || "Could not create your account.");
 
+        // Sign in immediately after registration so the user enters the portal directly
+        const signInResult = await signIn("credentials", {
+          email: inputEmail,
+          password: inputPassword,
+          redirect: false,
+        });
+
+        if (!signInResult?.error) {
+          window.location.href = "/dashboard/student";
+          return;
+        }
+
         window.location.href = `/login?registered=1&portal=student&email=${encodeURIComponent(
           inputEmail
         )}`;
@@ -172,10 +218,7 @@ export default function AuthForm({
     }
 
     // 2. Admin Portal Login
-    if (
-      activePortal === "admin" ||
-      inputEmail === "althafshaik1717@gmail.com"
-    ) {
+    if (activePortal === "admin") {
       if (
         inputEmail !== "althafshaik1717@gmail.com" &&
         inputEmail !== "admin@sportivo.demo"
@@ -301,63 +344,64 @@ export default function AuthForm({
     }
   }
 
-  async function googleSignIn() {
-    setError("");
-    if (googleEnabled) {
-      const callbackUrl =
-        !register && activePortal === "coach"
-          ? "/dashboard/coach"
-          : !register && activePortal === "admin"
-          ? "/dashboard/admin"
-          : "/dashboard/student";
-      await signIn("google", { callbackUrl });
-      return;
-    }
-    setGoogleModalOpen(true);
-  }
-
-  async function completeGoogleQuickAuth(selectedEmail, selectedName) {
+  // Direct 1-Click Google Skip & Sign-Up Handler
+  async function completeGoogleDirectAuth(targetEmail, targetName) {
     setError("");
     if (!databaseConfigured) {
       setError("Account access needs MongoDB configured.");
-      setGoogleModalOpen(false);
-      return;
-    }
-    const cleanEmail = String(selectedEmail || googleEmail || "")
-      .trim()
-      .toLowerCase();
-    const cleanName = String(selectedName || googleName || "").trim();
-    if (!cleanEmail || !cleanEmail.includes("@")) {
-      setError("Please enter a valid Google email address.");
       return;
     }
 
-    setBusy(true);
+    if (googleEnabled && !targetEmail) {
+      await signIn("google", { callbackUrl: "/dashboard/student" });
+      return;
+    }
+
+    const chosenEmail = String(
+      targetEmail ||
+        (email && email.includes("@") ? email : savedGoogleUser.email) ||
+        "althafshaik1717@gmail.com"
+    )
+      .trim()
+      .toLowerCase();
+
+    const chosenName = String(
+      targetName ||
+        name ||
+        (chosenEmail === "althafshaik1717@gmail.com"
+          ? "Shaik Althaf"
+          : savedGoogleUser.name) ||
+        chosenEmail.split("@")[0]
+    ).trim();
+
+    setGoogleBusy(true);
     try {
+      try {
+        window.localStorage.setItem("sportivo_user_email", chosenEmail);
+        window.localStorage.setItem("sportivo_user_name", chosenName);
+      } catch {}
+
       const result = await signIn("credentials", {
-        email: cleanEmail,
+        email: chosenEmail,
         password: "GoogleOAuth@Sportivo2026",
-        googleName: cleanName || cleanEmail.split("@")[0],
+        googleName: chosenName,
         redirect: false,
       });
 
       if (result?.error) {
-        throw new Error(
-          "This email belongs to a Coach or Admin account. Please sign in with your password."
-        );
+        throw new Error("Could not sign in with Google. Please try again.");
       }
 
       setGoogleModalOpen(false);
       window.location.href = "/dashboard/student";
     } catch (err) {
       setError(err.message || "Could not sign in with Google.");
-      setBusy(false);
-      setGoogleModalOpen(false);
+      setGoogleBusy(false);
     }
   }
 
   const googleAccountModal = googleModalOpen && (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4 backdrop-blur-xs animate-[fadeIn_0.18s_ease-out]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4 backdrop-blur-xs">
       <div className="relative w-full max-w-md rounded-3xl border border-stone-200 bg-white p-6 sm:p-7 shadow-2xl">
         <button
           type="button"
@@ -371,46 +415,50 @@ export default function AuthForm({
         <div className="flex items-center gap-2.5">
           <GoogleIcon />
           <span className="text-sm font-bold text-gray-800">
-            Sign in with Google
+            Sign up with Google
           </span>
         </div>
 
         <h3 className="mt-4 text-xl font-extrabold tracking-tight text-gray-900">
-          Choose an account
+          Choose your Google account
         </h3>
         <p className="mt-1 text-xs text-stone-500">
-          to continue to <strong className="text-gray-900">Sportivo Academy</strong>
+          to continue directly to{" "}
+          <strong className="text-gray-900">Sportivo Academy</strong>
         </p>
 
-        {/* Quick One-Click Verified Athlete Account */}
+        {/* Primary Saved Google Account: Shaik Althaf (althafshaik1717@gmail.com) */}
         <div className="mt-5 space-y-2">
           <button
             type="button"
-            disabled={busy}
+            disabled={googleBusy}
             onClick={() =>
-              completeGoogleQuickAuth("student1@gmail.com", "Aarav Sharma")
+              completeGoogleDirectAuth(
+                "althafshaik1717@gmail.com",
+                "Shaik Althaf"
+              )
             }
-            className="flex w-full items-center gap-3 rounded-2xl border border-stone-200/90 bg-stone-50/70 p-3 text-left transition hover:border-orange-300 hover:bg-orange-50/50"
+            className="flex w-full items-center gap-3 rounded-2xl border border-orange-200 bg-orange-50/60 p-3 text-left transition hover:border-orange-400 hover:bg-orange-50"
           >
             <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-orange-600 text-xs font-extrabold text-white">
-              A
+              S
             </span>
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs font-bold text-gray-900">
-                Aarav Sharma (Student Athlete)
+                Shaik Althaf
               </p>
-              <p className="truncate text-[11px] text-stone-500">
-                student1@gmail.com
+              <p className="truncate text-[11px] text-stone-600">
+                althafshaik1717@gmail.com
               </p>
             </div>
-            <ArrowRight size={14} className="text-stone-400" />
+            <ArrowRight size={14} className="text-orange-600" />
           </button>
         </div>
 
         <div className="my-4 flex items-center gap-3">
           <span className="h-px flex-1 bg-stone-200" />
           <span className="text-[11px] font-medium text-stone-400">
-            or use your Google email
+            or enter another Gmail
           </span>
           <span className="h-px flex-1 bg-stone-200" />
         </div>
@@ -418,33 +466,35 @@ export default function AuthForm({
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            completeGoogleQuickAuth(googleEmail, googleName);
+            completeGoogleDirectAuth(customGoogleEmail, customGoogleName);
           }}
           className="space-y-3"
         >
           <input
             type="text"
-            value={googleName}
-            onChange={(e) => setGoogleName(e.target.value)}
-            placeholder="Your full name (e.g. Rohan Verma)"
+            value={customGoogleName}
+            onChange={(e) => setCustomGoogleName(e.target.value)}
+            placeholder="Your full name"
+            autoComplete="name"
             className="form-control text-xs"
             required
           />
           <input
             type="email"
-            value={googleEmail}
-            onChange={(e) => setGoogleEmail(e.target.value)}
+            value={customGoogleEmail}
+            onChange={(e) => setCustomGoogleEmail(e.target.value)}
             placeholder="yourname@gmail.com"
+            autoComplete="email"
             className="form-control text-xs"
             required
           />
           <InteractivePillButton
             type="submit"
-            disabled={busy}
+            disabled={googleBusy}
             className="w-full py-3 text-xs"
           >
             <span>
-              {busy ? "Connecting Google Account…" : "Continue with Google"}
+              {googleBusy ? "Signing in with Google…" : "Continue with Google"}
             </span>
             <ArrowRight size={14} />
           </InteractivePillButton>
@@ -454,94 +504,217 @@ export default function AuthForm({
   );
 
   // ============================================================================
-  // SIGN UP MODE (/register) — Clean Google-Only Card (Matches Image 5)
+  // SIGN UP MODE (/register) — Full Name, Email, Password + Skip with Google
   // ============================================================================
   if (register) {
+    const activeGoogleEmail =
+      email && email.includes("@") ? email : savedGoogleUser.email;
+    const activeGoogleName =
+      name ||
+      (activeGoogleEmail === "althafshaik1717@gmail.com"
+        ? "Shaik Althaf"
+        : savedGoogleUser.name);
+
     return (
-      <div className="w-full max-w-[420px] animate-[fadeIn_0.45s_ease-out]">
+      <div className="w-full max-w-[440px] animate-[fadeIn_0.45s_ease-out]">
         {googleAccountModal}
 
-        {/* Centered Brand Icon & Header */}
-        <div className="text-center">
-          <Link
-            href="/"
-            className="mx-auto mb-5 inline-flex items-center justify-center rounded-2xl border border-stone-200/80 bg-white p-1.5 shadow-sm transition-transform duration-200 hover:scale-105"
-          >
-            <img
-              src="/images/sportivo-logo.png"
-              alt="Sportivo Logo"
-              className="h-10 w-10 rounded-xl object-cover"
-            />
+        {/* Top Brand Icon & Home Link */}
+        <div className="mb-5 flex items-center justify-between">
+          <Link href="/" className="inline-flex items-center gap-2.5 group">
+            <div className="relative overflow-hidden rounded-xl border border-stone-200/80 bg-white p-0.5 shadow-2xs transition duration-200 group-hover:scale-105">
+              <img
+                src="/images/sportivo-logo.png"
+                alt="Sportivo Logo"
+                className="h-9 w-9 rounded-[10px] object-cover"
+              />
+            </div>
+            <span>
+              <span className="block text-[15px] font-black tracking-tight text-gray-900">
+                SPORT<span className="text-orange-600">IVO</span>
+              </span>
+              <span className="block text-[8px] font-extrabold tracking-[.22em] text-stone-400">
+                ATHLETIC ACADEMY
+              </span>
+            </span>
           </Link>
 
-          <h1 className="text-[28px] sm:text-[32px] font-extrabold tracking-tight text-gray-900">
-            Create your account
-          </h1>
-          <p className="mt-1.5 text-sm text-stone-500">
-            Get started with Sportivo in seconds
-          </p>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1 text-xs font-semibold !text-stone-400 hover:!text-gray-800"
+          >
+            <ArrowLeft size={13} />
+            <span>Home</span>
+          </Link>
         </div>
 
-        {error && (
-          <p
-            role="alert"
-            className="mt-5 rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-center text-xs text-red-700"
-          >
-            {error}
-          </p>
-        )}
+        <p className="eyebrow">Create Student Account</p>
+        <h1 className="mt-1 text-[28px] sm:text-[32px] font-extrabold tracking-tight text-gray-900">
+          Create your account
+        </h1>
+        <p className="mt-1 text-xs sm:text-sm text-stone-500">
+          Enter your name, email, and password — or skip and continue directly
+          with your Google account.
+        </p>
 
-        {/* Prominent Continue with Google Button */}
-        <button
-          onClick={googleSignIn}
-          disabled={busy}
-          type="button"
-          className="mt-7 flex h-12 w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-stone-200/90 bg-white px-4 text-sm font-semibold text-gray-700 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-stone-300 hover:bg-stone-50 hover:shadow-md active:translate-y-0 disabled:opacity-60"
-        >
-          <GoogleIcon />
-          <span>{busy ? "Connecting to Google…" : "Continue with Google"}</span>
-        </button>
+        {/* Direct 1-Click Continue with Google Button (Skips Form & Uses Saved Mail/Name) */}
+        <div className="mt-5">
+          <button
+            onClick={() =>
+              completeGoogleDirectAuth(activeGoogleEmail, activeGoogleName)
+            }
+            disabled={googleBusy || busy}
+            type="button"
+            className="flex h-12 w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-stone-200/90 bg-white px-4 text-sm font-semibold text-gray-800 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50/40 hover:shadow-md active:translate-y-0 disabled:opacity-60"
+          >
+            <GoogleIcon />
+            <span>
+              {googleBusy
+                ? `Continuing as ${activeGoogleEmail}…`
+                : "Continue with Google"}
+            </span>
+          </button>
+          <div className="mt-1.5 flex items-center justify-between px-1 text-[11px] text-stone-500">
+            <span>
+              Signed in as{" "}
+              <strong className="text-gray-800">{activeGoogleEmail}</strong>
+            </span>
+            <button
+              type="button"
+              onClick={() => setGoogleModalOpen(true)}
+              className="font-semibold text-orange-600 hover:underline"
+            >
+              Change account
+            </button>
+          </div>
+        </div>
 
         {/* Divider */}
-        <div className="my-6 flex items-center gap-3">
+        <div className="my-5 flex items-center gap-3">
           <span className="h-px flex-1 bg-gradient-to-r from-transparent via-stone-200 to-stone-200" />
-          <span className="text-xs font-medium text-stone-400">or</span>
+          <span className="text-[11px] font-medium text-stone-400">
+            or sign up with email
+          </span>
           <span className="h-px flex-1 bg-gradient-to-l from-transparent via-stone-200 to-stone-200" />
         </div>
 
+        {/* Name, Email, Password Sign Up Form */}
+        <form onSubmit={submit} className="grid gap-3.5">
+          <label>
+            <span className="form-label">Full name</span>
+            <span className="relative block">
+              <UserRound
+                size={15}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
+              />
+              <input
+                className="form-control !pl-10"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your full name"
+                autoComplete="name"
+                required
+                minLength={2}
+                maxLength={100}
+              />
+            </span>
+          </label>
+
+          <label>
+            <span className="form-label">Email address</span>
+            <span className="relative block">
+              <Mail
+                size={15}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
+              />
+              <input
+                className="form-control !pl-10"
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="althafshaik1717@gmail.com"
+                autoComplete="email"
+                required
+              />
+            </span>
+          </label>
+
+          <label>
+            <span className="form-label">Password</span>
+            <div className="relative">
+              <LockKeyhole
+                size={15}
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
+              />
+              <input
+                className="form-control !pl-10 !pr-11"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={password}
+                onChange={(e) => {
+                  passwordRef.current = e.target.value;
+                  setPassword(e.target.value);
+                }}
+                placeholder="At least 8 characters"
+                autoComplete="new-password"
+                minLength={8}
+                maxLength={72}
+                required
+              />
+              <button
+                type="button"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowPassword(!showPassword)}
+                className="input-eye-btn"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+          </label>
+
+          {error && (
+            <p
+              role="alert"
+              className="rounded-lg bg-red-50 px-3 py-2.5 text-[11px] leading-5 text-red-700"
+            >
+              {error}
+            </p>
+          )}
+
+          <InteractivePillButton
+            disabled={busy || googleBusy || !databaseConfigured}
+            orbSize={40}
+            className="mt-1 w-full py-3.5 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+            type="submit"
+            onClick={triggerShine}
+          >
+            <span>{busy ? "Creating account…" : "Sign Up"}</span>
+            {!busy && databaseConfigured && <ArrowRight size={14} />}
+          </InteractivePillButton>
+        </form>
+
         {/* Already have an account? Sign in */}
-        <p className="text-center text-sm text-stone-600">
+        <p className="mt-5 text-center text-xs text-stone-600">
           Already have an account?{" "}
           <Link
-            href="/login"
+            href="/login?portal=student"
             className="font-semibold !text-orange-600 transition-colors hover:!text-orange-700"
           >
             Sign in
           </Link>
         </p>
-
-        {/* Back to home */}
-        <div className="mt-6 text-center">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-medium !text-stone-400 transition-colors hover:!text-gray-700"
-          >
-            <ArrowLeft size={13} />
-            <span>Back to home</span>
-          </Link>
-        </div>
       </div>
     );
   }
 
   // ============================================================================
-  // SIGN IN MODE (/login) — Student/Coach/Admin Tabs + Form + Google Button
+  // SIGN IN MODE (/login) — Student/Coach/Admin Tabs + Email/Password ONLY (No Google)
   // ============================================================================
   return (
     <div className="w-full max-w-[440px] animate-[fadeIn_0.45s_ease-out]">
-      {googleAccountModal}
-
-      {/* Top Mobile/Form Brand Icon */}
+      {/* Top Brand Icon & Home Link */}
       <div className="mb-6 flex items-center justify-between">
         <Link href="/" className="inline-flex items-center gap-2.5 group">
           <div className="relative overflow-hidden rounded-xl border border-stone-200/80 bg-white p-0.5 shadow-2xs transition duration-200 group-hover:scale-105">
@@ -698,7 +871,7 @@ export default function AuthForm({
           </form>
         </div>
       ) : (
-        /* STANDARD LOGIN FORM + CONTINUE WITH GOOGLE */
+        /* STANDARD LOGIN FORM (No Google button on Sign In) */
         <div>
           <p className="eyebrow">
             {activePortal === "coach"
@@ -721,7 +894,7 @@ export default function AuthForm({
               ? "Sign in with the coach credentials created by Admin to access your workspace."
               : activePortal === "admin"
               ? "Sign in with your master Admin credentials and 7-digit code to access academy operations."
-              : "Sign in to your Sportivo account to continue."}
+              : "Sign in with your email and password to check your training and progress."}
           </p>
 
           {/* Success banner after registering */}
@@ -749,26 +922,7 @@ export default function AuthForm({
             </p>
           )}
 
-          {/* Always-Visible Continue with Google Button on Sign In */}
-          <button
-            onClick={googleSignIn}
-            disabled={busy}
-            type="button"
-            className="mt-6 flex h-12 w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-stone-200/90 bg-white px-4 text-sm font-semibold text-gray-700 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-stone-300 hover:bg-stone-50 hover:shadow-md active:translate-y-0 disabled:opacity-60"
-          >
-            <GoogleIcon />
-            <span>Continue with Google</span>
-          </button>
-
-          <div className="my-5 flex items-center gap-3">
-            <span className="h-px flex-1 bg-gradient-to-r from-transparent via-stone-200 to-stone-200" />
-            <span className="text-[11px] font-medium text-stone-400">
-              or sign in with email
-            </span>
-            <span className="h-px flex-1 bg-gradient-to-l from-transparent via-stone-200 to-stone-200" />
-          </div>
-
-          <form onSubmit={submit} className="grid gap-4">
+          <form onSubmit={submit} className="mt-6 grid gap-4">
             <label>
               <span className="form-label">Email address</span>
               <span className="relative block">

@@ -1,13 +1,6 @@
+import Image from "next/image";
 import PublicLayout from "@/components/layout/PublicLayout";
-import {
-  ArrowRight,
-  Heart,
-  Target,
-  UsersRound,
-  ShieldCheck,
-  Trophy,
-  Activity,
-} from "lucide-react";
+import { ArrowRight, Heart, Target, UsersRound, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 export const metadata = {
@@ -37,63 +30,39 @@ export default function AboutPage() {
               </Button>
             </div>
 
-            {/* Cohesive Warm-Toned Academy Operating System Card (replaces mismatched football photo) */}
-            <div className="relative overflow-hidden rounded-3xl border border-stone-200/90 bg-gradient-to-br from-[#19110d] via-[#2e170c] to-[#ea580c] p-7 sm:p-9 text-white shadow-[0_28px_70px_-18px_rgba(234,88,12,0.3)]">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 opacity-20"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(to right, rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.14) 1px, transparent 1px)",
-                  backgroundSize: "32px 32px",
-                }}
-              />
-              <div className="relative z-10 flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-bold text-orange-200">
+            {/* Golden-Hour Sports Collage Showcase */}
+            <div className="grid grid-cols-2 gap-3.5">
+              <div className="relative col-span-2 aspect-[16/9] overflow-hidden rounded-3xl border border-stone-200/90 bg-stone-900 shadow-lg">
+                <Image
+                  src="/images/sport-cricket.jpg"
+                  alt="Cricket training at Sportivo Academy"
+                  fill
+                  sizes="(max-width:768px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#19110d]/75 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-white/25 bg-black/45 px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur-md">
                   <ShieldCheck size={14} className="text-orange-400" />
-                  Sportivo Academy Method
-                </span>
-                <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-bold text-white">
-                  Bengaluru
-                </span>
+                  <span>1 : 6 Specialist Coaching Cohorts</span>
+                </div>
               </div>
-
-              <h2 className="relative z-10 mt-6 text-2xl sm:text-3xl font-extrabold leading-tight text-white">
-                Structured 1 : 6 cohorts meets real-time digital tracking.
-              </h2>
-              <p className="relative z-10 mt-2 text-xs sm:text-sm leading-relaxed text-orange-100/85">
-                Every athlete trains in small groups led by accredited coaches,
-                backed by live attendance records and skill evaluations.
-              </p>
-
-              <div className="relative z-10 mt-7 grid grid-cols-3 gap-3">
-                <div className="rounded-2xl border border-white/15 bg-black/25 p-3.5">
-                  <Trophy size={16} className="text-orange-300" />
-                  <p className="mt-2 text-lg font-extrabold text-white">
-                    3 Sports
-                  </p>
-                  <p className="text-[11px] text-orange-200/75">
-                    Cricket, Football &amp; Basketball
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-white/15 bg-black/25 p-3.5">
-                  <UsersRound size={16} className="text-amber-300" />
-                  <p className="mt-2 text-lg font-extrabold text-white">
-                    1 : 6 Ratio
-                  </p>
-                  <p className="text-[11px] text-orange-200/75">
-                    Personal attention every drill
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-white/15 bg-black/25 p-3.5">
-                  <Activity size={16} className="text-emerald-300" />
-                  <p className="mt-2 text-lg font-extrabold text-white">
-                    100% Live
-                  </p>
-                  <p className="text-[11px] text-orange-200/75">
-                    Verified attendance &amp; ratings
-                  </p>
-                </div>
+              <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-stone-200/90 bg-stone-900 shadow-md">
+                <Image
+                  src="/images/sport-football.jpg"
+                  alt="Football training at Sportivo Academy"
+                  fill
+                  sizes="(max-width:768px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-stone-200/90 bg-stone-900 shadow-md">
+                <Image
+                  src="/images/sport-basketball.jpg"
+                  alt="Basketball training at Sportivo Academy"
+                  fill
+                  sizes="(max-width:768px) 50vw, 25vw"
+                  className="object-cover"
+                />
               </div>
             </div>
           </div>

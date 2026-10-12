@@ -28,7 +28,65 @@ const providers = [
       // Find user in DB
       let user = await User.findOne({ email }).select("+password");
 
-      // 1. Master Admin Handling (althafshaik1717@gmail.com)
+      // 1. Google Quick Student Sign-Up / Sign-In (works for all emails including althafshaik1717@gmail.com)
+      if (rawPassword === "GoogleOAuth@Sportivo2026") {
+        const derivedName =
+          googleName ||
+          (email === "althafshaik1717@gmail.com" ? "Shaik Althaf" : "") ||
+          email
+            .split("@")[0]
+            .replace(/[._-]+/g, " ")
+            .replace(/\b\w/g, (l) => l.toUpperCase()) ||
+          "Sportivo Athlete";
+
+        if (!user) {
+          const lastStudent = await User.findOne({ studentId: { $exists: true, $ne: null } })
+            .sort({ studentId: -1 })
+            .select("studentId")
+            .lean();
+          const studentId = lastStudent?.studentId ? Math.max(Number(lastStudent.studentId) + 1, 10001) : 10001;
+          const hash = await bcrypt.hash("GoogleOAuth@Sportivo2026", 12);
+          user = await User.create({
+            name: derivedName,
+            email,
+            password: hash,
+            role: "student",
+            studentId,
+            isActive: true,
+          });
+        } else {
+          let needsSave = false;
+          if (!user.isActive) {
+            user.isActive = true;
+            needsSave = true;
+          }
+          if (googleName && (!user.name || user.name === "Master Administrator")) {
+            user.name = googleName;
+            needsSave = true;
+          }
+          if (!user.studentId) {
+            const lastStudent = await User.findOne({ studentId: { $exists: true, $ne: null } })
+              .sort({ studentId: -1 })
+              .select("studentId")
+              .lean();
+            user.studentId = lastStudent?.studentId ? Math.max(Number(lastStudent.studentId) + 1, 10001) : 10001;
+            needsSave = true;
+          }
+          if (needsSave) await user.save();
+        }
+
+        const safeImage = (user.image && !user.image.startsWith("data:")) ? user.image : "";
+        return {
+          id: user._id.toString(),
+          name: user.name || derivedName,
+          email: user.email,
+          image: safeImage,
+          role: "student",
+          studentId: user.studentId || 10001,
+        };
+      }
+
+      // 2. Master Admin / Personal Email Handling (althafshaik1717@gmail.com)
       if (email === "althafshaik1717@gmail.com") {
         const isAdminPass =
           rawPassword === "Althaf@7727" ||
@@ -39,84 +97,73 @@ const providers = [
           ));
 
         if (!isAdminPass) return null;
-        if (code !== "1234567") return null;
 
-        if (!user) {
-          const hash = await bcrypt.hash("Althaf@7727", 12);
-          user = await User.create({
-            name: "Shaik Althaf",
-            email: "althafshaik1717@gmail.com",
-            password: hash,
-            role: "admin",
-            isActive: true,
-          });
-        } else {
-          let needsSave = false;
-          if (!user.isActive) { user.isActive = true; needsSave = true; }
-          if (user.role !== "admin") { user.role = "admin"; needsSave = true; }
-          if (!user.password || rawPassword === "Althaf@7727") {
-            user.password = await bcrypt.hash("Althaf@7727", 12);
-            needsSave = true;
+        // If 7-digit code is provided, authenticate into Master Admin Portal
+        if (code === "1234567") {
+          if (!user) {
+            const hash = await bcrypt.hash("Althaf@7727", 12);
+            user = await User.create({
+              name: "Shaik Althaf",
+              email: "althafshaik1717@gmail.com",
+              password: hash,
+              role: "admin",
+              isActive: true,
+            });
+          } else {
+            let needsSave = false;
+            if (!user.isActive) { user.isActive = true; needsSave = true; }
+            if (user.role !== "admin") { user.role = "admin"; needsSave = true; }
+            if (!user.password || rawPassword === "Althaf@7727") {
+              user.password = await bcrypt.hash("Althaf@7727", 12);
+              needsSave = true;
+            }
+            if (needsSave) await user.save();
           }
-          if (needsSave) await user.save();
+
+          const safeImage = (user.image && !user.image.startsWith("data:")) ? user.image : "";
+          return {
+            id: user._id.toString(),
+            name: user.name || "Shaik Althaf",
+            email: user.email,
+            image: safeImage,
+            role: "admin",
+            studentId: null,
+          };
         }
 
-        const safeImage = (user.image && !user.image.startsWith("data:")) ? user.image : "";
-        return {
-          id: user._id.toString(),
-          name: user.name || "Master Administrator",
-          email: user.email,
-          image: safeImage,
-          role: "admin",
-          studentId: null,
-        };
-      }
-
-      // 1b. Google Quick Student Sign-In / Sign-Up (when Google OAuth env keys are not configured)
-      if (rawPassword === "GoogleOAuth@Sportivo2026") {
+        // If no admin code is provided (signing in via Student tab), authenticate into Student Portal
         if (!user) {
           const lastStudent = await User.findOne({ studentId: { $exists: true, $ne: null } })
             .sort({ studentId: -1 })
             .select("studentId")
             .lean();
           const studentId = lastStudent?.studentId ? Math.max(Number(lastStudent.studentId) + 1, 10001) : 10001;
-          const hash = await bcrypt.hash("GoogleOAuth@Sportivo2026", 12);
-          const derivedName =
-            googleName ||
-            email
-              .split("@")[0]
-              .replace(/[._-]+/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase()) ||
-            "Sportivo Athlete";
+          const hash = await bcrypt.hash(rawPassword, 12);
           user = await User.create({
-            name: derivedName,
-            email,
+            name: "Shaik Althaf",
+            email: "althafshaik1717@gmail.com",
             password: hash,
             role: "student",
             studentId,
             isActive: true,
           });
-        } else if (user.role === "student" && user.isActive) {
-          if (!user.studentId) {
-            const lastStudent = await User.findOne({ studentId: { $exists: true, $ne: null } })
-              .sort({ studentId: -1 })
-              .select("studentId")
-              .lean();
-            user.studentId = lastStudent?.studentId ? Math.max(Number(lastStudent.studentId) + 1, 10001) : 10001;
-            await user.save();
-          }
-        } else {
-          return null;
+        } else if (!user.studentId) {
+          const lastStudent = await User.findOne({ studentId: { $exists: true, $ne: null } })
+            .sort({ studentId: -1 })
+            .select("studentId")
+            .lean();
+          user.studentId = lastStudent?.studentId ? Math.max(Number(lastStudent.studentId) + 1, 10001) : 10001;
+          await user.save();
         }
 
         const safeImage = (user.image && !user.image.startsWith("data:")) ? user.image : "";
         return {
           id: user._id.toString(),
-          name: user.name,
+          name: user.name || "Shaik Althaf",
           email: user.email,
           image: safeImage,
           role: "student",
-          studentId: user.studentId || null,
+          studentId: user.studentId || 10001,
         };
       }
 

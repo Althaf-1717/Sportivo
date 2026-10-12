@@ -1,11 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 export default function GlassBackground() {
+  const pathname = usePathname();
+  const isMainPage = pathname === "/";
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    if (!isMainPage) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -60,7 +65,6 @@ export default function GlassBackground() {
 
       const dist = Math.sqrt(distSq);
       const t = 1 - dist / WARP_RADIUS;
-      // Smooth bell curve falloff for elastic magnetic lens effect
       const falloff = t * t * (3 - 2 * t) * pointer.intensity;
       const push = falloff * MAX_DISPLACEMENT;
 
@@ -74,7 +78,6 @@ export default function GlassBackground() {
     const drawFrame = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Soft cursor-following ambient orange radial aura
       if (pointer.intensity > 0.01 && !prefersReducedMotion) {
         const grad = ctx.createRadialGradient(
           pointer.x,
@@ -100,7 +103,6 @@ export default function GlassBackground() {
       const cols = Math.ceil(width / GRID_SIZE) + 1;
       const rows = Math.ceil(height / GRID_SIZE) + 1;
 
-      // Precompute warped grid vertices
       const points = new Array(rows + 1);
       for (let r = 0; r <= rows; r++) {
         points[r] = new Array(cols + 1);
@@ -111,12 +113,10 @@ export default function GlassBackground() {
         }
       }
 
-      // 2. Draw base elastic grid lines
       ctx.lineWidth = 1;
       ctx.strokeStyle = "rgba(28, 25, 23, 0.055)";
       ctx.beginPath();
 
-      // Horizontal lines
       for (let r = 0; r <= rows; r++) {
         for (let c = 0; c <= cols; c++) {
           const p = points[r][c];
@@ -125,7 +125,6 @@ export default function GlassBackground() {
         }
       }
 
-      // Vertical lines
       for (let c = 0; c <= cols; c++) {
         for (let r = 0; r <= rows; r++) {
           const p = points[r][c];
@@ -135,14 +134,12 @@ export default function GlassBackground() {
       }
       ctx.stroke();
 
-      // 3. Highlight warped segments & intersections near cursor in warm orange
       if (pointer.intensity > 0.02 && !prefersReducedMotion) {
         for (let r = 0; r <= rows; r++) {
           for (let c = 0; c <= cols; c++) {
             const p = points[r][c];
             if (p.influence <= 0.04) continue;
 
-            // Highlight right segment
             if (c < cols) {
               const pr = points[r][c + 1];
               const segInf = Math.max(p.influence, pr.influence);
@@ -153,7 +150,6 @@ export default function GlassBackground() {
               ctx.stroke();
             }
 
-            // Highlight bottom segment
             if (r < rows) {
               const pb = points[r + 1][c];
               const segInf = Math.max(p.influence, pb.influence);
@@ -164,7 +160,6 @@ export default function GlassBackground() {
               ctx.stroke();
             }
 
-            // Glowing orange intersection node
             const radius = 1.4 + p.influence * 2.2;
             ctx.fillStyle = `rgba(234, 88, 12, ${(0.2 + p.influence * 0.65).toFixed(3)})`;
             ctx.beginPath();
@@ -231,14 +226,24 @@ export default function GlassBackground() {
       window.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("mouseleave", onPointerLeave);
     };
-  }, []);
+  }, [isMainPage]);
+
+  // Do not show interactive grid animation after sign-in or outside the main page
+  if (!isMainPage) {
+    return (
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 -z-50 pointer-events-none select-none bg-[#FFF8F2]"
+      />
+    );
+  }
 
   return (
     <div
       aria-hidden="true"
       className="fixed inset-0 -z-50 pointer-events-none select-none overflow-hidden bg-[#FFF8F2]"
     >
-      {/* Top Hero Radial Warm Orange Glow (Clienter signature ambient light) */}
+      {/* Top Hero Radial Warm Orange Glow */}
       <div
         className="absolute inset-x-0 top-0 h-[46rem]"
         style={{
@@ -253,7 +258,7 @@ export default function GlassBackground() {
       {/* Left Lower-Page Soft Orange Orb */}
       <div className="absolute left-0 top-[68rem] h-[30rem] w-[30rem] rounded-full bg-orange-200/20 blur-[130px]" />
 
-      {/* Interactive Cursor-Warping Elastic Grid Canvas (Clienter-inspired background grid) */}
+      {/* Interactive Cursor-Warping Elastic Grid Canvas (Main Page Only) */}
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
     </div>
   );
