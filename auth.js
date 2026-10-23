@@ -15,6 +15,7 @@ const providers = [
       password: { label: "Password", type: "password" },
       code: { label: "Code", type: "text" },
       googleName: { label: "Google Name", type: "text" },
+      portal: { label: "Portal", type: "text" },
     },
     async authorize(credentials) {
       if (!credentials?.email || !credentials?.password || !process.env.MONGODB_URI) return null;
@@ -24,6 +25,7 @@ const providers = [
       const rawPasswordUntrimmed = String(credentials.password || "");
       const code = String(credentials.code || "").trim();
       const googleName = String(credentials.googleName || "").trim();
+      const portal = String(credentials.portal || "student").trim().toLowerCase();
 
       // Find user in DB
       let user = await User.findOne({ email }).select("+password");
@@ -98,8 +100,12 @@ const providers = [
 
         if (!isAdminPass) return null;
 
-        // If 7-digit code is provided, authenticate into Master Admin Portal
-        if (code === "1234567") {
+        // If signing in via Coach portal, althafshaik1717@gmail.com is not a coach
+        if (portal === "coach") return null;
+
+        // If signing in via Admin portal (or 7-digit code provided), authenticate into Master Admin Portal
+        if (portal === "admin" || code === "1234567") {
+          if (code !== "1234567") return null;
           if (!user) {
             const hash = await bcrypt.hash("Althaf@7727", 12);
             user = await User.create({
@@ -131,7 +137,7 @@ const providers = [
           };
         }
 
-        // If no admin code is provided (signing in via Student tab), authenticate into Student Portal
+        // If signing in via Student portal (/login)
         if (!user) {
           const lastStudent = await User.findOne({ studentId: { $exists: true, $ne: null } })
             .sort({ studentId: -1 })
@@ -197,9 +203,13 @@ const providers = [
 
       if (!passwordMatch) return null;
 
-      // Admin verification code check
-      if (user.role === "admin") {
-        if (code !== "1234567") return null;
+      // Enforce portal-specific role checks:
+      if (portal === "admin") {
+        if (user.role !== "admin" || code !== "1234567") return null;
+      } else if (portal === "coach") {
+        if (user.role !== "coach") return null;
+      } else if (portal === "student") {
+        if (user.role !== "student") return null;
       }
 
       const safeImage = (user.image && !user.image.startsWith("data:")) ? user.image : "";

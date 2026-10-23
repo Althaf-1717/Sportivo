@@ -5,7 +5,6 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import {
-  Activity,
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
@@ -45,6 +44,7 @@ function GoogleIcon() {
 
 export default function AuthForm({
   mode = "login",
+  portal = "student",
   googleEnabled = false,
   databaseConfigured = false,
 }) {
@@ -52,36 +52,29 @@ export default function AuthForm({
   const params = useSearchParams();
 
   const requestedCallback = params.get("callbackUrl") || "";
-  const portalFromQuery = params.get("portal") || "";
+  const registeredSuccess = params.get("registered") === "1";
 
-  // Determine initial portal: admin, coach, or student (default)
-  const initialPortal =
-    portalFromQuery ||
-    (requestedCallback.includes("/dashboard/admin") ||
-    requestedCallback.includes("/admin")
-      ? "admin"
-      : requestedCallback.includes("/dashboard/coach") ||
-        requestedCallback.includes("/coach") ||
-        requestedCallback.includes("/dashboard/coaches")
-      ? "coach"
-      : "student");
+  // Dedicated portal for this form instance: "student" | "coach" | "admin"
+  const activePortal = portal || "student";
 
-  const [activePortal, setActivePortal] = useState(initialPortal);
   const [name, setName] = useState("");
-  const [email, setEmail] = useState(
-    () =>
-      params.get("email") ||
-      (!register && initialPortal === "admin" ? "althafshaik1717@gmail.com" : "")
-  );
+  const [email, setEmail] = useState(() => {
+    const fromQuery = params.get("email");
+    if (fromQuery) return fromQuery;
+    if (!register && activePortal === "admin") {
+      return "althafshaik1717@gmail.com";
+    }
+    return "";
+  });
   const [password, setPassword] = useState("");
   const passwordRef = useRef("");
   const [showPassword, setShowPassword] = useState(false);
+  const [adminCode, setAdminCode] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [googleBusy, setGoogleBusy] = useState(false);
-  const [shining, setShining] = useState(false);
 
-  // Saved/detected Google profile in browser (defaults to Shaik Althaf · althafshaik1717@gmail.com)
+  // Saved/detected Google profile in browser for direct 1-click skip on sign-up
   const [savedGoogleUser, setSavedGoogleUser] = useState({
     name: "Shaik Althaf",
     email: "althafshaik1717@gmail.com",
@@ -109,40 +102,8 @@ export default function AuthForm({
     }
   }, []);
 
-  // 2FA Admin 7-digit code state
-  const [adminCodeStep, setAdminCodeStep] = useState(false);
-  const [adminCode, setAdminCode] = useState("");
-
-  const registeredSuccess = params.get("registered") === "1";
-
-  function triggerShine() {
-    setShining(true);
-    setTimeout(() => setShining(false), 600);
-  }
-
-  // Switch portal and adjust defaults
-  function switchPortal(portal) {
-    setActivePortal(portal);
-    setError("");
-    setAdminCodeStep(false);
-    if (portal === "admin") {
-      if (!email || email.includes("student") || email.includes("coach")) {
-        setEmail("althafshaik1717@gmail.com");
-      }
-    } else if (portal === "coach") {
-      if (email === "althafshaik1717@gmail.com" || email.includes("student")) {
-        setEmail("");
-      }
-    } else {
-      if (email === "althafshaik1717@gmail.com" || email.includes("coach")) {
-        setEmail("");
-      }
-    }
-  }
-
   async function submit(event) {
     event.preventDefault();
-    triggerShine();
     setError("");
 
     if (!databaseConfigured) {
@@ -173,7 +134,7 @@ export default function AuthForm({
       }
     } catch {}
 
-    // 1. Student Registration Mode (Name, Email, Password)
+    // 1. Student Registration Mode (/register)
     if (register) {
       setBusy(true);
       try {
@@ -191,10 +152,11 @@ export default function AuthForm({
         if (!response.ok)
           throw new Error(result.error || "Could not create your account.");
 
-        // Sign in immediately after registration so the user enters the portal directly
+        // Sign in immediately after registration so the athlete enters the portal directly
         const signInResult = await signIn("credentials", {
           email: inputEmail,
           password: inputPassword,
+          portal: "student",
           redirect: false,
         });
 
@@ -203,7 +165,7 @@ export default function AuthForm({
           return;
         }
 
-        window.location.href = `/login?registered=1&portal=student&email=${encodeURIComponent(
+        window.location.href = `/login?registered=1&email=${encodeURIComponent(
           inputEmail
         )}`;
         return;
@@ -217,19 +179,19 @@ export default function AuthForm({
       return;
     }
 
-    // 2. Admin Portal Login
+    // 2. Admin Portal Login (/admin)
     if (activePortal === "admin") {
       if (
         inputEmail !== "althafshaik1717@gmail.com" &&
         inputEmail !== "admin@sportivo.demo"
       ) {
         setError(
-          "Admin portal login is restricted to althafshaik1717@gmail.com."
+          "Admin portal login is restricted to verified administrators."
         );
         return;
       }
       if (!inputPassword) {
-        setError("Please enter your password.");
+        setError("Please enter your admin password.");
         return;
       }
       if (!inputCode || inputCode.length !== 7 || inputCode !== "1234567") {
@@ -243,6 +205,7 @@ export default function AuthForm({
           email: inputEmail,
           password: inputPassword,
           code: inputCode,
+          portal: "admin",
           redirect: false,
         });
 
@@ -262,33 +225,63 @@ export default function AuthForm({
       return;
     }
 
-    // 3. Regular Login: Coach or Student
+    // 3. Coach Portal Login (/coach)
+    if (activePortal === "coach") {
+      if (!inputEmail || !inputPassword) {
+        setError("Please enter your coach email and password.");
+        return;
+      }
+
+      setBusy(true);
+      try {
+        const result = await signIn("credentials", {
+          email: inputEmail,
+          password: inputPassword,
+          portal: "coach",
+          redirect: false,
+        });
+
+        if (result?.error) {
+          throw new Error(
+            "Coach email or password didn’t match. Make sure Admin has added your access."
+          );
+        }
+
+        window.location.href = "/dashboard/coach";
+        return;
+      } catch (submitError) {
+        setError(
+          submitError.message || "Something went wrong. Please try again."
+        );
+      } finally {
+        setBusy(false);
+      }
+      return;
+    }
+
+    // 4. Student Portal Login (/login)
     setBusy(true);
     try {
       const result = await signIn("credentials", {
         email: inputEmail,
         password: inputPassword,
+        portal: "student",
         redirect: false,
       });
 
       if (result?.error) {
-        if (activePortal === "coach") {
-          throw new Error(
-            "Coach email or password didn’t match. Make sure Admin has added your access."
-          );
-        }
         throw new Error(
           "Email or password didn’t match. Check your details and try again."
         );
       }
 
       let destination = "/dashboard/student";
-      if (activePortal === "coach") {
-        destination = "/dashboard/coach";
-      } else if (
+      if (
         requestedCallback?.startsWith("/") &&
         !requestedCallback.startsWith("//") &&
-        !requestedCallback.includes("\\")
+        !requestedCallback.includes("\\") &&
+        !requestedCallback.includes("/coach") &&
+        !requestedCallback.includes("/admin")
       ) {
         destination = requestedCallback;
       }
@@ -304,47 +297,7 @@ export default function AuthForm({
     }
   }
 
-  // 4. Verify 7-digit code for Admin (2-step fallback)
-  async function submitAdminCode(event) {
-    event.preventDefault();
-    triggerShine();
-    setError("");
-
-    if (adminCode.trim() !== "1234567") {
-      setError("Please enter 7 digit of code");
-      return;
-    }
-
-    const pass = passwordRef.current || password;
-    if (!pass) {
-      setError("Please enter 7 digit of code");
-      setAdminCodeStep(false);
-      return;
-    }
-
-    setBusy(true);
-    try {
-      const result = await signIn("credentials", {
-        email: email.trim().toLowerCase(),
-        password: pass.trim(),
-        code: "1234567",
-        redirect: false,
-      });
-
-      if (result?.error) {
-        throw new Error(
-          "Admin email or password didn’t match. Please check your credentials."
-        );
-      }
-
-      window.location.href = "/dashboard/admin";
-    } catch (submitError) {
-      setError(submitError.message || "Please enter 7 digit of code");
-      setBusy(false);
-    }
-  }
-
-  // Direct 1-Click Google Skip & Sign-Up Handler
+  // Direct 1-Click Google Skip & Sign-Up Handler (Only for /register)
   async function completeGoogleDirectAuth(targetEmail, targetName) {
     setError("");
     if (!databaseConfigured) {
@@ -385,6 +338,7 @@ export default function AuthForm({
         email: chosenEmail,
         password: "GoogleOAuth@Sportivo2026",
         googleName: chosenName,
+        portal: "student",
         redirect: false,
       });
 
@@ -557,7 +511,7 @@ export default function AuthForm({
           with your Google account.
         </p>
 
-        {/* Direct 1-Click Continue with Google Button (Skips Form & Uses Saved Mail/Name) */}
+        {/* Direct 1-Click Continue with Google Button */}
         <div className="mt-5">
           <button
             onClick={() =>
@@ -688,7 +642,6 @@ export default function AuthForm({
             orbSize={40}
             className="mt-1 w-full py-3.5 text-sm disabled:cursor-not-allowed disabled:opacity-60"
             type="submit"
-            onClick={triggerShine}
           >
             <span>{busy ? "Creating account…" : "Sign Up"}</span>
             {!busy && databaseConfigured && <ArrowRight size={14} />}
@@ -699,7 +652,7 @@ export default function AuthForm({
         <p className="mt-5 text-center text-xs text-stone-600">
           Already have an account?{" "}
           <Link
-            href="/login?portal=student"
+            href="/login"
             className="font-semibold !text-orange-600 transition-colors hover:!text-orange-700"
           >
             Sign in
@@ -710,7 +663,10 @@ export default function AuthForm({
   }
 
   // ============================================================================
-  // SIGN IN MODE (/login) — Student/Coach/Admin Tabs + Email/Password ONLY (No Google)
+  // DEDICATED SIGN IN MODE:
+  // - /login: Student ONLY (No coach or admin tabs)
+  // - /coach: Coach ONLY (No student or admin tabs)
+  // - /admin: Admin ONLY (No student or coach tabs)
   // ============================================================================
   return (
     <div className="w-full max-w-[440px] animate-[fadeIn_0.45s_ease-out]">
@@ -743,337 +699,228 @@ export default function AuthForm({
         </Link>
       </div>
 
-      {/* PORTAL SELECTOR TABS (Student / Coach / Admin) */}
-      {!adminCodeStep && (
-        <div className="mb-6 grid grid-cols-3 gap-1 rounded-2xl border border-stone-200/90 bg-stone-100/85 p-1.5">
-          <button
-            type="button"
-            onClick={() => switchPortal("student")}
-            className={`flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-bold transition-all duration-200 ${
-              activePortal === "student"
-                ? "bg-white text-gray-900 shadow-xs ring-1 ring-stone-200/70"
-                : "text-stone-500 hover:text-gray-900 hover:bg-white/50"
-            }`}
-          >
-            <UserRound
-              size={13}
-              className={activePortal === "student" ? "text-orange-600" : ""}
-            />
-            <span>Student</span>
-          </button>
+      {/* PORTAL SPECIFIC HEADERS */}
+      <div>
+        <p className="eyebrow">
+          {activePortal === "coach"
+            ? "Coach Portal"
+            : activePortal === "admin"
+            ? "Admin Portal"
+            : "Student Portal"}
+        </p>
 
-          <button
-            type="button"
-            onClick={() => switchPortal("coach")}
-            className={`flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-bold transition-all duration-200 ${
-              activePortal === "coach"
-                ? "bg-white text-gray-900 shadow-xs ring-1 ring-stone-200/70"
-                : "text-stone-500 hover:text-gray-900 hover:bg-white/50"
-            }`}
-          >
-            <Activity
-              size={13}
-              className={activePortal === "coach" ? "text-orange-600" : ""}
-            />
-            <span>Coach</span>
-          </button>
+        <h1 className="mt-1.5 text-[28px] sm:text-[32px] font-extrabold tracking-tight text-gray-900">
+          {activePortal === "coach"
+            ? "Coach Sign-In"
+            : activePortal === "admin"
+            ? "Admin Sign-In"
+            : "Student Sign-In"}
+        </h1>
 
-          <button
-            type="button"
-            onClick={() => switchPortal("admin")}
-            className={`flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-bold transition-all duration-200 ${
-              activePortal === "admin"
-                ? "bg-white text-gray-900 shadow-xs ring-1 ring-stone-200/70"
-                : "text-stone-500 hover:text-gray-900 hover:bg-white/50"
-            }`}
-          >
-            <ShieldCheck
-              size={13}
-              className={activePortal === "admin" ? "text-emerald-600" : ""}
-            />
-            <span>Admin</span>
-          </button>
-        </div>
-      )}
+        <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-stone-500">
+          {activePortal === "coach"
+            ? "Sign in with your coach credentials to manage sessions, attendance, and athlete evaluations."
+            : activePortal === "admin"
+            ? "Sign in with your master administrator credentials and 7-digit code to access academy operations."
+            : "Sign in with your email and password to track training sessions, skill reports, and schedules."}
+        </p>
 
-      {/* ADMIN 7-DIGIT CODE VERIFICATION STEP */}
-      {adminCodeStep ? (
-        <div>
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-[11px] font-bold text-orange-700">
-            <ShieldCheck size={14} /> Admin Security Check
+        {/* Success banner after registering */}
+        {registeredSuccess && (
+          <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-900 shadow-xs">
+            <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
+              <CheckCircle2 size={18} className="text-emerald-600 shrink-0" />
+              <span>Account created successfully!</span>
+            </div>
+            <p className="mt-1 text-[11px] leading-5 text-emerald-700">
+              Please sign in below to access your student portal.
+            </p>
           </div>
-          <h1 className="text-[28px] font-extrabold tracking-tight text-gray-900">
-            Please enter 7 digit of code
-          </h1>
-          <p className="mt-2 text-xs leading-6 text-stone-500">
-            For admin account <strong className="text-gray-900">{email}</strong>
-            , enter the 7-digit verification code to complete sign-in.
-          </p>
+        )}
 
-          <form onSubmit={submitAdminCode} className="mt-6 grid gap-4">
-            <div className="rounded-2xl border border-stone-200 bg-stone-50 p-4 text-center">
-              <label className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-stone-500">
-                7-Digit Verification Code
-              </label>
-              <div className="relative mx-auto max-w-[260px]">
+        {!databaseConfigured && (
+          <p
+            role="status"
+            className="mt-5 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2.5 text-[10px] leading-5 text-stone-600"
+          >
+            Account access needs MongoDB. Add{" "}
+            <code className="font-semibold text-gray-900">MONGODB_URI</code> to{" "}
+            <code className="font-semibold text-gray-900">.env.local</code> and
+            restart the app.
+          </p>
+        )}
+
+        <form onSubmit={submit} className="mt-6 grid gap-4">
+          <label>
+            <span className="form-label">Email address</span>
+            <span className="relative block">
+              <Mail
+                size={15}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
+              />
+              <input
+                className="form-control !pl-10"
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={
+                  activePortal === "admin"
+                    ? "althafshaik1717@gmail.com"
+                    : activePortal === "coach"
+                    ? "coach@example.com"
+                    : "student@example.com"
+                }
+                autoComplete="email"
+                required
+              />
+            </span>
+          </label>
+
+          <label>
+            <span className="form-label">
+              {activePortal === "coach"
+                ? "Coach password"
+                : activePortal === "admin"
+                ? "Admin password"
+                : "Password"}
+            </span>
+            <div className="relative">
+              <LockKeyhole
+                size={15}
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
+              />
+              <input
+                className="form-control !pl-10 !pr-11"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={password}
+                onChange={(e) => {
+                  passwordRef.current = e.target.value;
+                  setPassword(e.target.value);
+                }}
+                placeholder="Enter your password"
+                autoComplete="current-password"
+                maxLength={72}
+                required
+              />
+              <button
+                type="button"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowPassword(!showPassword)}
+                className="input-eye-btn"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+          </label>
+
+          {/* 7-DIGIT VERIFICATION CODE (ADMIN PORTAL ONLY) */}
+          {activePortal === "admin" && (
+            <label>
+              <span className="form-label">7-Digit Verification Code</span>
+              <div className="relative">
                 <KeyRound
-                  size={18}
-                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-orange-600"
+                  size={15}
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-orange-600"
                 />
                 <input
+                  className="form-control !pl-10 text-center text-lg font-bold tracking-[0.25em]"
                   type="text"
-                  maxLength={7}
+                  name="adminCode"
                   inputMode="numeric"
+                  maxLength={7}
                   value={adminCode}
                   onChange={(e) =>
                     setAdminCode(e.target.value.replace(/\D/g, ""))
                   }
                   placeholder="•••••••"
-                  className="w-full rounded-xl border border-stone-300 bg-white py-3 pl-10 pr-4 text-center text-xl font-bold tracking-[0.25em] text-gray-900 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                  autoComplete="one-time-code"
                   required
-                  autoFocus
                 />
               </div>
-            </div>
-
-            {error && (
-              <p
-                role="alert"
-                className="rounded-lg bg-red-50 px-3 py-2.5 text-[11px] leading-5 text-red-700"
-              >
-                {error}
-              </p>
-            )}
-
-            <InteractivePillButton
-              disabled={busy}
-              onClick={triggerShine}
-              className="w-full py-3.5 text-sm disabled:cursor-not-allowed disabled:opacity-60"
-              type="submit"
-            >
-              <span>
-                {busy ? "Verifying code…" : "Verify & Sign in to Admin"}
+              <span className="mt-1 block text-[10px] text-stone-400">
+                Master Admin security verification (e.g. 1234567)
               </span>
-              {!busy && <ArrowRight size={14} />}
-            </InteractivePillButton>
-
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => {
-                setAdminCodeStep(false);
-                setError("");
-              }}
-              className="inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold text-stone-500 hover:text-gray-900 transition"
-            >
-              <ArrowLeft size={13} /> Back to email &amp; password
-            </button>
-          </form>
-        </div>
-      ) : (
-        /* STANDARD LOGIN FORM (No Google button on Sign In) */
-        <div>
-          <p className="eyebrow">
-            {activePortal === "coach"
-              ? "Coach Portal Login"
-              : activePortal === "admin"
-              ? "Admin Portal Login"
-              : "Student Athlete Sign-In"}
-          </p>
-
-          <h1 className="mt-1.5 text-[28px] sm:text-[32px] font-extrabold tracking-tight text-gray-900">
-            {activePortal === "coach"
-              ? "Coach sign-in"
-              : activePortal === "admin"
-              ? "Admin sign-in"
-              : "Welcome back"}
-          </h1>
-
-          <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-stone-500">
-            {activePortal === "coach"
-              ? "Sign in with the coach credentials created by Admin to access your workspace."
-              : activePortal === "admin"
-              ? "Sign in with your master Admin credentials and 7-digit code to access academy operations."
-              : "Sign in with your email and password to check your training and progress."}
-          </p>
-
-          {/* Success banner after registering */}
-          {registeredSuccess && (
-            <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-900 shadow-xs">
-              <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
-                <CheckCircle2 size={18} className="text-emerald-600 shrink-0" />
-                <span>Account created successfully!</span>
-              </div>
-              <p className="mt-1 text-[11px] leading-5 text-emerald-700">
-                Please sign in below to begin your student onboarding.
-              </p>
-            </div>
+            </label>
           )}
 
-          {!databaseConfigured && (
+          {error && (
             <p
-              role="status"
-              className="mt-5 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2.5 text-[10px] leading-5 text-stone-600"
+              role="alert"
+              className="rounded-lg bg-red-50 px-3 py-2.5 text-[11px] leading-5 text-red-700"
             >
-              Account access needs MongoDB. Add{" "}
-              <code className="font-semibold text-gray-900">MONGODB_URI</code>{" "}
-              to <code className="font-semibold text-gray-900">.env.local</code>{" "}
-              and restart the app.
+              {error}
             </p>
           )}
 
-          <form onSubmit={submit} className="mt-6 grid gap-4">
-            <label>
-              <span className="form-label">Email address</span>
-              <span className="relative block">
-                <Mail
-                  size={15}
-                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
-                />
-                <input
-                  className="form-control !pl-10"
-                  type="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={
-                    activePortal === "admin"
-                      ? "althafshaik1717@gmail.com"
-                      : activePortal === "coach"
-                      ? "coach@example.com"
-                      : "student@example.com"
-                  }
-                  autoComplete="email"
-                  required
-                />
-              </span>
-            </label>
+          <InteractivePillButton
+            disabled={busy || !databaseConfigured}
+            orbSize={40}
+            className="mt-1 w-full py-3.5 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+            type="submit"
+          >
+            <span>
+              {busy
+                ? "Signing in…"
+                : !databaseConfigured
+                ? "Account access unavailable"
+                : activePortal === "admin"
+                ? "Sign in as Admin"
+                : activePortal === "coach"
+                ? "Sign in as Coach"
+                : "Sign in as Student"}
+            </span>
+            {!busy && databaseConfigured && <ArrowRight size={14} />}
+          </InteractivePillButton>
+        </form>
 
-            <label>
-              <span className="form-label">
-                {activePortal === "coach"
-                  ? "Temporary password (set by Admin)"
-                  : "Password"}
-              </span>
-              <div className="relative">
-                <LockKeyhole
-                  size={15}
-                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
-                />
-                <input
-                  className="form-control !pl-10 !pr-11"
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={password}
-                  onChange={(e) => {
-                    passwordRef.current = e.target.value;
-                    setPassword(e.target.value);
-                  }}
-                  placeholder="Enter your password"
-                  autoComplete="current-password"
-                  maxLength={72}
-                  required
-                />
-                <button
-                  type="button"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="input-eye-btn"
-                >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
-            </label>
-
-            {/* 7-DIGIT VERIFICATION CODE FOR ADMIN */}
-            {activePortal === "admin" && (
-              <label>
-                <span className="form-label">7-Digit Verification Code</span>
-                <div className="relative">
-                  <KeyRound
-                    size={15}
-                    className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-orange-600"
-                  />
-                  <input
-                    className="form-control !pl-10 text-center text-lg font-bold tracking-[0.25em]"
-                    type="text"
-                    name="adminCode"
-                    inputMode="numeric"
-                    maxLength={7}
-                    value={adminCode}
-                    onChange={(e) =>
-                      setAdminCode(e.target.value.replace(/\D/g, ""))
-                    }
-                    placeholder="•••••••"
-                    autoComplete="one-time-code"
-                    required
-                  />
-                </div>
-                <span className="mt-1 block text-[10px] text-stone-400">
-                  Master Admin security verification
-                </span>
-              </label>
-            )}
-
-            {error && (
-              <p
-                role="alert"
-                className="rounded-lg bg-red-50 px-3 py-2.5 text-[11px] leading-5 text-red-700"
-              >
-                {error}
-              </p>
-            )}
-
-            <InteractivePillButton
-              disabled={busy || !databaseConfigured}
-              orbSize={40}
-              className="mt-1 w-full py-3.5 text-sm disabled:cursor-not-allowed disabled:opacity-60"
-              type="submit"
-              onClick={triggerShine}
+        {/* BOTTOM LINKS TAILORED PER DEDICATED PORTAL */}
+        {activePortal === "student" && (
+          <p className="mt-6 text-center text-xs text-stone-600">
+            Don&apos;t have a student account?{" "}
+            <Link
+              href="/register"
+              className="font-semibold !text-orange-600 hover:!text-orange-700"
             >
-              <span>
-                {busy
-                  ? "Signing in…"
-                  : !databaseConfigured
-                  ? "Account access unavailable"
-                  : activePortal === "admin"
-                  ? "Sign in as Admin"
-                  : activePortal === "coach"
-                  ? "Sign in as Coach"
-                  : "Sign in as Student"}
-              </span>
-              {!busy && databaseConfigured && <ArrowRight size={14} />}
-            </InteractivePillButton>
-          </form>
+              Sign up
+            </Link>
+          </p>
+        )}
 
-          {/* Bottom navigation link */}
-          {activePortal === "student" && (
-            <p className="mt-6 text-center text-xs text-stone-600">
-              Don&apos;t have an account?{" "}
+        {activePortal === "coach" && (
+          <div className="mt-6 space-y-2 text-center text-xs text-stone-500">
+            <p>Coach credentials are provisioned by the Academy Admin.</p>
+            <p>
+              Are you a student?{" "}
               <Link
-                href="/register"
-                className="font-semibold !text-orange-600 hover:!text-orange-700"
+                href="/login"
+                className="font-semibold text-orange-600 hover:text-orange-700"
               >
-                Sign up
+                Sign in to Student Portal
               </Link>
             </p>
-          )}
+          </div>
+        )}
 
-          {activePortal === "coach" && (
-            <p className="mt-6 text-center text-[11px] text-stone-500">
-              Coach access is provisioned by the Academy Admin. After signing
-              in, you can update your password in your profile.
+        {activePortal === "admin" && (
+          <div className="mt-6 space-y-2 text-center text-xs text-stone-500">
+            <p>
+              Master Admin portal requires authorized administrative
+              credentials.
             </p>
-          )}
-
-          {activePortal === "admin" && (
-            <p className="mt-6 text-center text-[11px] text-stone-500">
-              Master Admin security requires two-step verification code before
-              granting dashboard access.
+            <p>
+              Are you a student?{" "}
+              <Link
+                href="/login"
+                className="font-semibold text-orange-600 hover:text-orange-700"
+              >
+                Sign in to Student Portal
+              </Link>
             </p>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

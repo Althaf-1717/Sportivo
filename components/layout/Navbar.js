@@ -49,19 +49,19 @@ const platformMenu = [
   {
     title: "Athlete Portal",
     description: "Track attendance, skill ratings & membership renewals",
-    href: "/login?portal=student",
+    href: "/login",
     icon: Users,
   },
   {
     title: "Coach Workspace",
     description: "Mark session attendance & publish athlete evaluations",
-    href: "/login?portal=coach",
+    href: "/coach",
     icon: ClipboardCheck,
   },
   {
     title: "Admin Operations",
     description: "Manage cohorts, enrolments, coaches & verified revenue",
-    href: "/login?portal=admin",
+    href: "/admin",
     icon: ShieldCheck,
   },
   {

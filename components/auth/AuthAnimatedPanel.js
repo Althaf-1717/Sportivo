@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { Check, Sparkles, Trophy, Activity } from "lucide-react";
 
-export default function AuthAnimatedPanel({ mode = "login" }) {
+export default function AuthAnimatedPanel({ mode = "login", portal = "student" }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -263,7 +263,13 @@ export default function AuthAnimatedPanel({ mode = "login" }) {
         <div className="my-auto max-w-md py-8">
           <div className="inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/15 px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-200 backdrop-blur-md animate-[authContentSlideRight_0.7s_cubic-bezier(0.22,1,0.36,1)_0.18s_both]">
             <Sparkles size={12} className="text-orange-400" />
-            <span>2026 Season Operating System</span>
+            <span>
+              {portal === "coach"
+                ? "Coach Workspace · 2026 Season"
+                : portal === "admin"
+                ? "Academy Operations · Master Access"
+                : "2026 Season Operating System"}
+            </span>
           </div>
 
           <h2 className="mt-5 text-4xl xl:text-[44px] font-extrabold leading-[1.1] tracking-tight text-white drop-shadow-sm animate-[authContentSlideRight_0.75s_cubic-bezier(0.22,1,0.36,1)_0.26s_both]">
@@ -273,6 +279,22 @@ export default function AuthAnimatedPanel({ mode = "login" }) {
                 <br />
                 <span className="bg-gradient-to-r from-orange-300 via-amber-200 to-white bg-clip-text text-transparent italic">
                   Elevate your game.
+                </span>
+              </>
+            ) : portal === "coach" ? (
+              <>
+                Coach with impact.
+                <br />
+                <span className="bg-gradient-to-r from-orange-300 via-amber-200 to-white bg-clip-text text-transparent italic">
+                  Elevate every athlete.
+                </span>
+              </>
+            ) : portal === "admin" ? (
+              <>
+                Command operations.
+                <br />
+                <span className="bg-gradient-to-r from-orange-300 via-amber-200 to-white bg-clip-text text-transparent italic">
+                  Drive performance.
                 </span>
               </>
             ) : (
@@ -287,7 +309,11 @@ export default function AuthAnimatedPanel({ mode = "login" }) {
           </h2>
 
           <p className="mt-4 text-[15px] leading-relaxed text-orange-100/80 animate-[authContentSlideRight_0.75s_cubic-bezier(0.22,1,0.36,1)_0.34s_both]">
-            The unified athletic platform connecting specialist 1 : 6 coaching cohorts, live attendance check-ins, and verified skill evaluations.
+            {portal === "coach"
+              ? "Record session drills, mark instant attendance, and publish verified skill evaluations for your assigned cohorts."
+              : portal === "admin"
+              ? "Manage athletes, coach allocations, session schedules, and academy revenue in one centralized control center."
+              : "The unified athletic platform connecting specialist 1 : 6 coaching cohorts, live attendance check-ins, and verified skill evaluations."}
           </p>
 
           {/* Floating Live Kinetic Telemetry Mini-Card (Unique to Sportivo) */}

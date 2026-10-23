@@ -79,13 +79,13 @@ export default function Footer() {
               Portals
             </h2>
             <div className="mt-4 grid gap-2.5 text-sm text-stone-500">
-              <Link href="/login?portal=student" className="transition hover:text-orange-600">
+              <Link href="/login" className="transition hover:text-orange-600">
                 Athlete Login
               </Link>
-              <Link href="/login?portal=coach" className="transition hover:text-orange-600">
+              <Link href="/coach" className="transition hover:text-orange-600">
                 Coach Login
               </Link>
-              <Link href="/login?portal=admin" className="transition hover:text-orange-600">
+              <Link href="/admin" className="transition hover:text-orange-600">
                 Admin Portal
               </Link>
               <Link href="/register" className="transition hover:text-orange-600">
