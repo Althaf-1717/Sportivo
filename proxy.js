@@ -1,13 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
-const roleForPath = (pathname) => {
-  if (pathname.startsWith("/dashboard/admin")) return "admin";
-  if (pathname.startsWith("/dashboard/coach")) return "coach";
-  if (pathname.startsWith("/dashboard/student")) return "student";
-  return null;
-};
-
 async function getAuthToken(request) {
   const isSecure =
     request.nextUrl.protocol === "https:" ||
@@ -36,60 +29,103 @@ async function getAuthToken(request) {
 
 export async function proxy(request) {
   const { pathname, search } = request.nextUrl;
+  const token = await getAuthToken(request);
 
-  // Handle direct /admin or /dashboard/admin
-  if (pathname === "/admin" || pathname.startsWith("/admin/") || pathname === "/dashboard/admin" || pathname.startsWith("/dashboard/admin/")) {
-    const target = pathname.startsWith("/admin") ? (pathname === "/admin" ? "/dashboard/admin" : `/dashboard/admin/${pathname.slice(7)}`) : pathname;
-    const token = await getAuthToken(request);
-    if (!token || token.role !== "admin") {
-      const login = new URL("/login", request.url);
-      login.searchParams.set("portal", "admin");
-      login.searchParams.set("callbackUrl", `${target}${search}`);
-      return NextResponse.redirect(login);
+  // 1. Dedicated Admin Login Page (/admin)
+  if (pathname === "/admin") {
+    if (token) {
+      if (token.role === "admin") {
+        return NextResponse.redirect(new URL("/dashboard/admin", request.url));
+      }
+      return NextResponse.redirect(new URL(`/dashboard/${token.role || "student"}`, request.url));
     }
-    if (pathname.startsWith("/admin")) {
-      return NextResponse.redirect(new URL(`${target}${search}`, request.url));
+    // Unauthenticated: allow page to render the dedicated Admin sign-in UI
+    return NextResponse.next();
+  }
+
+  // 2. Dedicated Coach Login Page (/coach)
+  if (pathname === "/coach") {
+    if (token) {
+      if (token.role === "coach") {
+        return NextResponse.redirect(new URL("/dashboard/coach", request.url));
+      }
+      return NextResponse.redirect(new URL(`/dashboard/${token.role || "student"}`, request.url));
+    }
+    // Unauthenticated: allow page to render the dedicated Coach sign-in UI
+    return NextResponse.next();
+  }
+
+  // 3. Dedicated Student Login Page (/login)
+  if (pathname === "/login") {
+    // Redirect query params targeting other portals to their dedicated URLs
+    const portal = request.nextUrl.searchParams.get("portal");
+    if (portal === "coach") {
+      return NextResponse.redirect(new URL("/coach", request.url));
+    }
+    if (portal === "admin") {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
+
+    if (token) {
+      const destination = token.role === "admin" ? "/dashboard/admin" : token.role === "coach" ? "/dashboard/coach" : "/dashboard/student";
+      return NextResponse.redirect(new URL(destination, request.url));
     }
     return NextResponse.next();
   }
 
-  // Handle direct /coach, /dashboard/coaches, or /dashboard/coach
-  if (
-    pathname === "/coach" ||
-    pathname.startsWith("/coach/") ||
-    pathname === "/dashboard/coaches" ||
-    pathname.startsWith("/dashboard/coaches/") ||
-    pathname === "/dashboard/coach" ||
-    pathname.startsWith("/dashboard/coach/")
-  ) {
-    const token = await getAuthToken(request);
-    if (!token || token.role !== "coach") {
-      const login = new URL("/login", request.url);
-      login.searchParams.set("portal", "coach");
-      login.searchParams.set("callbackUrl", "/dashboard/coach");
-      return NextResponse.redirect(login);
+  // 4. Admin Dashboard Protection (/dashboard/admin, /dashboard/admin/:path*)
+  if (pathname === "/dashboard/admin" || pathname.startsWith("/dashboard/admin/")) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/admin", request.url));
     }
-    if (pathname !== "/dashboard/coach" && !pathname.startsWith("/dashboard/coach/")) {
+    if (token.role !== "admin") {
+      const destination = token.role === "coach" ? "/dashboard/coach" : "/dashboard/student";
+      return NextResponse.redirect(new URL(destination, request.url));
+    }
+    return NextResponse.next();
+  }
+
+  // 5. Coach Dashboard Protection (/dashboard/coach, /dashboard/coaches, etc.)
+  if (
+    pathname === "/dashboard/coach" ||
+    pathname.startsWith("/dashboard/coach/") ||
+    pathname === "/dashboard/coaches" ||
+    pathname.startsWith("/dashboard/coaches/")
+  ) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/coach", request.url));
+    }
+    if (token.role !== "coach") {
+      const destination = token.role === "admin" ? "/dashboard/admin" : "/dashboard/student";
+      return NextResponse.redirect(new URL(destination, request.url));
+    }
+    if (pathname === "/dashboard/coaches" || pathname.startsWith("/dashboard/coaches/")) {
       return NextResponse.redirect(new URL("/dashboard/coach", request.url));
     }
     return NextResponse.next();
   }
 
+  // 6. Generic Root Dashboard (/dashboard)
   if (pathname === "/dashboard") {
-    const token = await getAuthToken(request);
-    if (!token) return NextResponse.redirect(new URL("/login?callbackUrl=%2Fdashboard", request.url));
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
     const role = ["admin", "coach", "student"].includes(token.role) ? token.role : "student";
     return NextResponse.redirect(new URL(`/dashboard/${role}`, request.url));
   }
 
-  const requiredRole = roleForPath(pathname);
-  if (!requiredRole) return NextResponse.next();
-  const token = await getAuthToken(request);
-  if (!token || token.role !== requiredRole) {
-    const login = new URL("/login", request.url);
-    login.searchParams.set("callbackUrl", `${pathname}${search}`);
-    return NextResponse.redirect(login);
+  // 7. Student Dashboard Protection (/dashboard/student, /dashboard/student/:path*)
+  if (pathname === "/dashboard/student" || pathname.startsWith("/dashboard/student/")) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+    if (token.role !== "student") {
+      const destination = token.role === "admin" ? "/dashboard/admin" : "/dashboard/coach";
+      return NextResponse.redirect(new URL(destination, request.url));
+    }
+    return NextResponse.next();
   }
+
   return NextResponse.next();
 }
 
@@ -97,8 +133,7 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/admin",
-    "/admin/:path*",
     "/coach",
-    "/coach/:path*",
+    "/login",
   ],
 };
