@@ -44,12 +44,12 @@ export default async function HomePage() {
     <PublicLayout>
       <main className="relative z-10 overflow-x-clip">
         {/* 1. HERO SECTION (Clienter-Inspired Centered Headline + Dual CTAs + Trust Row + Live Product Mockup) */}
-        <section className="relative pt-10 pb-16 sm:pt-16 sm:pb-24">
+        <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24">
           <div className="mx-auto max-w-5xl px-4 text-center sm:px-6">
             <ScrollReveal>
               <Link
                 href="/sports"
-                className="group mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200/90 bg-orange-50/85 py-1.5 pl-3 pr-4 text-xs sm:text-sm font-semibold text-orange-800 shadow-2xs backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:shadow-[0_10px_28px_-12px_rgba(249,115,22,0.5)]"
+                className="group mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200/90 bg-orange-50/85 py-1.5 pl-3 pr-4 text-[11px] sm:text-xs font-medium text-orange-800 shadow-2xs backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:shadow-[0_10px_28px_-12px_rgba(249,115,22,0.5)]"
               >
                 <span className="inline-flex items-center gap-1 rounded-full bg-orange-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
                   <Sparkles size={11} /> New
@@ -63,18 +63,18 @@ export default async function HomePage() {
             </ScrollReveal>
 
             <ScrollReveal delay={80}>
-              <h1 className="text-balance text-4xl font-extrabold leading-[1.08] tracking-tight text-gray-900 sm:text-6xl lg:text-[68px]">
+              <h1 className="text-balance text-4xl font-bold leading-[1.12] tracking-tight text-gray-900 sm:text-6xl lg:text-[64px]">
                 The coaching &amp; progress system{" "}
                 <br className="hidden sm:block" />
                 that elevates your{" "}
-                <span className="text-gradient-brand italic font-extrabold drop-shadow-[0_2px_20px_rgba(249,115,22,0.22)]">
+                <span className="text-gradient-brand italic font-bold">
                   game
                 </span>
               </h1>
             </ScrollReveal>
 
             <ScrollReveal delay={150}>
-              <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-stone-600 sm:text-base">
+              <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-7 text-stone-600 sm:text-base">
                 One academy for specialist coaching, 1 : 6 small-group cohorts, live digital attendance, verified skill evaluations, and season memberships across Cricket, Football, and Basketball in Bengaluru.
               </p>
             </ScrollReveal>
@@ -136,7 +136,7 @@ export default async function HomePage() {
 
         {/* 2. ANIMATED NUMBER COUNT-UPS STRIP */}
         <section className="border-y border-stone-200/80 bg-white/75 backdrop-blur-md">
-          <div className="container-wide grid grid-cols-2 divide-x divide-y divide-stone-200/60 py-4 sm:py-6 md:grid-cols-4 md:divide-y-0">
+          <div className="container-wide grid grid-cols-2 divide-x divide-y divide-stone-200/60 [&>div:nth-child(odd)]:border-l-0 md:[&>div:nth-child(odd)]:border-l py-4 sm:py-6 md:grid-cols-4 md:divide-y-0">
             {[
               { end: 500, suffix: "+", label: "Active Athletes", sub: "Training across Bengaluru" },
               { end: 96, suffix: "%", label: "Attendance Rate", sub: "Verified digital check-ins" },
@@ -361,7 +361,7 @@ export default async function HomePage() {
         {/* 10. BOLD CLOSING CTA (Clienter Espresso Dark + Ember Glow Style) */}
         <section className="container-wide pb-20 sm:pb-28">
           <ScrollReveal>
-            <div className="relative overflow-hidden rounded-[32px] bg-[#1c1411] px-6 py-14 text-center text-white shadow-[0_32px_80px_-20px_rgba(28,20,17,0.65)] sm:px-12 sm:py-20">
+            <div className="relative overflow-hidden rounded-3xl bg-[#1c1411] px-6 py-14 text-center text-white shadow-[0_16px_40px_-20px_rgba(28,20,17,0.3)] sm:px-12 sm:py-20">
               {/* Warm Ember Radial Glow */}
               <div
                 aria-hidden="true"

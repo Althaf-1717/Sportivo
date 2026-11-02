@@ -17,7 +17,7 @@ export default function CoachCard({ coach, index = 0 }) {
       href={`/coaches/${slug}`}
       className="group surface-card flex h-full flex-col p-6 transition-all duration-300 hover:-translate-y-1.5"
     >
-      <div className="flex items-start justify-between">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         {coach.image || coach.user?.image ? (
           <img
             src={coach.image || coach.user?.image}
@@ -48,7 +48,7 @@ export default function CoachCard({ coach, index = 0 }) {
       <p className="mt-0.5 text-[11px] font-bold uppercase tracking-wider text-orange-600">
         {coach.role || sport}
       </p>
-      <p className="mt-3 line-clamp-2 flex-1 text-xs leading-6 text-stone-600">
+      <p className="mt-3 line-clamp-2 flex-1 text-sm leading-6 text-stone-600">
         {coach.bio ||
           `${
             coach.experience || "Experienced"

@@ -17,6 +17,8 @@
   color-scheme: light;
   --font-primary: "Poppins", Arial, sans-serif;
   --font-secondary: Arial, "Poppins", sans-serif;
+  --surface-shadow: 0 2px 8px rgba(28, 25, 23, 0.035);
+  --surface-shadow-hover: 0 12px 28px -12px rgba(28, 25, 23, 0.12);
 }
 
 * {
@@ -33,6 +35,7 @@ body {
   color: #1c1917;
   font-family: "Poppins", Arial, sans-serif;
   font-size: 14px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -97,16 +100,17 @@ button, input, select, textarea {
   color: #ea580c;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .section-title {
   color: #111827;
   font-size: clamp(28px, 3.5vw, 44px);
-  line-height: 1.12;
+  line-height: 1.18;
   letter-spacing: -0.035em;
-  font-weight: 800;
+  font-weight: 700;
+  text-wrap: balance;
 }
 
 .section-copy {
@@ -133,17 +137,17 @@ button, input, select, textarea {
 /* Soft Surface Cards & Elevation */
 .surface-card {
   border: 1px solid rgba(231, 226, 218, 0.9);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.94);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 18px 48px -15px rgba(28, 25, 23, 0.07), 0 1px 2px rgba(28, 25, 23, 0.04);
+  box-shadow: var(--surface-shadow);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
 
 .surface-card:hover {
   border-color: rgba(251, 146, 60, 0.45);
-  box-shadow: 0 24px 60px -15px rgba(234, 88, 12, 0.13), 0 2px 6px rgba(28, 25, 23, 0.04);
+  box-shadow: var(--surface-shadow-hover);
 }
 
 .shadow-lift {
@@ -172,7 +176,7 @@ button, input, select, textarea {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 14px 36px -12px rgba(28, 25, 23, 0.06);
+  box-shadow: var(--surface-shadow);
   -webkit-overflow-scrolling: touch;
 }
 
@@ -187,20 +191,20 @@ button, input, select, textarea {
 .data-table th {
   background: #faf7f2;
   color: #78716c;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   border-bottom: 1px solid #e7e2da;
 }
 
 .data-table th, .data-table td {
-  padding: 14px 18px;
+  padding: 16px 20px;
 }
 
 .data-table td {
   color: #1c1917;
-  font-size: 12.5px;
+  font-size: 13px;
   border-bottom: 1px solid #f5f2ed;
 }
 
@@ -220,7 +224,8 @@ button, input, select, textarea {
 .form-control {
   width: 100%;
   border: 1px solid #dfd9ce;
-  border-radius: 14px;
+  border-radius: 12px;
+  min-height: 44px;
   background: #ffffff;
   padding: 11px 15px;
   color: #1c1917;
@@ -294,14 +299,14 @@ button, input, select, textarea {
   font-weight: 600;
   letter-spacing: -0.01em;
   cursor: pointer;
-  box-shadow: 0 12px 34px -12px rgba(17, 24, 39, 0.6);
+  box-shadow: 0 4px 12px -4px rgba(17, 24, 39, 0.22);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease;
 }
 
 .btn-primary:hover {
   background: #ea580c;
   transform: translateY(-2px);
-  box-shadow: 0 18px 44px -12px rgba(234, 88, 12, 0.58);
+  box-shadow: 0 8px 20px -8px rgba(234, 88, 12, 0.3);
 }
 
 .btn-primary:active {
@@ -335,7 +340,7 @@ button, input, select, textarea {
   background: #fff7ed;
   color: #c2410c;
   transform: translateY(-2px);
-  box-shadow: 0 14px 36px -14px rgba(234, 88, 12, 0.45);
+  box-shadow: var(--surface-shadow-hover);
 }
 
 .btn-secondary:active {
@@ -489,7 +494,7 @@ button, input, select, textarea {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(231, 226, 218, 0.9);
-  box-shadow: 0 12px 32px -8px rgba(28, 25, 23, 0.06);
+  box-shadow: var(--surface-shadow);
   border-radius: 20px;
 }
 
@@ -521,7 +526,8 @@ button, input, select, textarea {
 
 @media (max-width: 640px) {
   .container-wide { width: min(100% - 32px, 1200px); }
-  .section-title { font-size: 30px; }
+  .section-title { font-size: clamp(26px, 7vw, 30px); }
+  .form-control, .glass-input { font-size: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

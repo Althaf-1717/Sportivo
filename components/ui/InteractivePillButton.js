@@ -32,8 +32,8 @@ export default function InteractivePillButton({
 
   const baseStyles =
     variant === "orange"
-      ? "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-b from-orange-500 to-orange-600 px-6 py-3 text-sm font-semibold !text-white shadow-[0_14px_34px_-10px_rgba(234,88,12,0.65)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-10px_rgba(234,88,12,0.75)] active:translate-y-0"
-      : "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold !text-white shadow-[0_12px_34px_-12px_rgba(0,0,0,0.65)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-950 hover:shadow-[0_18px_44px_-12px_rgba(249,115,22,0.5)] active:translate-y-0";
+      ? "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-b from-orange-500 to-orange-600 px-6 py-3 text-sm font-semibold !text-white shadow-[0_4px_12px_-4px_rgba(234,88,12,0.3)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-8px_rgba(234,88,12,0.4)] active:translate-y-0"
+      : "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold !text-white shadow-[0_4px_12px_-4px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-950 hover:shadow-[0_8px_20px_-8px_rgba(249,115,22,0.3)] active:translate-y-0";
 
   const combinedClassName = cx(baseStyles, className);
 

@@ -6,10 +6,10 @@ import InteractivePillButton from "@/components/ui/InteractivePillButton";
 export default function MembershipCard({ plan, featured = false, index = 0 }) {
   return (
     <article
-      className={`relative flex h-full flex-col rounded-3xl border p-7 sm:p-8 transition-all duration-300 hover:-translate-y-1.5 ${
+      className={`relative flex h-full flex-col rounded-[20px] border p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1.5 ${
         featured
-          ? "border-orange-500/40 bg-[#1c1411] text-white shadow-[0_28px_70px_-15px_rgba(234,88,12,0.32)] ring-2 ring-orange-500/40"
-          : "border-stone-200/90 bg-white text-gray-900 shadow-[0_18px_48px_-15px_rgba(28,25,23,0.07)] hover:border-orange-300"
+          ? "border-orange-500/40 bg-[#1c1411] text-white shadow-[0_12px_28px_-12px_rgba(234,88,12,0.2)] ring-1 ring-orange-500/30"
+          : "border-stone-200/90 bg-white text-gray-900 shadow-[var(--surface-shadow)] hover:border-orange-300"
       }`}
     >
       {featured && (
@@ -35,7 +35,7 @@ export default function MembershipCard({ plan, featured = false, index = 0 }) {
         </span>
       </div>
 
-      <div className="mt-4 flex items-baseline gap-2">
+      <div className="mt-4 flex flex-wrap items-baseline gap-2">
         <strong className="text-4xl font-extrabold tracking-tight">
           {money(plan.price)}
         </strong>
@@ -74,7 +74,7 @@ export default function MembershipCard({ plan, featured = false, index = 0 }) {
         {(plan.features || []).map((feature) => (
           <li
             key={feature}
-            className={`flex items-start gap-2.5 text-xs leading-5 font-medium ${
+            className={`flex items-start gap-2.5 text-sm leading-6 font-medium ${
               featured ? "text-stone-200" : "text-stone-700"
             }`}
           >

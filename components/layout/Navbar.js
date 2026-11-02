@@ -87,7 +87,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
       <nav
         aria-label="Main navigation"
-        className={`mx-auto flex h-14 max-w-5xl items-center justify-between rounded-2xl border pl-4 pr-3 transition-all duration-300 ${
+        className={`mx-auto flex h-14 max-w-[1220px] items-center justify-between rounded-2xl border pl-4 pr-3 transition-all duration-300 ${
           scrolled
             ? "border-stone-200/90 bg-white/90 shadow-[0_14px_40px_-14px_rgba(28,25,23,0.14)] backdrop-blur-xl"
             : "border-stone-200/50 bg-white/65 shadow-[0_4px_20px_-8px_rgba(28,25,23,0.06)] backdrop-blur-md"
@@ -112,7 +112,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Links + Mega Menus */}
-        <div className="hidden items-center gap-7 md:flex">
+        <div className="hidden items-center gap-6 lg:flex">
           {/* Sports Mega-Menu */}
           <div className="group relative py-2">
             <Link
@@ -125,9 +125,9 @@ export default function Navbar() {
                 className="text-gray-400 transition-transform duration-200 group-hover:rotate-180"
               />
             </Link>
-            <div className="invisible absolute left-1/2 top-full -mt-1 w-[40rem] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+            <div className="invisible absolute left-1/2 top-full -mt-1 w-[40rem] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
               <div className="absolute inset-x-0 -top-4 h-4 bg-transparent" />
-              <div className="overflow-hidden rounded-3xl border border-stone-200/80 bg-white/95 p-2.5 shadow-[0_24px_60px_-15px_rgba(28,25,23,0.22)] backdrop-blur-xl">
+              <div className="overflow-hidden rounded-3xl border border-stone-200/80 bg-white/95 p-2.5 shadow-[0_16px_40px_-16px_rgba(28,25,23,0.18)] backdrop-blur-xl">
                 <div className="px-3 pb-2 pt-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">
                   Athletic Programmes
                 </div>
@@ -189,9 +189,9 @@ export default function Navbar() {
                 className="text-gray-400 transition-transform duration-200 group-hover:rotate-180"
               />
             </Link>
-            <div className="invisible absolute left-1/2 top-full -mt-1 w-[40rem] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+            <div className="invisible absolute left-1/2 top-full -mt-1 w-[40rem] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
               <div className="absolute inset-x-0 -top-4 h-4 bg-transparent" />
-              <div className="overflow-hidden rounded-3xl border border-stone-200/80 bg-white/95 p-2.5 shadow-[0_24px_60px_-15px_rgba(28,25,23,0.22)] backdrop-blur-xl">
+              <div className="overflow-hidden rounded-3xl border border-stone-200/80 bg-white/95 p-2.5 shadow-[0_16px_40px_-16px_rgba(28,25,23,0.18)] backdrop-blur-xl">
                 <div className="px-3 pb-2 pt-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">
                   Digital Operating System
                 </div>
@@ -236,7 +236,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Actions */}
-        <div className="hidden items-center gap-1.5 md:flex">
+        <div className="hidden items-center gap-1.5 lg:flex">
           <Link
             href="/login"
             className="px-3 py-2 text-sm font-semibold text-gray-700 transition-colors hover:text-gray-900"
@@ -259,7 +259,7 @@ export default function Navbar() {
         {/* Mobile Menu Button */}
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-gray-700 transition-colors hover:bg-stone-100 md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-gray-700 transition-colors hover:bg-stone-100 lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen(!open)}
@@ -270,7 +270,7 @@ export default function Navbar() {
 
       {/* Mobile Dropdown Drawer */}
       {open && (
-        <div className="mx-auto mt-2 max-w-5xl overflow-hidden rounded-3xl border border-stone-200/90 bg-white/95 p-4 shadow-2xl backdrop-blur-xl md:hidden">
+        <div className="mx-auto mt-2 max-w-[1220px] max-h-[calc(100dvh-88px)] overflow-y-auto rounded-2xl border border-stone-200/90 bg-white/95 p-4 shadow-2xl backdrop-blur-xl lg:hidden">
           <div className="grid gap-1">
             {[
               ["Sports Programmes", "/sports"],

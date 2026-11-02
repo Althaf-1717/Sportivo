@@ -34,7 +34,7 @@ export default function SportCard({ sport, index = 0 }) {
   return (
     <Link
       href={`/sports/${sport.slug || sport._id}`}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-stone-200/90 bg-white shadow-[0_16px_44px_-14px_rgba(28,25,23,0.07)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-300 hover:shadow-[0_24px_60px_-14px_rgba(234,88,12,0.18)]"
+      className="group relative flex h-full flex-col overflow-hidden rounded-[20px] border border-stone-200/90 bg-white shadow-[var(--surface-shadow)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-300 hover:shadow-[var(--surface-shadow-hover)]"
     >
       {/* Golden-Hour Matched Sport Photography Header */}
       <div className="relative h-56 overflow-hidden bg-stone-900">
@@ -49,7 +49,7 @@ export default function SportCard({ sport, index = 0 }) {
         <div className="absolute inset-0 bg-gradient-to-t from-[#19110d]/85 via-[#19110d]/25 to-orange-950/15" />
 
         {/* Top Badges */}
-        <div className="absolute inset-x-4 top-4 flex items-center justify-between gap-2">
+        <div className="absolute inset-x-4 top-4 flex flex-wrap items-center justify-between gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/40 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-orange-100 backdrop-blur-md">
             <Sparkles size={11} className="text-orange-400" />
             {tag}
@@ -77,7 +77,7 @@ export default function SportCard({ sport, index = 0 }) {
       {/* Card Body */}
       <div className="flex flex-1 flex-col justify-between p-6">
         <div>
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="text-lg font-bold tracking-tight text-gray-900 transition-colors group-hover:text-orange-600">
               {sport.name} Academy
             </h3>
@@ -85,7 +85,7 @@ export default function SportCard({ sport, index = 0 }) {
               0{index + 1}
             </span>
           </div>
-          <p className="mt-2.5 text-xs leading-6 text-stone-600 line-clamp-2">
+          <p className="mt-2.5 text-sm leading-6 text-stone-600 line-clamp-2">
             {sport.description}
           </p>
         </div>

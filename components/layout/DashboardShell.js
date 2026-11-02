@@ -161,9 +161,9 @@ export default function DashboardShell({ user, role, nav, children }) {
                   setPendingHref(item.href);
                 }
               }}
-              className={`mb-1.5 flex items-center gap-3 rounded-full px-4 py-2.5 text-[11.5px] font-semibold transition-all duration-150 ${
+              className={`mb-1.5 flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-medium transition-all duration-150 ${
                 active
-                  ? "bg-gradient-to-r from-orange-500/15 to-orange-500/5 !text-orange-600 shadow-xs border border-orange-500/25 backdrop-blur-md"
+                  ? "bg-orange-50 !text-orange-700 ring-1 ring-orange-200/70"
                   : "!text-stone-600 hover:bg-stone-100/80 hover:!text-gray-900"
               }`}
             >
@@ -190,7 +190,7 @@ export default function DashboardShell({ user, role, nav, children }) {
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
           title={collapsed ? "Logout" : undefined}
-          className="mb-1 flex w-full items-center gap-3 rounded-full px-4 py-2.5 text-[11.5px] font-semibold text-stone-500 transition hover:bg-red-50 hover:text-red-700"
+          className="mb-1 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-medium text-stone-500 transition hover:bg-red-50 hover:text-red-700"
         >
           <LogOut size={16} strokeWidth={1.8} />
           <span className={collapsed ? "lg:hidden" : ""}>Logout</span>
@@ -308,7 +308,7 @@ export default function DashboardShell({ user, role, nav, children }) {
                   <div className="my-2 border-t border-stone-100" />
                   <button
                     onClick={() => signOut({ callbackUrl: "/" })}
-                    className="flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-[11.5px] font-semibold text-rose-600 hover:bg-rose-50 transition"
+                    className="flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-[13px] font-medium text-rose-600 hover:bg-rose-50 transition"
                   >
                     <LogOut size={14} /> Sign out
                   </button>
