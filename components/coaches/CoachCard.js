@@ -26,7 +26,7 @@ export default function CoachCard({ coach, index = 0 }) {
           />
         ) : (
           <div
-            className={`grid h-14 w-14 place-items-center rounded-2xl text-base font-bold ${
+            className={`grid h-14 w-14 place-items-center rounded-2xl text-base font-semibold ${
               colors[index % colors.length]
             }`}
           >
@@ -38,14 +38,14 @@ export default function CoachCard({ coach, index = 0 }) {
                 .join("")}
           </div>
         )}
-        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-700">
+        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700">
           <BadgeCheck size={13} /> Verified Pro
         </span>
       </div>
-      <h3 className="mt-4 text-lg font-bold tracking-tight text-gray-900 transition-colors duration-200 group-hover:text-orange-600">
+      <h3 className="mt-4 text-lg font-semibold tracking-tight text-gray-900 transition-colors duration-200 group-hover:text-orange-600">
         {name}
       </h3>
-      <p className="mt-0.5 text-[11px] font-bold uppercase tracking-wider text-orange-600">
+      <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-wider text-orange-600">
         {coach.role || sport}
       </p>
       <p className="mt-3 line-clamp-2 flex-1 text-sm leading-6 text-stone-600">

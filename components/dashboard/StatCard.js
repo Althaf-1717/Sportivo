@@ -16,7 +16,7 @@ export default function StatCard({ icon: Icon, label, value, note, tone = "blue"
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="text-xs font-medium text-stone-500">{label}</p>
-          <p className="mt-2 text-[26px] font-bold leading-none tracking-tight text-navy">{value}</p>
+          <p className="mt-2 text-[26px] font-semibold leading-none tracking-tight text-navy">{value}</p>
         </div>
         <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl shadow-sm transition-transform duration-300 group-hover:scale-110 ${toneClass}`}>
           <Icon size={18} />

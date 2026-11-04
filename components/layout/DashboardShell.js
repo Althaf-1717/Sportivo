@@ -105,10 +105,10 @@ export default function DashboardShell({ user, role, nav, children }) {
           </div>
           {!collapsed && (
             <span className="leading-tight">
-              <b className="block text-[13px] font-black tracking-wide text-gray-900">
+              <b className="block text-[13px] font-semibold tracking-wide text-gray-900">
                 SPORT<span className="text-orange-600">IVO</span>
               </b>
-              <small className="text-[8px] font-extrabold tracking-[.22em] text-stone-400">
+              <small className="text-[8px] font-semibold tracking-[.22em] text-stone-400">
                 ATHLETIC ACADEMY
               </small>
             </span>
@@ -125,7 +125,7 @@ export default function DashboardShell({ user, role, nav, children }) {
 
       <div className="px-5 pb-2 pt-6">
         <p
-          className={`text-[9px] font-extrabold tracking-[.18em] text-stone-400 uppercase ${
+          className={`text-[9px] font-semibold tracking-[.18em] text-stone-400 uppercase ${
             collapsed ? "lg:sr-only" : ""
           }`}
         >
@@ -210,15 +210,15 @@ export default function DashboardShell({ user, role, nav, children }) {
             collapsed ? "lg:justify-center" : ""
           }`}
         >
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-[10px] font-extrabold text-white shadow-2xs">
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-[10px] font-semibold text-white shadow-2xs">
             {initials(user.name)}
           </span>
           {!collapsed && (
             <span className="min-w-0 pr-2">
-              <b className="block truncate text-[10.5px] font-bold text-gray-900">
+              <b className="block truncate text-[10.5px] font-semibold text-gray-900">
                 {user.name}
               </b>
-              <small className="block text-[9px] font-bold text-stone-400 uppercase tracking-wider">
+              <small className="block text-[9px] font-semibold text-stone-400 uppercase tracking-wider">
                 {role === "student" && user.studentId
                   ? `ID: #${user.studentId}`
                   : `${role} account`}
@@ -257,23 +257,23 @@ export default function DashboardShell({ user, role, nav, children }) {
               <Menu size={17} />
             </button>
             <div>
-              <p className="text-[9px] font-extrabold uppercase tracking-[.18em] text-stone-400">
+              <p className="text-[9px] font-semibold uppercase tracking-[.18em] text-stone-400">
                 {role} dashboard
               </p>
-              <h1 className="mt-0.5 text-[15.5px] font-black tracking-[-.03em] text-gray-900">
+              <h1 className="mt-0.5 text-[15.5px] font-semibold tracking-[-.03em] text-gray-900">
                 {title}
               </h1>
             </div>
           </div>
           <div className="flex items-center gap-2.5">
             {role === "student" && user.studentId && (
-              <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-orange-500/20 bg-orange-500/10 px-3 py-1 text-[11px] font-bold text-orange-600 shadow-2xs">
+              <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-orange-500/20 bg-orange-500/10 px-3 py-1 text-[11px] font-semibold text-orange-600 shadow-2xs">
                 ID: #{user.studentId}
               </span>
             )}
             <Link
               href="/"
-              className="hidden items-center gap-1.5 rounded-full border border-stone-200/90 bg-white/80 px-3.5 py-1.5 text-[10.5px] font-bold !text-stone-600 hover:bg-white hover:!text-gray-900 shadow-2xs sm:inline-flex"
+              className="hidden items-center gap-1.5 rounded-full border border-stone-200/90 bg-white/80 px-3.5 py-1.5 text-[10.5px] font-semibold !text-stone-600 hover:bg-white hover:!text-gray-900 shadow-2xs sm:inline-flex"
             >
               Public site <ArrowUpRight size={13} />
             </Link>
@@ -284,24 +284,24 @@ export default function DashboardShell({ user, role, nav, children }) {
                 aria-expanded={menuOpen}
                 className="flex items-center gap-2 rounded-full border border-stone-200/90 bg-white/85 p-1.5 pr-3 hover:bg-white shadow-2xs backdrop-blur-md"
               >
-                <span className="grid h-7 w-7 place-items-center rounded-full bg-orange-500/10 text-[9px] font-extrabold text-orange-600">
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-orange-500/10 text-[9px] font-semibold text-orange-600">
                   {initials(user.name)}
                 </span>
-                <span className="hidden max-w-28 truncate text-[10.5px] font-bold text-gray-900 sm:block">
+                <span className="hidden max-w-28 truncate text-[10.5px] font-semibold text-gray-900 sm:block">
                   {user.name}
                 </span>
                 <ChevronDown size={13} className="text-stone-400" />
               </button>
               {menuOpen && (
                 <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-stone-200/90 bg-white/95 p-2.5 shadow-2xl backdrop-blur-2xl">
-                  <p className="px-2.5 pt-1.5 text-[11.5px] font-bold text-gray-900 truncate">
+                  <p className="px-2.5 pt-1.5 text-[11.5px] font-semibold text-gray-900 truncate">
                     {user.name}
                   </p>
                   <p className="truncate px-2.5 text-[10px] text-stone-500 font-medium">
                     {user.email}
                   </p>
                   {user.studentId && (
-                    <p className="mt-1 px-2.5 py-0.5 text-[10px] font-bold text-orange-600 bg-orange-500/10 border border-orange-500/20 rounded-md inline-block mx-2.5">
+                    <p className="mt-1 px-2.5 py-0.5 text-[10px] font-semibold text-orange-600 bg-orange-500/10 border border-orange-500/20 rounded-md inline-block mx-2.5">
                       Student ID: #{user.studentId}
                     </p>
                   )}

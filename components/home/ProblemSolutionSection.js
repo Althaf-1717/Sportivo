@@ -57,11 +57,11 @@ export default function ProblemSolutionSection() {
           <span className="pill inline-flex items-center gap-1.5">
             <Sparkles size={12} /> Why athletes switch to Sportivo
           </span>
-          <h2 className="mt-4 font-extrabold tracking-tight text-gray-900 text-3xl sm:text-5xl leading-[1.12]">
+          <h2 className="mt-4 font-semibold tracking-tight text-gray-900 text-3xl sm:text-5xl leading-[1.12]">
             Athletic training is hard enough.{" "}
             <br className="hidden sm:block" />
             Your academy shouldn’t make it{" "}
-            <span className="text-gradient-brand italic font-bold">
+            <span className="text-gradient-brand italic font-semibold">
               harder
             </span>
             .
@@ -117,10 +117,10 @@ export default function ProblemSolutionSection() {
             <div className="rounded-3xl border border-stone-200/90 bg-white/75 p-6 sm:p-8 shadow-sm">
               <div className="flex items-center justify-between border-b border-stone-200/70 pb-4">
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-rose-600">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-rose-600">
                     The Old Routine
                   </span>
-                  <h3 className="mt-1 text-xl font-bold text-gray-900">
+                  <h3 className="mt-1 text-xl font-semibold text-gray-900">
                     Scattered Coaching & Guesswork
                   </h3>
                 </div>
@@ -134,7 +134,7 @@ export default function ProblemSolutionSection() {
                     key={row.problem}
                     className="flex items-start gap-3 text-sm leading-relaxed text-stone-600"
                   >
-                    <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-600 text-xs font-bold">
+                    <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-600 text-xs font-semibold">
                       ✕
                     </span>
                     <span>{row.problem}</span>
@@ -147,10 +147,10 @@ export default function ProblemSolutionSection() {
             <div className="relative overflow-hidden rounded-3xl border border-orange-300/80 bg-gradient-to-br from-white via-orange-50/40 to-amber-50/40 p-6 sm:p-8 shadow-[0_24px_60px_-15px_rgba(234,88,12,0.16)] ring-1 ring-orange-500/15">
               <div className="flex items-center justify-between border-b border-orange-200/60 pb-4">
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-orange-600">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-orange-600">
                     The Sportivo Way
                   </span>
-                  <h3 className="mt-1 text-xl font-bold text-gray-900">
+                  <h3 className="mt-1 text-xl font-semibold text-gray-900">
                     Structured Cohorts & Live Progress
                   </h3>
                 </div>

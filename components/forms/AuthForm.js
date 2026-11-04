@@ -368,12 +368,12 @@ export default function AuthForm({
 
         <div className="flex items-center gap-2.5">
           <GoogleIcon />
-          <span className="text-sm font-bold text-gray-800">
+          <span className="text-sm font-semibold text-gray-800">
             Sign up with Google
           </span>
         </div>
 
-        <h3 className="mt-4 text-xl font-extrabold tracking-tight text-gray-900">
+        <h3 className="mt-4 text-xl font-semibold tracking-tight text-gray-900">
           Choose your Google account
         </h3>
         <p className="mt-1 text-xs text-stone-500">
@@ -394,11 +394,11 @@ export default function AuthForm({
             }
             className="flex w-full items-center gap-3 rounded-2xl border border-orange-200 bg-orange-50/60 p-3 text-left transition hover:border-orange-400 hover:bg-orange-50"
           >
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-orange-600 text-xs font-extrabold text-white">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-orange-600 text-xs font-semibold text-white">
               S
             </span>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs font-bold text-gray-900">
+              <p className="truncate text-xs font-semibold text-gray-900">
                 Shaik Althaf
               </p>
               <p className="truncate text-[11px] text-stone-600">
@@ -484,10 +484,10 @@ export default function AuthForm({
               />
             </div>
             <span>
-              <span className="block text-[15px] font-black tracking-tight text-gray-900">
+              <span className="block text-[15px] font-semibold tracking-tight text-gray-900">
                 SPORT<span className="text-orange-600">IVO</span>
               </span>
-              <span className="block text-[8px] font-extrabold tracking-[.22em] text-stone-400">
+              <span className="block text-[8px] font-semibold tracking-[.22em] text-stone-400">
                 ATHLETIC ACADEMY
               </span>
             </span>
@@ -503,7 +503,7 @@ export default function AuthForm({
         </div>
 
         <p className="eyebrow">Create Student Account</p>
-        <h1 className="mt-1 text-[28px] sm:text-[32px] font-extrabold tracking-tight text-gray-900">
+        <h1 className="mt-1 text-[28px] sm:text-[32px] font-semibold tracking-tight text-gray-900">
           Create your account
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-stone-500">
@@ -681,10 +681,10 @@ export default function AuthForm({
             />
           </div>
           <span>
-            <span className="block text-[15px] font-black tracking-tight text-gray-900">
+            <span className="block text-[15px] font-semibold tracking-tight text-gray-900">
               SPORT<span className="text-orange-600">IVO</span>
             </span>
-            <span className="block text-[8px] font-extrabold tracking-[.22em] text-stone-400">
+            <span className="block text-[8px] font-semibold tracking-[.22em] text-stone-400">
               ATHLETIC ACADEMY
             </span>
           </span>
@@ -709,7 +709,7 @@ export default function AuthForm({
             : "Student Portal"}
         </p>
 
-        <h1 className="mt-1.5 text-[28px] sm:text-[32px] font-extrabold tracking-tight text-gray-900">
+        <h1 className="mt-1.5 text-[28px] sm:text-[32px] font-semibold tracking-tight text-gray-900">
           {activePortal === "coach"
             ? "Coach Sign-In"
             : activePortal === "admin"
@@ -728,7 +728,7 @@ export default function AuthForm({
         {/* Success banner after registering */}
         {registeredSuccess && (
           <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-900 shadow-xs">
-            <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
+            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-800">
               <CheckCircle2 size={18} className="text-emerald-600 shrink-0" />
               <span>Account created successfully!</span>
             </div>
@@ -825,7 +825,7 @@ export default function AuthForm({
                   className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-orange-600"
                 />
                 <input
-                  className="form-control !pl-10 text-center text-lg font-bold tracking-[0.25em]"
+                  className="form-control !pl-10 text-center text-lg font-semibold tracking-[0.25em]"
                   type="text"
                   name="adminCode"
                   inputMode="numeric"

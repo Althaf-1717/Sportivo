@@ -139,7 +139,7 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
               <CalendarCheck2 size={18} />
             </span>
             <div>
-              <h2 className="text-lg font-extrabold tracking-tight text-navy sm:text-xl">
+              <h2 className="text-lg font-semibold tracking-tight text-navy sm:text-xl">
                 Coach Attendance for student
               </h2>
               <p className="text-xs text-slate-500">
@@ -149,10 +149,10 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="rounded-xl bg-emerald-50 border border-emerald-200 px-3 py-1.5 text-xs font-bold text-emerald-800">
+            <span className="rounded-xl bg-emerald-50 border border-emerald-200 px-3 py-1.5 text-xs font-semibold text-emerald-800">
               Present: {presentCount}
             </span>
-            <span className="rounded-xl bg-rose-50 border border-rose-200 px-3 py-1.5 text-xs font-bold text-rose-700">
+            <span className="rounded-xl bg-rose-50 border border-rose-200 px-3 py-1.5 text-xs font-semibold text-rose-700">
               Absent: {absentCount}
             </span>
           </div>
@@ -163,7 +163,7 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-12 items-end">
             {/* Date input */}
             <div className="lg:col-span-3">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
                 Date:
               </label>
               <input
@@ -177,7 +177,7 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
 
             {/* Time input */}
             <div className="lg:col-span-3">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
                 Time:
               </label>
               <input
@@ -192,7 +192,7 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
 
             {/* Work input (manually text by coach) */}
             <div className="lg:col-span-5">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
                 Work: <span className="text-[10px] lowercase font-normal text-slate-400">(today&apos;s training drills)</span>
               </label>
               <input
@@ -210,7 +210,7 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
               <button
                 type="button"
                 onClick={() => setIsSessionConfirmed(true)}
-                className="btn-primary w-full !text-xs !py-2.5 font-bold"
+                className="btn-primary w-full !text-xs !py-2.5 font-semibold"
               >
                 OK
               </button>
@@ -235,7 +235,7 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
         {isSessionConfirmed && (
           <div className="mt-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold text-navy flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-navy flex items-center gap-2">
                 <Users size={16} className="text-blue" />
                 <span>Assigned Athletes ({enrollments.length})</span>
               </h3>
@@ -273,13 +273,13 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
                       return (
                         <tr key={eId} className="hover:bg-slate-50/80 transition-colors">
                           {/* S:NO */}
-                          <td className="text-center font-bold text-slate-400 text-xs">
+                          <td className="text-center font-semibold text-slate-400 text-xs">
                             {index + 1}
                           </td>
 
                           {/* Student ID */}
                           <td>
-                            <span className="font-mono text-xs font-bold text-blue bg-blue-soft/60 px-2.5 py-1 rounded-lg inline-block">
+                            <span className="font-mono text-xs font-semibold text-blue bg-blue-soft/60 px-2.5 py-1 rounded-lg inline-block">
                               {studentIdDisplay}
                             </span>
                           </td>
@@ -287,11 +287,11 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
                           {/* Student Name */}
                           <td>
                             <div className="flex items-center gap-2.5">
-                              <span className="grid h-7 w-7 place-items-center rounded-full bg-navy text-[10px] font-bold text-white">
+                              <span className="grid h-7 w-7 place-items-center rounded-full bg-navy text-[10px] font-semibold text-white">
                                 {row.student?.name?.[0] || "S"}
                               </span>
                               <div>
-                                <span className="block font-bold text-navy text-xs">
+                                <span className="block font-semibold text-navy text-xs">
                                   {row.student?.name || "Student"}
                                 </span>
                                 <span className="block text-[10px] text-slate-400">
@@ -314,7 +314,7 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
                               type="button"
                               onClick={() => toggleAttendance(eId)}
                               aria-label={`Mark ${row.student?.name} ${isPresent ? "absent" : "present"}`}
-                              className={`group inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all shadow-sm ${
+                              className={`group inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all shadow-sm ${
                                 isPresent
                                   ? "bg-emerald-600 text-white hover:bg-emerald-700 ring-2 ring-emerald-200"
                                   : "bg-rose-600 text-white hover:bg-rose-700 ring-2 ring-rose-200"
@@ -372,10 +372,10 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
       <section className="surface-card p-6 border border-slate-200 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-sm font-bold text-navy">Recently Recorded Sessions</h3>
+            <h3 className="text-sm font-semibold text-navy">Recently Recorded Sessions</h3>
             <p className="text-xs text-slate-500">Log of sessions marked with student attendance, drills, and remarks.</p>
           </div>
-          <span className="rounded-lg bg-blue-soft px-2.5 py-1 text-[11px] font-bold text-blue">
+          <span className="rounded-lg bg-blue-soft px-2.5 py-1 text-[11px] font-semibold text-blue">
             {records.length} records
           </span>
         </div>
@@ -400,11 +400,11 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
                     <td className="max-w-xs text-xs text-slate-700 truncate">{row.work || "Training session"}</td>
                     <td className="text-xs text-slate-500">{row.time || "—"}</td>
                     <td>
-                      <span className="font-bold text-navy text-xs">{row.student?.name || "Athlete"}</span>
+                      <span className="font-semibold text-navy text-xs">{row.student?.name || "Athlete"}</span>
                     </td>
                     <td>
                       <span
-                        className={`inline-block rounded-md px-2 py-0.5 text-[10px] font-bold uppercase ${
+                        className={`inline-block rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase ${
                           row.status === "present"
                             ? "bg-emerald-100 text-emerald-800"
                             : "bg-rose-100 text-rose-800"

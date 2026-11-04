@@ -64,7 +64,7 @@ export default async function SportDetailsPage({ params }) {
           <div className="container-wide grid items-center gap-10 md:grid-cols-[1fr_1.08fr]">
             <div>
               <Badge>{sport.name} programme</Badge>
-              <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+              <h1 className="mt-4 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
                 A better feel for
                 <br />
                 <span className="text-gradient-brand italic">the game.</span>
@@ -107,7 +107,7 @@ export default async function SportDetailsPage({ params }) {
                 <div className="flex items-center gap-2.5">
                   <ShieldCheck size={18} className="text-orange-400" />
                   <div>
-                    <p className="text-xs font-bold">
+                    <p className="text-xs font-semibold">
                       Sportivo {sport.name} Wing
                     </p>
                     <p className="text-[11px] text-orange-200/80">
@@ -115,7 +115,7 @@ export default async function SportDetailsPage({ params }) {
                     </p>
                   </div>
                 </div>
-                <span className="rounded-full bg-orange-600 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+                <span className="rounded-full bg-orange-600 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
                   96% Attendance
                 </span>
               </div>
@@ -126,7 +126,7 @@ export default async function SportDetailsPage({ params }) {
         <section className="container-wide grid gap-10 py-12 md:grid-cols-[.7fr_1.3fr]">
           <div>
             <p className="eyebrow">What you’ll work on</p>
-            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-gray-900">
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-gray-900">
               Fundamentals first.
               <br />
               Game ready next.
@@ -146,7 +146,7 @@ export default async function SportDetailsPage({ params }) {
             ).map((item) => (
               <li
                 key={item}
-                className="flex items-center gap-3 rounded-2xl border border-stone-200/90 bg-white p-4 text-xs font-bold text-gray-900 shadow-2xs"
+                className="flex items-center gap-3 rounded-2xl border border-stone-200/90 bg-white p-4 text-xs font-semibold text-gray-900 shadow-2xs"
               >
                 <span className="grid h-8 w-8 place-items-center rounded-xl border border-orange-200/70 bg-orange-50 text-orange-600">
                   <Check size={15} />
@@ -160,7 +160,7 @@ export default async function SportDetailsPage({ params }) {
         <section className="py-12">
           <div className="container-wide">
             <p className="eyebrow">The right support matters</p>
-            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-gray-900">
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-gray-900">
               Meet the {sport.name.toLowerCase()} coaches.
             </h2>
             <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -179,7 +179,7 @@ export default async function SportDetailsPage({ params }) {
           <div className="flex items-end justify-between gap-4">
             <div>
               <p className="eyebrow">Build your routine</p>
-              <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-gray-900">
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-gray-900">
                 Memberships made for progress.
               </h2>
             </div>

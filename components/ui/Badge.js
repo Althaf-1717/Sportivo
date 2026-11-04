@@ -10,7 +10,7 @@ export function Badge({ children, tone = "blue", className }) {
   return (
     <span
       className={cx(
-        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wide shadow-2xs",
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold tracking-wide shadow-2xs",
         tones[tone] || tones.blue,
         className
       )}

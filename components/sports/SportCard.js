@@ -50,11 +50,11 @@ export default function SportCard({ sport, index = 0 }) {
 
         {/* Top Badges */}
         <div className="absolute inset-x-4 top-4 flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/40 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-orange-100 backdrop-blur-md">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/40 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-orange-100 backdrop-blur-md">
             <Sparkles size={11} className="text-orange-400" />
             {tag}
           </span>
-          <span className="rounded-full border border-white/85 bg-white/95 px-3 py-1 text-[11px] font-bold text-gray-900 shadow-xs backdrop-blur-md">
+          <span className="rounded-full border border-white/85 bg-white/95 px-3 py-1 text-[11px] font-semibold text-gray-900 shadow-xs backdrop-blur-md">
             1 : 6 Cohort
           </span>
         </div>
@@ -68,7 +68,7 @@ export default function SportCard({ sport, index = 0 }) {
               floating={false}
             />
           </div>
-          <span className="rounded-full border border-orange-300/40 bg-orange-600/90 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm backdrop-blur-md">
+          <span className="rounded-full border border-orange-300/40 bg-orange-600/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white shadow-sm backdrop-blur-md">
             2026 Season Open
           </span>
         </div>
@@ -78,10 +78,10 @@ export default function SportCard({ sport, index = 0 }) {
       <div className="flex flex-1 flex-col justify-between p-6">
         <div>
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h3 className="text-lg font-bold tracking-tight text-gray-900 transition-colors group-hover:text-orange-600">
+            <h3 className="text-lg font-semibold tracking-tight text-gray-900 transition-colors group-hover:text-orange-600">
               {sport.name} Academy
             </h3>
-            <span className="rounded-full border border-orange-200/70 bg-orange-50 px-2.5 py-0.5 text-[11px] font-bold text-orange-600">
+            <span className="rounded-full border border-orange-200/70 bg-orange-50 px-2.5 py-0.5 text-[11px] font-semibold text-orange-600">
               0{index + 1}
             </span>
           </div>
@@ -90,7 +90,7 @@ export default function SportCard({ sport, index = 0 }) {
           </p>
         </div>
 
-        <div className="mt-5 flex items-center justify-between border-t border-stone-100 pt-4 text-xs font-bold !text-gray-900 group-hover:!text-orange-600">
+        <div className="mt-5 flex items-center justify-between border-t border-stone-100 pt-4 text-xs font-semibold !text-gray-900 group-hover:!text-orange-600">
           <span className="inline-flex items-center gap-1.5">
             <ShieldCheck size={14} className="text-orange-600" />
             <span>Explore programme &amp; batches</span>

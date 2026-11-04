@@ -51,7 +51,7 @@ export default async function HomePage() {
                 href="/sports"
                 className="group mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200/90 bg-orange-50/85 py-1.5 pl-3 pr-4 text-[11px] sm:text-xs font-medium text-orange-800 shadow-2xs backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:shadow-[0_10px_28px_-12px_rgba(249,115,22,0.5)]"
               >
-                <span className="inline-flex items-center gap-1 rounded-full bg-orange-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                <span className="inline-flex items-center gap-1 rounded-full bg-orange-600 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
                   <Sparkles size={11} /> New
                 </span>
                 <span>2026 Athletic Season — Enrolment & Trial Sessions Open</span>
@@ -63,11 +63,11 @@ export default async function HomePage() {
             </ScrollReveal>
 
             <ScrollReveal delay={80}>
-              <h1 className="text-balance text-4xl font-bold leading-[1.12] tracking-tight text-gray-900 sm:text-6xl lg:text-[64px]">
-                The coaching &amp; progress system{" "}
+              <h1 className="text-balance text-4xl font-medium leading-[1.15] tracking-tight text-gray-900 sm:text-5xl lg:text-[58px]">
+                Find your sport.{" "}
                 <br className="hidden sm:block" />
-                that elevates your{" "}
-                <span className="text-gradient-brand italic font-bold">
+                Elevate your{" "}
+                <span className="text-gradient-brand font-semibold">
                   game
                 </span>
               </h1>
@@ -75,7 +75,7 @@ export default async function HomePage() {
 
             <ScrollReveal delay={150}>
               <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-7 text-stone-600 sm:text-base">
-                One academy for specialist coaching, 1 : 6 small-group cohorts, live digital attendance, verified skill evaluations, and season memberships across Cricket, Football, and Basketball in Bengaluru.
+                Specialist coaching in Cricket, Football, and Basketball. Small groups, clear progress, and a training plan that fits your life.
               </p>
             </ScrollReveal>
 
@@ -144,14 +144,14 @@ export default async function HomePage() {
               { end: 100, suffix: "%", label: "Skill Tracking", sub: "Live coach evaluations" },
             ].map((stat) => (
               <div key={stat.label} className="px-4 py-4 text-center sm:px-6">
-                <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                <p className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
                   <CountUp
                     end={stat.end}
                     prefix={stat.prefix || ""}
                     suffix={stat.suffix || ""}
                   />
                 </p>
-                <p className="mt-1 text-xs font-bold uppercase tracking-wider text-orange-600">
+                <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-orange-600">
                   {stat.label}
                 </p>
                 <p className="mt-0.5 hidden text-[11px] text-stone-500 sm:block">
@@ -175,7 +175,7 @@ export default async function HomePage() {
               <span className="eyebrow">Find your discipline</span>
               <h2 className="section-title mt-2">
                 Three sports. One{" "}
-                <span className="text-gradient-brand italic">standard</span>.
+                <span className="text-gradient-brand">standard</span>.
               </h2>
               <p className="section-copy mt-3 max-w-xl">
                 Every programme combines turf drills, match simulation, and digital skill milestones tailored to your level.
@@ -183,7 +183,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/sports"
-              className="group inline-flex w-fit items-center gap-1.5 rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-bold text-gray-900 shadow-2xs transition hover:border-orange-300 hover:text-orange-600"
+              className="group inline-flex w-fit items-center gap-1.5 rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-gray-900 shadow-2xs transition hover:border-orange-300 hover:text-orange-600"
             >
               <span>View all sports</span>
               <ArrowUpRight
@@ -209,7 +209,7 @@ export default async function HomePage() {
               <span className="eyebrow">Built-in clarity</span>
               <h2 className="section-title mt-2">
                 Turn every training session into{" "}
-                <span className="text-gradient-brand italic">
+                <span className="text-gradient-brand">
                   verified progress
                 </span>
               </h2>
@@ -262,11 +262,11 @@ export default async function HomePage() {
                           <span className="grid h-11 w-11 place-items-center rounded-2xl border border-orange-200/80 bg-orange-50 text-orange-600">
                             <Icon size={20} />
                           </span>
-                          <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-600">
+                          <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-stone-600">
                             {feat.badge}
                           </span>
                         </div>
-                        <h3 className="mt-5 text-base font-bold text-gray-900">
+                        <h3 className="mt-5 text-base font-semibold text-gray-900">
                           {feat.title}
                         </h3>
                         <p className="mt-2 text-xs leading-relaxed text-stone-600">
@@ -279,7 +279,7 @@ export default async function HomePage() {
                         <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">
                           {feat.mockLabel}
                         </p>
-                        <p className="mt-0.5 text-xs font-bold text-gray-900">
+                        <p className="mt-0.5 text-xs font-semibold text-gray-900">
                           {feat.mockValue}
                         </p>
                       </div>
@@ -298,7 +298,7 @@ export default async function HomePage() {
               <span className="eyebrow">People who make a difference</span>
               <h2 className="section-title mt-2">
                 Meet your{" "}
-                <span className="text-gradient-brand italic">specialist</span>{" "}
+                <span className="text-gradient-brand">specialist</span>{" "}
                 coaches.
               </h2>
               <p className="section-copy mt-3 max-w-xl">
@@ -307,7 +307,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/coaches"
-              className="group inline-flex w-fit items-center gap-1.5 rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-bold text-gray-900 shadow-2xs transition hover:border-orange-300 hover:text-orange-600"
+              className="group inline-flex w-fit items-center gap-1.5 rounded-full border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-gray-900 shadow-2xs transition hover:border-orange-300 hover:text-orange-600"
             >
               <span>Meet every coach</span>
               <ArrowUpRight
@@ -333,7 +333,7 @@ export default async function HomePage() {
               <span className="eyebrow">Membership plans</span>
               <h2 className="section-title mt-2">
                 Simple,{" "}
-                <span className="text-gradient-brand italic">honest</span>{" "}
+                <span className="text-gradient-brand">honest</span>{" "}
                 season plans
               </h2>
               <p className="section-copy mt-3">
@@ -369,14 +369,14 @@ export default async function HomePage() {
               />
 
               <div className="relative z-10 mx-auto max-w-2xl">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-orange-300 backdrop-blur">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-orange-300 backdrop-blur">
                   <ShieldCheck size={14} className="text-orange-400" />
                   2026 Season · Open Enrolment
                 </span>
 
-                <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-white sm:text-5xl leading-[1.12]">
+                <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-5xl leading-[1.12]">
                   Start building your game the{" "}
-                  <span className="text-gradient-brand italic font-bold">
+                  <span className="text-gradient-brand font-semibold">
                     focused
                   </span>{" "}
                   way

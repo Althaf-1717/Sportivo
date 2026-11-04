@@ -250,10 +250,10 @@ export default function AuthAnimatedPanel({ mode = "login", portal = "student" }
             className="h-10 w-10 rounded-xl object-cover shadow-lg ring-1 ring-white/25 transition-transform duration-200 group-hover:scale-105"
           />
           <div>
-            <span className="block text-xl font-extrabold tracking-tight text-white">
+            <span className="block text-xl font-semibold tracking-tight text-white">
               Sport<span className="text-orange-400">ivo</span>
             </span>
-            <span className="block text-[9px] font-bold uppercase tracking-[0.22em] text-orange-200/75">
+            <span className="block text-[9px] font-semibold uppercase tracking-[0.22em] text-orange-200/75">
               Athletic Academy
             </span>
           </div>
@@ -261,7 +261,7 @@ export default function AuthAnimatedPanel({ mode = "login", portal = "student" }
 
         {/* Center Headline + Kinetic Live Telemetry Card + Feature Checkmarks */}
         <div className="my-auto max-w-md py-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/15 px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-200 backdrop-blur-md animate-[authContentSlideRight_0.7s_cubic-bezier(0.22,1,0.36,1)_0.18s_both]">
+          <div className="inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/15 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-orange-200 backdrop-blur-md animate-[authContentSlideRight_0.7s_cubic-bezier(0.22,1,0.36,1)_0.18s_both]">
             <Sparkles size={12} className="text-orange-400" />
             <span>
               {portal === "coach"
@@ -272,7 +272,7 @@ export default function AuthAnimatedPanel({ mode = "login", portal = "student" }
             </span>
           </div>
 
-          <h2 className="mt-5 text-4xl xl:text-[44px] font-extrabold leading-[1.1] tracking-tight text-white drop-shadow-sm animate-[authContentSlideRight_0.75s_cubic-bezier(0.22,1,0.36,1)_0.26s_both]">
+          <h2 className="mt-5 text-4xl xl:text-[44px] font-semibold leading-[1.1] tracking-tight text-white drop-shadow-sm animate-[authContentSlideRight_0.75s_cubic-bezier(0.22,1,0.36,1)_0.26s_both]">
             {isRegister ? (
               <>
                 Start your journey.
@@ -327,7 +327,7 @@ export default function AuthAnimatedPanel({ mode = "login", portal = "student" }
                   <Trophy size={17} />
                 </span>
                 <div>
-                  <p className="text-xs font-bold text-white">
+                  <p className="text-xs font-semibold text-white">
                     Live Cohort Performance
                   </p>
                   <p className="text-[11px] text-orange-200/75">
@@ -335,22 +335,22 @@ export default function AuthAnimatedPanel({ mode = "login", portal = "student" }
                   </p>
                 </div>
               </div>
-              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300">
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-300">
                 <Activity size={11} /> 96% Active
               </span>
             </div>
             <div className="mt-3 grid grid-cols-3 gap-2 pt-3 border-t border-white/10 text-center">
               <div className="rounded-xl bg-black/25 px-2.5 py-1.5">
                 <p className="text-[10px] text-orange-200/65">Cohort Ratio</p>
-                <p className="text-xs font-extrabold text-white">1 : 6 Max</p>
+                <p className="text-xs font-semibold text-white">1 : 6 Max</p>
               </div>
               <div className="rounded-xl bg-black/25 px-2.5 py-1.5">
                 <p className="text-[10px] text-orange-200/65">Skill Index</p>
-                <p className="text-xs font-extrabold text-orange-300">+18.4%</p>
+                <p className="text-xs font-semibold text-orange-300">+18.4%</p>
               </div>
               <div className="rounded-xl bg-black/25 px-2.5 py-1.5">
                 <p className="text-[10px] text-orange-200/65">Portals</p>
-                <p className="text-xs font-extrabold text-white">3 Synced</p>
+                <p className="text-xs font-semibold text-white">3 Synced</p>
               </div>
             </div>
           </div>

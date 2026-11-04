@@ -105,11 +105,11 @@ export default function HeroDashboardMockup() {
           <aside className="hidden border-r border-stone-200/70 bg-[#FAF7F2]/70 p-4 lg:flex lg:flex-col lg:justify-between">
             <div>
               <div className="flex items-center gap-2.5 px-2 py-1.5">
-                <span className="grid h-7 w-7 place-items-center rounded-lg bg-orange-600 text-xs font-bold text-white">
+                <span className="grid h-7 w-7 place-items-center rounded-lg bg-orange-600 text-xs font-semibold text-white">
                   S
                 </span>
                 <div>
-                  <p className="text-xs font-bold text-gray-900">Sportivo OS</p>
+                  <p className="text-xs font-semibold text-gray-900">Sportivo OS</p>
                   <p className="text-[10px] font-medium text-stone-400">
                     2026 Season
                   </p>
@@ -140,7 +140,7 @@ export default function HeroDashboardMockup() {
             </div>
 
             <div className="rounded-2xl border border-orange-200/70 bg-gradient-to-br from-orange-50 to-amber-50/60 p-3">
-              <div className="flex items-center gap-1.5 text-[11px] font-bold text-orange-800">
+              <div className="flex items-center gap-1.5 text-[11px] font-semibold text-orange-800">
                 <Flame size={13} className="text-orange-600" />
                 <span>14-Session Streak</span>
               </div>
@@ -155,11 +155,11 @@ export default function HeroDashboardMockup() {
             {/* Top Welcome Row */}
             <div className="flex flex-col justify-between gap-3 border-b border-stone-100 pb-4 sm:flex-row sm:items-center">
               <div>
-                <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-orange-600">
+                <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-orange-600">
                   <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
                   <span>Live Athlete Workspace · ID #SP-2048</span>
                 </div>
-                <h2 className="mt-1 text-lg font-bold tracking-tight text-gray-900 sm:text-xl">
+                <h2 className="mt-1 text-lg font-semibold tracking-tight text-gray-900 sm:text-xl">
                   Welcome back, Aarav Sharma
                 </h2>
               </div>
@@ -182,7 +182,7 @@ export default function HeroDashboardMockup() {
                   <span>Attendance</span>
                   <CalendarCheck2 size={15} className="text-orange-600" />
                 </div>
-                <p className="mt-2 text-2xl font-extrabold tracking-tight text-gray-900">
+                <p className="mt-2 text-2xl font-semibold tracking-tight text-gray-900">
                   <CountUp end={96.4} decimals={1} suffix="%" />
                 </p>
                 <p className="mt-1 text-[11px] font-semibold text-emerald-600">
@@ -195,7 +195,7 @@ export default function HeroDashboardMockup() {
                   <span>Skill Index</span>
                   <Award size={15} className="text-orange-600" />
                 </div>
-                <p className="mt-2 text-2xl font-extrabold tracking-tight text-gray-900">
+                <p className="mt-2 text-2xl font-semibold tracking-tight text-gray-900">
                   <CountUp end={92} suffix="/100" />
                 </p>
                 <p className="mt-1 text-[11px] font-semibold text-orange-600">
@@ -208,7 +208,7 @@ export default function HeroDashboardMockup() {
                   <span>Sessions Logged</span>
                   <ClipboardCheck size={15} className="text-orange-600" />
                 </div>
-                <p className="mt-2 text-2xl font-extrabold tracking-tight text-gray-900">
+                <p className="mt-2 text-2xl font-semibold tracking-tight text-gray-900">
                   <CountUp end={48} />
                 </p>
                 <p className="mt-1 text-[11px] font-medium text-stone-500">
@@ -221,7 +221,7 @@ export default function HeroDashboardMockup() {
                   <span>Coach Reviews</span>
                   <Sparkles size={15} className="text-orange-600" />
                 </div>
-                <p className="mt-2 text-2xl font-extrabold tracking-tight text-gray-900">
+                <p className="mt-2 text-2xl font-semibold tracking-tight text-gray-900">
                   <CountUp end={12} suffix=" Notes" />
                 </p>
                 <p className="mt-1 text-[11px] font-semibold text-emerald-600">
@@ -236,7 +236,7 @@ export default function HeroDashboardMockup() {
               <div className="rounded-2xl border border-stone-200/80 bg-stone-50/50 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-900">
                       6-Month Performance Trend
                     </h3>
                     <p className="text-[11px] text-stone-500">
@@ -285,7 +285,7 @@ export default function HeroDashboardMockup() {
               {/* Live Cohort & Evaluation Feed */}
               <div className="rounded-2xl border border-stone-200/80 bg-stone-50/50 p-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-900">
                     Upcoming & Verified Sessions
                   </h3>
                   <Clock3 size={14} className="text-orange-600" />
@@ -297,7 +297,7 @@ export default function HeroDashboardMockup() {
                       className="flex items-center justify-between gap-2 rounded-xl border border-stone-200/70 bg-white p-2.5 shadow-2xs"
                     >
                       <div className="min-w-0">
-                        <p className="truncate text-xs font-bold text-gray-900">
+                        <p className="truncate text-xs font-semibold text-gray-900">
                           {item.sport}
                         </p>
                         <p className="text-[11px] text-stone-500">
@@ -305,7 +305,7 @@ export default function HeroDashboardMockup() {
                         </p>
                       </div>
                       <span
-                        className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
+                        className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
                           item.tone === "emerald"
                             ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                             : item.tone === "orange"

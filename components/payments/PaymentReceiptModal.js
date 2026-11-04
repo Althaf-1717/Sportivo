@@ -70,7 +70,7 @@ Keep pushing your limits.
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 rounded-xl border border-white/80 bg-white/80 px-3 py-1.5 text-[11px] font-bold text-navy shadow-sm backdrop-blur-md transition-all hover:border-blue/40 hover:bg-white hover:text-blue"
+        className="inline-flex items-center gap-1.5 rounded-xl border border-white/80 bg-white/80 px-3 py-1.5 text-[11px] font-semibold text-navy shadow-sm backdrop-blur-md transition-all hover:border-blue/40 hover:bg-white hover:text-blue"
       >
         <Download size={13} className="text-blue" />
         <span>Download Receipt</span>
@@ -83,7 +83,7 @@ Keep pushing your limits.
             <div className="flex items-center justify-between border-b border-slate-100 bg-white/60 px-5 sm:px-6 py-4">
               <div className="flex items-center gap-2">
                 <FileText size={18} className="text-blue" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-navy">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-navy">
                   Payment Receipt
                 </h3>
               </div>
@@ -102,11 +102,11 @@ Keep pushing your limits.
               <div className="flex items-start justify-between border-b border-slate-100 pb-5">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="grid h-8 w-8 place-items-center rounded-lg bg-navy text-[11px] font-bold text-orange">
+                    <span className="grid h-8 w-8 place-items-center rounded-lg bg-navy text-[11px] font-semibold text-orange">
                       SP
                     </span>
                     <div>
-                      <h4 className="text-sm font-extrabold tracking-tight text-navy">SPORTIVO ACADEMY</h4>
+                      <h4 className="text-sm font-semibold tracking-tight text-navy">SPORTIVO ACADEMY</h4>
                       <p className="text-[9px] uppercase tracking-wider text-slate-400">Official Fee Receipt</p>
                     </div>
                   </div>
@@ -119,7 +119,7 @@ Keep pushing your limits.
                 </div>
 
                 <div className="text-right">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-[10px] font-bold text-emerald-700">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-[10px] font-semibold text-emerald-700">
                     <CheckCircle size={12} /> PAID
                   </span>
                   <p className="mt-2 text-[10px] text-slate-400">Order ID: {txId.slice(0, 16)}...</p>
@@ -129,19 +129,19 @@ Keep pushing your limits.
               {/* Student & Program Details */}
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div className="rounded-xl bg-white/70 p-3.5 border border-slate-100 shadow-sm">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Billed To</span>
-                  <p className="mt-1 font-bold text-navy">{user?.name || "Student"}</p>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Billed To</span>
+                  <p className="mt-1 font-semibold text-navy">{user?.name || "Student"}</p>
                   <p className="text-[11px] text-slate-500">{user?.email}</p>
-                  <span className="mt-1.5 inline-block rounded-md bg-blue-soft px-2 py-0.5 text-[10px] font-bold text-blue">
+                  <span className="mt-1.5 inline-block rounded-md bg-blue-soft px-2 py-0.5 text-[10px] font-semibold text-blue">
                     Student ID: {studentId}
                   </span>
                 </div>
 
                 <div className="rounded-xl bg-white/70 p-3.5 border border-slate-100 shadow-sm">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Program Info</span>
-                  <p className="mt-1 font-bold text-navy">{sportName}</p>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Program Info</span>
+                  <p className="mt-1 font-semibold text-navy">{sportName}</p>
                   <p className="text-[11px] text-slate-500">{coachName}</p>
-                  <span className="mt-1.5 inline-block rounded-md bg-orange/10 px-2 py-0.5 text-[10px] font-bold text-orange">
+                  <span className="mt-1.5 inline-block rounded-md bg-orange/10 px-2 py-0.5 text-[10px] font-semibold text-orange">
                     {classes} Classes Included
                   </span>
                 </div>
@@ -150,7 +150,7 @@ Keep pushing your limits.
               {/* Line Items Table */}
               <div className="mt-5 rounded-xl border border-slate-200 overflow-x-auto">
                 <table className="w-full min-w-[340px] text-left text-xs">
-                  <thead className="bg-slate-50/80 border-b border-slate-200 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  <thead className="bg-slate-50/80 border-b border-slate-200 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                     <tr>
                       <th className="p-3">Description</th>
                       <th className="p-3 text-center">Duration</th>
@@ -164,10 +164,10 @@ Keep pushing your limits.
                         <span className="text-[10px] text-slate-400">Coaching, facilities, and attendance tracking</span>
                       </td>
                       <td className="p-3 text-center text-slate-600">{duration} Month{duration > 1 ? "s" : ""}</td>
-                      <td className="p-3 text-right font-bold text-navy">{money(payment.amount)}</td>
+                      <td className="p-3 text-right font-semibold text-navy">{money(payment.amount)}</td>
                     </tr>
                   </tbody>
-                  <tfoot className="border-t border-slate-200 bg-slate-50/50 font-bold text-navy">
+                  <tfoot className="border-t border-slate-200 bg-slate-50/50 font-semibold text-navy">
                     <tr>
                       <td colSpan={2} className="p-3 text-right text-xs">Total Amount Paid:</td>
                       <td className="p-3 text-right text-sm text-blue">{money(payment.amount)}</td>

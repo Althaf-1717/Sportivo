@@ -233,7 +233,7 @@ export default function GlassBackground() {
     return (
       <div
         aria-hidden="true"
-        className="fixed inset-0 -z-50 pointer-events-none select-none bg-[#FFF8F2]"
+        className="fixed inset-0 -z-50 pointer-events-none select-none bg-[#fffcf9]"
       />
     );
   }
@@ -241,25 +241,25 @@ export default function GlassBackground() {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 -z-50 pointer-events-none select-none overflow-hidden bg-[#FFF8F2]"
+      className="fixed inset-0 -z-50 pointer-events-none select-none overflow-hidden bg-[#fffcf9]"
     >
       {/* Top Hero Radial Warm Orange Glow */}
       <div
         className="absolute inset-x-0 top-0 h-[46rem]"
         style={{
           background:
-            "radial-gradient(ellipse 70% 45% at 50% -8%, rgba(234, 88, 12, 0.14), transparent 70%)",
+            "radial-gradient(ellipse 70% 45% at 50% -8%, rgba(234, 88, 12, 0.045), transparent 70%)",
         }}
       />
 
       {/* Right Mid-Page Soft Amber Orb */}
-      <div className="absolute right-0 top-[26rem] h-[34rem] w-[34rem] rounded-full bg-amber-200/25 blur-[130px]" />
+      <div className="absolute right-0 top-[26rem] h-[34rem] w-[34rem] rounded-full bg-amber-200/5 blur-[130px]" />
 
       {/* Left Lower-Page Soft Orange Orb */}
-      <div className="absolute left-0 top-[68rem] h-[30rem] w-[30rem] rounded-full bg-orange-200/20 blur-[130px]" />
+      <div className="absolute left-0 top-[68rem] h-[30rem] w-[30rem] rounded-full bg-orange-200/5 blur-[130px]" />
 
       {/* Interactive Cursor-Warping Elastic Grid Canvas (Main Page Only) */}
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-20" />
     </div>
   );
 }

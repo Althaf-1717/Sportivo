@@ -233,10 +233,10 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
       <div className="rounded-3xl bg-gradient-to-r from-navy via-navy/95 to-slate-900 p-6 text-white shadow-xl sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-orange/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-orange">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-orange/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-orange">
               <Sparkles size={12} /> Student Membership Setup
             </span>
-            <h1 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
               Welcome to Sportivo Academy, {user?.name?.split(" ")[0]}!
             </h1>
             <p className="mt-1.5 max-w-xl text-xs text-slate-300">
@@ -247,7 +247,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
             <Trophy size={20} className="text-orange" />
             <div className="text-left text-xs">
               <span className="block text-[10px] text-slate-400">Step {step + 1} of 4</span>
-              <span className="font-bold text-white">{steps[step].short}</span>
+              <span className="font-semibold text-white">{steps[step].short}</span>
             </div>
           </div>
         </div>
@@ -266,9 +266,9 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                   isCurrent ? "text-orange" : isCompleted ? "text-emerald-400 hover:text-white" : "text-white/60 hover:text-white"
                 }`}
               >
-                <div className="flex items-center gap-1.5 text-[11px] font-bold">
+                <div className="flex items-center gap-1.5 text-[11px] font-semibold">
                   <span
-                    className={`grid h-5 w-5 place-items-center rounded-full text-[10px] font-bold ${
+                    className={`grid h-5 w-5 place-items-center rounded-full text-[10px] font-semibold ${
                       isCurrent
                         ? "bg-orange text-navy"
                         : isCompleted
@@ -297,7 +297,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
         <section className="surface-card p-6 sm:p-8 border border-slate-200 shadow-sm">
           <div>
             <p className="eyebrow">Step 1 of 4</p>
-            <h2 className="mt-1 text-xl font-bold text-navy sm:text-2xl">Choose your membership plan</h2>
+            <h2 className="mt-1 text-xl font-semibold text-navy sm:text-2xl">Choose your membership plan</h2>
             <p className="mt-1.5 text-xs text-slate-500">
               Select the training commitment that best fits your weekly routine. You will pick your sport in the next step.
             </p>
@@ -320,14 +320,14 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                   }`}
                 >
                   {isPopular && (
-                    <span className="absolute -top-2.5 right-4 rounded-full bg-orange px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
+                    <span className="absolute -top-2.5 right-4 rounded-full bg-orange px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white shadow-sm">
                       Most Popular
                     </span>
                   )}
 
                   <div>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold uppercase tracking-wider text-blue">{plan.name}</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-blue">{plan.name}</span>
                       <div
                         className={`grid h-5 w-5 place-items-center rounded-full border ${
                           isSelected ? "border-blue bg-blue text-white" : "border-slate-300 bg-white"
@@ -338,11 +338,11 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                     </div>
 
                     <div className="mt-3">
-                      <span className="text-2xl font-black text-navy">{money(plan.price)}</span>
+                      <span className="text-2xl font-semibold text-navy">{money(plan.price)}</span>
                       <span className="ml-1 text-[11px] text-slate-400">/ {plan.durationLabel || `${plan.duration} months`}</span>
                     </div>
 
-                    <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-[11px] font-bold text-emerald-800">
+                    <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-[11px] font-semibold text-emerald-800">
                       <Calendar size={13} className="text-emerald-700 animate-float shrink-0" />
                       <span>Total Classes: {plan.duration === 1 ? "30 Days" : plan.duration === 3 ? "90 Days" : "180 Days"}</span>
                     </div>
@@ -352,7 +352,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                     </p>
 
                     <div className="mt-4 border-t border-slate-100 pt-3">
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Included:</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Included:</p>
                       <ul className="space-y-1.5 text-[11px] text-slate-600">
                         {(plan.features?.length > 0
                           ? plan.features
@@ -378,7 +378,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                       e.stopPropagation();
                       handleChoosePlanAndContinue(plan);
                     }}
-                    className={`mt-5 flex w-full items-center justify-center gap-1.5 rounded-xl py-2.5 text-center text-xs font-bold transition shadow-sm ${
+                    className={`mt-5 flex w-full items-center justify-center gap-1.5 rounded-xl py-2.5 text-center text-xs font-semibold transition shadow-sm ${
                       isSelected
                         ? "bg-blue text-white hover:bg-blue/90"
                         : "bg-navy text-white hover:bg-navy/90"
@@ -394,7 +394,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
 
           <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-5">
             <span className="text-xs text-slate-500">
-              Selected Plan: <strong className="font-bold text-navy">{chosenPlan?.name}</strong> ({money(planPrice)})
+              Selected Plan: <strong className="font-semibold text-navy">{chosenPlan?.name}</strong> ({money(planPrice)})
             </span>
             <button
               type="button"
@@ -413,13 +413,13 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
           <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="eyebrow">Step 2 of 4</p>
-              <h2 className="mt-1 text-xl font-bold text-navy sm:text-2xl">Which sport would you like to train in?</h2>
+              <h2 className="mt-1 text-xl font-semibold text-navy sm:text-2xl">Which sport would you like to train in?</h2>
               <p className="mt-1.5 text-xs text-slate-500">
                 Choose your discipline (Cricket, Football, Basketball). You will select your coach for this sport next.
               </p>
             </div>
             <div className="text-[11px] font-semibold text-slate-500">
-              Selected Plan: <span className="font-bold text-blue">{chosenPlan?.name}</span> ({money(planPrice)})
+              Selected Plan: <span className="font-semibold text-blue">{chosenPlan?.name}</span> ({money(planPrice)})
             </div>
           </div>
 
@@ -477,7 +477,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                       </div>
                     </div>
 
-                    <h3 className="mt-3 text-base font-bold text-navy group-hover:text-blue transition-colors">
+                    <h3 className="mt-3 text-base font-semibold text-navy group-hover:text-blue transition-colors">
                       {sport.name}
                     </h3>
                     <p className="mt-1.5 text-xs leading-5 text-slate-500 line-clamp-2">
@@ -495,7 +495,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                         e.stopPropagation();
                         handleChooseSportAndContinue(sport);
                       }}
-                      className={`flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-center text-xs font-bold transition shadow-sm ${
+                      className={`flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-center text-xs font-semibold transition shadow-sm ${
                         isSelected
                           ? "bg-blue text-white hover:bg-blue/90"
                           : "bg-slate-100 text-slate-700 hover:bg-slate-200"
@@ -531,7 +531,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
           <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="eyebrow">Step 3 of 4</p>
-              <h2 className="mt-1 text-xl font-bold text-navy sm:text-2xl">
+              <h2 className="mt-1 text-xl font-semibold text-navy sm:text-2xl">
                 Choose your {chosenSport?.name} coach
               </h2>
               <p className="mt-1.5 text-xs text-slate-500">
@@ -539,14 +539,14 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
               </p>
             </div>
             <div className="text-[11px] font-semibold text-slate-500">
-              Sport: <span className="font-bold text-blue">{chosenSport?.name}</span> · Plan:{" "}
-              <span className="font-bold text-blue">{chosenPlan?.name}</span>
+              Sport: <span className="font-semibold text-blue">{chosenSport?.name}</span> · Plan:{" "}
+              <span className="font-semibold text-blue">{chosenPlan?.name}</span>
             </div>
           </div>
 
           {availableCoaches.length === 0 ? (
             <div className="mt-6 rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-8 text-center">
-              <p className="text-sm font-bold text-navy">No coaches found specifically for {chosenSport?.name || "this sport"}.</p>
+              <p className="text-sm font-semibold text-navy">No coaches found specifically for {chosenSport?.name || "this sport"}.</p>
               <p className="mt-1 text-xs text-slate-500">Please choose a different sport to see assigned academy coaches.</p>
               <button type="button" onClick={() => setStep(1)} className="btn-secondary mt-4">
                 &larr; Choose another sport
@@ -585,14 +585,14 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                           className="h-12 w-12 shrink-0 rounded-2xl object-cover border border-slate-200 shadow-sm"
                         />
                       ) : (
-                        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-navy text-sm font-bold text-orange shadow-inner">
+                        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-navy text-sm font-semibold text-orange shadow-inner">
                           {initials}
                         </div>
                       )}
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-sm font-bold text-navy">{coachName}</h3>
+                          <h3 className="text-sm font-semibold text-navy">{coachName}</h3>
                           <div
                             className={`grid h-5 w-5 place-items-center rounded-full border ${
                               isSelected ? "border-blue bg-blue text-white" : "border-slate-300 bg-white"
@@ -625,7 +625,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                           e.stopPropagation();
                           handleChooseCoachAndContinue(coach);
                         }}
-                        className={`flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-center text-xs font-bold transition shadow-sm ${
+                        className={`flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-center text-xs font-semibold transition shadow-sm ${
                           isSelected
                             ? "bg-blue text-white hover:bg-blue/90"
                             : "bg-slate-100 text-slate-700 hover:bg-slate-200"
@@ -662,7 +662,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
         <section className="surface-card p-6 sm:p-8 border border-slate-200 shadow-sm">
           <div>
             <p className="eyebrow">Step 4 of 4</p>
-            <h2 className="mt-1 text-xl font-bold text-navy sm:text-2xl">Review & Complete Payment</h2>
+            <h2 className="mt-1 text-xl font-semibold text-navy sm:text-2xl">Review & Complete Payment</h2>
             <p className="mt-1.5 text-xs text-slate-500">
               Confirm your training program selections and pay securely using Razorpay UPI QR code.
             </p>
@@ -672,44 +672,44 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
             {/* Selections Summary */}
             <div className="lg:col-span-2 space-y-4">
               <div className="rounded-2xl border border-slate-200 bg-paper/60 p-5">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">
                   Program Summary
                 </h3>
 
                 <div className="grid gap-4 sm:grid-cols-3">
                   <div className="rounded-xl bg-white p-3.5 border border-slate-100">
-                    <span className="text-[10px] uppercase font-bold text-slate-400">Membership Plan</span>
-                    <p className="mt-1 text-sm font-bold text-navy">{chosenPlan?.name}</p>
+                    <span className="text-[10px] uppercase font-semibold text-slate-400">Membership Plan</span>
+                    <p className="mt-1 text-sm font-semibold text-navy">{chosenPlan?.name}</p>
                     <p className="text-[11px] text-slate-500">
                       {chosenPlan?.duration === 1 ? "30 Days / Classes" : chosenPlan?.duration === 3 ? "90 Days / Classes" : "180 Days / Classes"}
                     </p>
                   </div>
 
                   <div className="rounded-xl bg-white p-3.5 border border-slate-100">
-                    <span className="text-[10px] uppercase font-bold text-slate-400">Selected Sport</span>
-                    <p className="mt-1 text-sm font-bold text-navy">{chosenSport?.name}</p>
+                    <span className="text-[10px] uppercase font-semibold text-slate-400">Selected Sport</span>
+                    <p className="mt-1 text-sm font-semibold text-navy">{chosenSport?.name}</p>
                     <p className="text-[11px] text-slate-500">Full facility & drills</p>
                   </div>
 
                   <div className="rounded-xl bg-white p-3.5 border border-slate-100">
-                    <span className="text-[10px] uppercase font-bold text-slate-400">Assigned Coach</span>
-                    <p className="mt-1 text-sm font-bold text-navy">{chosenCoach?.user?.name || chosenCoach?.name}</p>
+                    <span className="text-[10px] uppercase font-semibold text-slate-400">Assigned Coach</span>
+                    <p className="mt-1 text-sm font-semibold text-navy">{chosenCoach?.user?.name || chosenCoach?.name}</p>
                     <p className="text-[11px] text-slate-500">{chosenCoach?.specialization || "Academy Coach"}</p>
                   </div>
                 </div>
 
                 <div className="mt-5 flex items-center justify-between border-t border-slate-200/80 pt-4">
                   <div>
-                    <span className="text-xs font-bold text-slate-600">Total Due Today</span>
+                    <span className="text-xs font-semibold text-slate-600">Total Due Today</span>
                     <p className="text-[10px] text-slate-400">Includes all coaching sessions and training tracking</p>
                   </div>
-                  <span className="text-2xl font-black text-navy">{money(planPrice)}</span>
+                  <span className="text-2xl font-semibold text-navy">{money(planPrice)}</span>
                 </div>
               </div>
 
               {/* What happens next */}
               <div className="rounded-2xl border border-blue/20 bg-blue-soft/30 p-5">
-                <h4 className="text-xs font-bold text-navy flex items-center gap-1.5">
+                <h4 className="text-xs font-semibold text-navy flex items-center gap-1.5">
                   <ShieldCheck size={16} className="text-blue" />
                   <span>Instant Membership Activation</span>
                 </h4>
@@ -733,18 +733,18 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
             {/* Payment action card */}
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between">
               <div>
-                <span className="inline-flex items-center gap-1 rounded-md bg-paper px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                <span className="inline-flex items-center gap-1 rounded-md bg-paper px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                   <Lock size={11} /> 256-bit Secure
                 </span>
 
-                <h3 className="mt-3 text-base font-bold text-navy">Pay via Razorpay UPI</h3>
+                <h3 className="mt-3 text-base font-semibold text-navy">Pay via Razorpay UPI</h3>
                 <p className="mt-1 text-xs text-slate-500 leading-relaxed">
                   Fast 5-second QR verification. Scan or simulate payment to activate your program immediately.
                 </p>
 
                 <div className="mt-5 rounded-xl bg-paper p-4 text-center border border-slate-100">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Amount to Pay</span>
-                  <div className="mt-1 text-2xl font-black text-navy">{money(planPrice)}</div>
+                  <span className="text-[10px] uppercase font-semibold text-slate-400">Amount to Pay</span>
+                  <div className="mt-1 text-2xl font-semibold text-navy">{money(planPrice)}</div>
                   <span className="text-[10px] text-emerald-600 font-semibold">Zero transaction fees</span>
                 </div>
 
@@ -759,7 +759,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                 <button
                   type="button"
                   onClick={handlePayWithRazorpay}
-                  className="btn-primary w-full !py-3 shadow-md flex items-center justify-center gap-2 text-xs font-bold"
+                  className="btn-primary w-full !py-3 shadow-md flex items-center justify-center gap-2 text-xs font-semibold"
                 >
                   <QrCode size={16} />
                   <span>Pay with Razorpay (5s Fast QR)</span>
@@ -788,7 +788,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                   <QrCode size={24} />
                 </div>
 
-                <h3 className="mt-4 text-base font-extrabold text-navy">
+                <h3 className="mt-4 text-base font-semibold text-navy">
                   Razorpay UPI Verification
                 </h3>
                 <p className="mt-1 text-xs text-slate-500">
@@ -815,7 +815,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
 
                 {/* Countdown Timer */}
                 <div className="rounded-xl bg-orange/10 border border-orange/20 p-3">
-                  <div className="flex items-center justify-center gap-1.5 text-xs font-bold text-orange">
+                  <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-orange">
                     <Clock size={15} className="animate-spin text-orange" />
                     <span>Verifying UPI Gateway: {secondsLeft}s</span>
                   </div>
@@ -829,7 +829,7 @@ export default function StudentOnboardingFlow({ user, sports = [], coaches = [],
                 <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-100 text-emerald-600 shadow-md">
                   <CheckCircle2 size={36} />
                 </div>
-                <h3 className="mt-4 text-lg font-extrabold text-navy">
+                <h3 className="mt-4 text-lg font-semibold text-navy">
                   Payment Verified!
                 </h3>
                 <p className="mt-1.5 text-xs text-slate-500">

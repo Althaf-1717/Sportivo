@@ -21,7 +21,7 @@ export default function Footer() {
                 height={32}
                 className="h-8 w-8 rounded-lg object-cover ring-1 ring-black/5 transition-transform duration-200 group-hover:scale-105"
               />
-              <span className="text-lg font-bold tracking-tight text-gray-900">
+              <span className="text-lg font-semibold tracking-tight text-gray-900">
                 Sport<span className="text-orange-600">ivo</span>
               </span>
             </Link>
@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-gray-900">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-900">
               Programmes
             </h2>
             <div className="mt-4 grid gap-2.5 text-sm text-stone-500">
@@ -55,7 +55,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-gray-900">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-900">
               Academy
             </h2>
             <div className="mt-4 grid gap-2.5 text-sm text-stone-500">
@@ -75,7 +75,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-gray-900">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-900">
               Portals
             </h2>
             <div className="mt-4 grid gap-2.5 text-sm text-stone-500">
@@ -95,7 +95,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-gray-900">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-900">
               Start Today
             </h2>
             <p className="mt-4 text-xs leading-relaxed text-stone-500">
@@ -103,7 +103,7 @@ export default function Footer() {
             </p>
             <Link
               href="/register"
-              className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 transition hover:text-orange-700 hover:translate-x-0.5"
+              className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-orange-600 transition hover:text-orange-700 hover:translate-x-0.5"
             >
               Join Sportivo <ArrowUpRight size={14} />
             </Link>

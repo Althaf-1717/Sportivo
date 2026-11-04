@@ -56,7 +56,7 @@ export default async function StudentPaymentsPage({ searchParams }) {
 
       <section className="mt-6">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-bold text-navy">Payment & Program History</h3>
+          <h3 className="text-sm font-semibold text-navy">Payment & Program History</h3>
           <span className="text-xs text-slate-500">Student ID: #{user.studentId || 10001}</span>
         </div>
 
@@ -81,7 +81,7 @@ export default async function StudentPaymentsPage({ searchParams }) {
                   return (
                     <tr key={payment._id}>
                       <td>
-                        <strong className="block text-navy font-bold">{payment.membershipPlan?.name || "Academy Membership"}</strong>
+                        <strong className="block text-navy font-semibold">{payment.membershipPlan?.name || "Academy Membership"}</strong>
                         <span className="text-[10px] text-slate-400">{classes} Classes ({planDuration} mo)</span>
                       </td>
                       <td>
@@ -94,7 +94,7 @@ export default async function StudentPaymentsPage({ searchParams }) {
                           {payment.coach?.name ? `Coach ${payment.coach.name}` : data.currentEnrollment?.coach?.name ? `Coach ${data.currentEnrollment.coach.name}` : "Assigned Coach"}
                         </span>
                       </td>
-                      <td className="font-bold text-navy">{money(payment.amount)}</td>
+                      <td className="font-semibold text-navy">{money(payment.amount)}</td>
                       <td>{dateLabel(payment.createdAt)}</td>
                       <td>
                         <span className={payment.status === "successful" ? "status-good" : payment.status === "pending" ? "status-warn" : "status-muted"}>

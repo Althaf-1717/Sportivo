@@ -16,7 +16,7 @@ export default function AboutPage() {
           <div className="container-wide grid items-center gap-10 md:grid-cols-[.95fr_1.05fr]">
             <div>
               <p className="eyebrow">Why we’re here</p>
-              <h1 className="mt-2 text-4xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-5xl">
+              <h1 className="mt-2 text-4xl font-semibold leading-tight tracking-tight text-gray-900 sm:text-5xl">
                 Sport should make you feel more like{" "}
                 <span className="text-gradient-brand italic">yourself</span>.
               </h1>
@@ -41,7 +41,7 @@ export default function AboutPage() {
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#19110d]/75 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-white/25 bg-black/45 px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur-md">
+                <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-white/25 bg-black/45 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
                   <ShieldCheck size={14} className="text-orange-400" />
                   <span>1 : 6 Specialist Coaching Cohorts</span>
                 </div>
@@ -91,7 +91,7 @@ export default function AboutPage() {
                 <span className="grid h-11 w-11 place-items-center rounded-2xl border border-orange-200/80 bg-orange-50 text-orange-600">
                   {icon}
                 </span>
-                <h2 className="mt-4 text-base font-bold text-gray-900">
+                <h2 className="mt-4 text-base font-semibold text-gray-900">
                   {title}
                 </h2>
                 <p className="mt-2 text-xs leading-6 text-stone-600">{copy}</p>

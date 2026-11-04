@@ -147,7 +147,7 @@ export default function ProfileForm({ role = "coach" }) {
       <div>
         <div className="flex items-center gap-2">
           <UserCheck size={18} className="text-blue" />
-          <h2 className="text-sm font-bold text-navy">Account Details</h2>
+          <h2 className="text-sm font-semibold text-navy">Account Details</h2>
         </div>
         <p className="mt-1 text-[11px] text-slate-400">
           Your profile information is shared with the academy. Changes to your name or phone will automatically sync with the academy administration portal.
@@ -157,10 +157,10 @@ export default function ProfileForm({ role = "coach" }) {
       {role === "student" && form.studentId && (
         <div className="mb-4 rounded-xl border border-blue/20 bg-blue-soft/50 p-4 flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Academy Identity</span>
-            <p className="text-sm font-extrabold text-navy">Student ID: #{form.studentId}</p>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Academy Identity</span>
+            <p className="text-sm font-semibold text-navy">Student ID: #{form.studentId}</p>
           </div>
-          <span className="rounded-lg bg-blue px-3 py-1 text-xs font-bold text-white shadow-sm">
+          <span className="rounded-lg bg-blue px-3 py-1 text-xs font-semibold text-white shadow-sm">
             Active Athlete
           </span>
         </div>
@@ -291,7 +291,7 @@ export default function ProfileForm({ role = "coach" }) {
       <div className="border-t border-slate-100 pt-5">
         <div className="flex items-center gap-2">
           <ShieldCheck size={18} className="text-orange" />
-          <h3 className="text-sm font-bold text-navy">Change Password</h3>
+          <h3 className="text-sm font-semibold text-navy">Change Password</h3>
         </div>
         <p className="mt-1 text-[11px] text-slate-400">
           You can update the temporary password set by the admin to your own private password.

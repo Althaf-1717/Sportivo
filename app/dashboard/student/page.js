@@ -56,13 +56,13 @@ export default async function StudentDashboardPage({ searchParams }) {
               <Trophy size={20} className="animate-float" />
             </span>
             <div>
-              <h3 className="text-base font-bold text-emerald-950">
+              <h3 className="text-base font-semibold text-emerald-950">
                 Congratulations, {user.name}! Your membership is active!
               </h3>
               <p className="mt-1 text-xs text-emerald-800 leading-relaxed">
                 Welcome to Sportivo Academy! Your enrolled program for{" "}
-                <strong className="font-bold">{current.sport?.name}</strong> with{" "}
-                <strong className="font-bold">Coach {current.coach?.name}</strong> is now live.
+                <strong className="font-semibold">{current.sport?.name}</strong> with{" "}
+                <strong className="font-semibold">Coach {current.coach?.name}</strong> is now live.
                 All student features — <strong>Coaches</strong>, <strong>Attendance</strong>, <strong>Progress</strong>, and <strong>Payments</strong> — are now unlocked in your sidebar navigation.
               </p>
               <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
@@ -84,7 +84,7 @@ export default async function StudentDashboardPage({ searchParams }) {
       <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
         <div>
           <p className="eyebrow">{salutation}, {user.name?.split(" ")[0]}</p>
-          <h2 className="mt-1 text-[24px] font-bold tracking-[-.045em] text-navy sm:text-[28px]">
+          <h2 className="mt-1 text-[24px] font-semibold tracking-[-.045em] text-navy sm:text-[28px]">
             Ready for what’s next?
           </h2>
           <p className="mt-2 text-xs text-slate-500">
@@ -129,10 +129,10 @@ export default async function StudentDashboardPage({ searchParams }) {
         <section className="surface-card p-5 sm:p-6">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[.13em] text-slate-400">The long game</p>
-              <h3 className="mt-1 text-sm font-bold text-navy">Progress over time</h3>
+              <p className="text-[10px] font-semibold uppercase tracking-[.13em] text-slate-400">The long game</p>
+              <h3 className="mt-1 text-sm font-semibold text-navy">Progress over time</h3>
             </div>
-            <span className="rounded-lg bg-blue-soft px-2.5 py-1 text-[9px] font-bold text-blue">
+            <span className="rounded-lg bg-blue-soft px-2.5 py-1 text-[9px] font-semibold text-blue">
               Your coach’s check-ins
             </span>
           </div>
@@ -153,8 +153,8 @@ export default async function StudentDashboardPage({ searchParams }) {
         <section className="surface-card p-5 sm:p-6">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[.13em] text-slate-400">Good to know</p>
-              <h3 className="mt-1 text-sm font-bold text-navy">Membership snapshot</h3>
+              <p className="text-[10px] font-semibold uppercase tracking-[.13em] text-slate-400">Good to know</p>
+              <h3 className="mt-1 text-sm font-semibold text-navy">Membership snapshot</h3>
             </div>
             <span className="grid h-9 w-9 place-items-center rounded-xl bg-orange/10 text-orange">
               <CreditCard size={16} />
@@ -162,19 +162,19 @@ export default async function StudentDashboardPage({ searchParams }) {
           </div>
           <div className="mt-5 rounded-xl bg-paper p-4">
             <p className="text-[10px] font-semibold text-slate-500">{current?.membershipPlan?.name}</p>
-            <p className="mt-1 text-lg font-bold text-navy">{money(current?.membershipPlan?.price)}</p>
+            <p className="mt-1 text-lg font-semibold text-navy">{money(current?.membershipPlan?.price)}</p>
             <p className="mt-1 text-[10px] text-slate-500">
               {current?.membershipPlan?.duration} month plan · expires {dateLabel(current.endDate)}
             </p>
           </div>
           <Link
             href="/dashboard/student/membership"
-            className="mt-4 inline-flex items-center gap-1.5 text-[10px] font-bold text-blue"
+            className="mt-4 inline-flex items-center gap-1.5 text-[10px] font-semibold text-blue"
           >
             View membership <ArrowRight size={13} />
           </Link>
           <div className="mt-5 rounded-xl border border-orange/15 bg-orange/5 p-4">
-            <span className="flex items-center gap-1.5 text-[10px] font-bold text-navy">
+            <span className="flex items-center gap-1.5 text-[10px] font-semibold text-navy">
               <Sparkles size={13} className="text-orange" /> Keep showing up
             </span>
             <p className="mt-1.5 text-[10px] leading-5 text-slate-500">
@@ -187,8 +187,8 @@ export default async function StudentDashboardPage({ searchParams }) {
       <div className="mt-5 grid gap-4 xl:grid-cols-2">
         <section className="surface-card p-5 sm:p-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-navy">Recent attendance</h3>
-            <Link href="/dashboard/student/attendance" className="text-[10px] font-bold text-blue">
+            <h3 className="text-sm font-semibold text-navy">Recent attendance</h3>
+            <Link href="/dashboard/student/attendance" className="text-[10px] font-semibold text-blue">
               View all
             </Link>
           </div>
@@ -216,8 +216,8 @@ export default async function StudentDashboardPage({ searchParams }) {
 
         <section className="surface-card p-5 sm:p-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-navy">Latest coach note</h3>
-            <Link href="/dashboard/student/progress" className="text-[10px] font-bold text-blue">
+            <h3 className="text-sm font-semibold text-navy">Latest coach note</h3>
+            <Link href="/dashboard/student/progress" className="text-[10px] font-semibold text-blue">
               See progress
             </Link>
           </div>

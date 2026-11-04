@@ -138,13 +138,13 @@ export default function ScrollStorytelling() {
           <span className="inline-flex items-center gap-2">
             <span className="h-px w-6 bg-gradient-to-r from-orange-500/80 to-orange-500/0" />
             <MoveRight size={14} className="text-orange-500" />
-            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-orange-600">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-orange-600">
               One athlete, end to end
             </span>
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
             Meet{" "}
-            <span className="text-gradient-brand italic font-bold">
+            <span className="text-gradient-brand italic font-semibold">
               Aarav Sharma
             </span>
             .
@@ -172,9 +172,9 @@ export default function ScrollStorytelling() {
                   }`}
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-orange-600">
+                    <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-orange-600">
                       <span
-                        className={`grid h-7 w-7 place-items-center rounded-full text-xs font-extrabold transition-colors ${
+                        className={`grid h-7 w-7 place-items-center rounded-full text-xs font-semibold transition-colors ${
                           isActive
                             ? "bg-orange-600 text-white shadow-sm"
                             : "bg-orange-100 text-orange-700"
@@ -189,7 +189,7 @@ export default function ScrollStorytelling() {
                     </span>
                   </div>
 
-                  <h3 className="mt-4 text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+                  <h3 className="mt-4 text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl">
                     {act.title}
                   </h3>
                   <p className="mt-1 text-xs font-semibold text-orange-600">
@@ -223,7 +223,7 @@ export default function ScrollStorytelling() {
                         title={act.title}
                       >
                         <span
-                          className={`mr-2 text-xs italic font-bold transition-colors ${
+                          className={`mr-2 text-xs italic font-semibold transition-colors ${
                             isActive
                               ? "text-orange-600"
                               : isPassed
@@ -268,7 +268,7 @@ export default function ScrollStorytelling() {
                     <ShieldCheck size={12} className="text-orange-600" />
                     <span className="truncate">{currentAct.url}</span>
                   </div>
-                  <span className="rounded-full bg-orange-100 px-2.5 py-0.5 text-[10px] font-bold text-orange-700">
+                  <span className="rounded-full bg-orange-100 px-2.5 py-0.5 text-[10px] font-semibold text-orange-700">
                     Act {currentAct.roman} / V
                   </span>
                 </div>
@@ -280,14 +280,14 @@ export default function ScrollStorytelling() {
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-4">
                     <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-orange-600">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-orange-600">
                         {currentAct.step}
                       </span>
-                      <h4 className="mt-1 text-lg font-bold text-gray-900">
+                      <h4 className="mt-1 text-lg font-semibold text-gray-900">
                         {currentAct.title}
                       </h4>
                     </div>
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
                       <CheckCircle2 size={13} />
                       {currentAct.badge}
                     </span>
@@ -303,7 +303,7 @@ export default function ScrollStorytelling() {
                         <p className="text-[11px] font-semibold uppercase tracking-wider text-stone-400">
                           {label}
                         </p>
-                        <p className="mt-1.5 text-sm font-bold text-gray-900">
+                        <p className="mt-1.5 text-sm font-semibold text-gray-900">
                           {value}
                         </p>
                       </div>
@@ -312,7 +312,7 @@ export default function ScrollStorytelling() {
 
                   {/* Progress Bar & Verified Highlight */}
                   <div className="mt-5 rounded-2xl border border-orange-200/80 bg-orange-50/60 p-4">
-                    <div className="flex items-center justify-between text-xs font-bold text-orange-900">
+                    <div className="flex items-center justify-between text-xs font-semibold text-orange-900">
                       <span className="inline-flex items-center gap-1.5">
                         <Sparkles size={14} className="text-orange-600" />
                         Athlete Journey Progress
@@ -344,7 +344,7 @@ export default function ScrollStorytelling() {
                           key={a.roman}
                           type="button"
                           onClick={() => setActiveIndex(idx)}
-                          className={`h-7 rounded-full px-3 text-xs font-bold transition-all ${
+                          className={`h-7 rounded-full px-3 text-xs font-semibold transition-all ${
                             idx === activeIndex
                               ? "bg-gray-900 text-white shadow-xs"
                               : "bg-stone-100 text-stone-600 hover:bg-orange-50 hover:text-orange-600"

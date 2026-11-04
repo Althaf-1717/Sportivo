@@ -24,7 +24,7 @@ export default async function StudentEnrollmentPage() {
           description="Your active membership is ready. Keep an eye on your training sessions and progress."
         />
         <div className="surface-card p-6 sm:p-8">
-          <p className="text-base font-bold text-navy">
+          <p className="text-base font-semibold text-navy">
             {data.currentEnrollment.sport?.name} · {data.currentEnrollment.membershipPlan?.name}
           </p>
           <p className="mt-2 text-xs text-slate-500">

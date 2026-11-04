@@ -106,7 +106,7 @@ export default function Navbar() {
             height={34}
             className="h-8 w-8 rounded-lg object-cover ring-1 ring-black/5 transition-transform duration-200 group-hover:scale-105"
           />
-          <span className="text-[17px] font-bold tracking-tight text-gray-900">
+          <span className="text-[17px] font-semibold tracking-tight text-gray-900">
             Sport<span className="text-orange-600">ivo</span>
           </span>
         </Link>

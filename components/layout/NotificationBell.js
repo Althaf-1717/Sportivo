@@ -61,14 +61,14 @@ export default function NotificationBell() {
         <div className="absolute right-0 top-full z-50 mt-2.5 w-[min(340px,calc(100vw-24px))] max-w-[340px] overflow-hidden rounded-2xl border border-white/80 bg-white/95 shadow-[0_20px_50px_rgba(7,11,20,0.18)] backdrop-blur-2xl transition-all animate-in fade-in slide-in-from-top-2 duration-150">
           <div className="flex items-center justify-between border-b border-slate-100/80 bg-white/50 px-4 py-3 backdrop-blur-sm">
             <div>
-              <p className="text-[12px] font-bold text-navy">Notifications</p>
+              <p className="text-[12px] font-semibold text-navy">Notifications</p>
               <p className="text-[9px] font-medium text-slate-400">{unread} unread updates</p>
             </div>
             {unread > 0 && (
               <button
                 disabled={busy}
                 onClick={markAll}
-                className="inline-flex items-center gap-1 rounded-md bg-blue-soft/80 px-2 py-1 text-[9px] font-bold text-blue transition hover:bg-blue hover:text-white"
+                className="inline-flex items-center gap-1 rounded-md bg-blue-soft/80 px-2 py-1 text-[9px] font-semibold text-blue transition hover:bg-blue hover:text-white"
               >
                 <CheckCheck size={11} /> Mark all read
               </button>
@@ -93,7 +93,7 @@ export default function NotificationBell() {
                       }`}
                     />
                     <div className="flex-1">
-                      <p className="text-[11px] font-bold leading-snug text-navy">{item.title}</p>
+                      <p className="text-[11px] font-semibold leading-snug text-navy">{item.title}</p>
                       <p className="mt-0.5 text-[10px] leading-relaxed text-slate-600">{item.message}</p>
                       <p className="mt-1 text-[8px] font-semibold tracking-wide text-slate-400">
                         {dateLabel(item.createdAt, {
@@ -116,7 +116,7 @@ export default function NotificationBell() {
           </div>
 
           <button
-            className="w-full border-t border-slate-100/80 bg-white/60 px-4 py-2 text-center text-[10px] font-bold text-slate-500 transition hover:bg-slate-100/80 hover:text-navy"
+            className="w-full border-t border-slate-100/80 bg-white/60 px-4 py-2 text-center text-[10px] font-semibold text-slate-500 transition hover:bg-slate-100/80 hover:text-navy"
             onClick={() => setOpen(false)}
           >
             Close

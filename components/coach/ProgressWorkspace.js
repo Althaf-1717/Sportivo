@@ -52,7 +52,7 @@ export default function ProgressWorkspace({ enrollments, initialProgress }) {
         <div className="flex items-center gap-3">
           <span className="grid h-10 w-10 place-items-center rounded-xl bg-orange/10 text-orange"><Activity size={17} /></span>
           <div>
-            <h3 className="text-sm font-bold text-navy">Add a progress review</h3>
+            <h3 className="text-sm font-semibold text-navy">Add a progress review</h3>
             <p className="mt-1 text-[10px] text-slate-500">Scores are 0–100. Update skills, scores, and overall progress.</p>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function ProgressWorkspace({ enrollments, initialProgress }) {
       <section className="surface-card p-5 sm:p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-sm font-bold text-navy">Recent reviews</h3>
+            <h3 className="text-sm font-semibold text-navy">Recent reviews</h3>
             <p className="mt-1 text-[10px] text-slate-500">Latest student progress updates.</p>
           </div>
           <span className="pill">{records.length} reviews</span>
@@ -116,7 +116,7 @@ export default function ProgressWorkspace({ enrollments, initialProgress }) {
               <article key={row._id} className="rounded-xl border border-slate-100 p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-xs font-bold text-navy">{row.student?.name || "Student"}</p>
+                    <p className="text-xs font-semibold text-navy">{row.student?.name || "Student"}</p>
                     <p className="mt-1 text-[9px] text-slate-500">{row.sport?.name || "Training"} · {dateLabel(row.createdAt)}</p>
                   </div>
                   <span className="status-good">{row.overallProgress}% · {row.skillLevel}</span>

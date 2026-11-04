@@ -38,7 +38,7 @@ export default async function CoachDetailsPage({ params }) {
                       className="mx-auto h-28 w-28 rounded-[28px] object-cover border-2 border-white/20 shadow-lg"
                     />
                   ) : (
-                    <div className="mx-auto grid h-24 w-24 place-items-center rounded-[28px] bg-white/10 text-2xl font-bold text-orange">
+                    <div className="mx-auto grid h-24 w-24 place-items-center rounded-[28px] bg-white/10 text-2xl font-semibold text-orange">
                       {coach.initials || name.split(" ").map((word) => word[0]).slice(0, 2).join("")}
                     </div>
                   )}
@@ -49,7 +49,7 @@ export default async function CoachDetailsPage({ params }) {
               </div>
               <div className="p-7 sm:p-9">
                 <p className="eyebrow">Meet your coach</p>
-                <h1 className="mt-2 text-3xl font-bold tracking-[-.05em] text-navy">{name}</h1>
+                <h1 className="mt-2 text-3xl font-semibold tracking-[-.05em] text-navy">{name}</h1>
                 <p className="mt-2 text-sm font-semibold text-blue">{coach.role || coach.specialization}</p>
                 <p className="mt-5 text-sm leading-7 text-slate-600">{coach.bio}</p>
                 <div className="mt-6 grid gap-3 text-xs text-slate-600 sm:grid-cols-2">

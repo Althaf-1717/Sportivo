@@ -120,7 +120,7 @@ function formatCell(resource, key, row) {
         {coachImg ? (
           <img src={coachImg} alt={coachName} className="h-9 w-9 rounded-full object-cover border border-slate-200 shadow-sm shrink-0" />
         ) : (
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blue-soft text-blue text-xs font-bold shadow-inner">
+          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blue-soft text-blue text-xs font-semibold shadow-inner">
             {initials}
           </div>
         )}
@@ -282,7 +282,7 @@ export default function AdminResourceView({ resource, initialRows, sports = [], 
       <div className="surface-card overflow-hidden">
         <div className="flex flex-col justify-between gap-3 border-b border-slate-100 p-4 sm:flex-row sm:items-center">
           <div>
-            <p className="text-[11px] font-bold text-navy">
+            <p className="text-[11px] font-semibold text-navy">
               {rows.length} {config.singular}
               {rows.length === 1 ? "" : "s"}
             </p>
@@ -377,10 +377,10 @@ export default function AdminResourceView({ resource, initialRows, sports = [], 
           >
             <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[.14em] text-blue">
+                <p className="text-[9px] font-semibold uppercase tracking-[.14em] text-blue">
                   {editing ? "Coach Account Management" : "Coach Provisioning"}
                 </p>
-                <h2 id="resource-title" className="mt-1 text-base font-bold text-navy">
+                <h2 id="resource-title" className="mt-1 text-base font-semibold text-navy">
                   {editing ? `Edit ${config.singular} Access & Profile` : config.buttonLabel || `New ${config.singular}`}
                 </h2>
               </div>
@@ -399,7 +399,7 @@ export default function AdminResourceView({ resource, initialRows, sports = [], 
                 <div className="sm:col-span-2 rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-xs font-bold text-navy block">Profile Image (Optional)</span>
+                      <span className="text-xs font-semibold text-navy block">Profile Image (Optional)</span>
                       <span className="text-[10px] text-slate-500">
                         Upload coach photo to display in coach profiles, directory, and student assignment.
                       </span>

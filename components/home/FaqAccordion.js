@@ -38,7 +38,7 @@ export default function FaqAccordion() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <span className="pill">Got questions?</span>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
             Frequently asked questions
           </h2>
           <p className="mt-4 text-base leading-relaxed text-stone-600">
@@ -64,7 +64,7 @@ export default function FaqAccordion() {
                   className="flex w-full items-center justify-between gap-6 py-6 text-left"
                 >
                   <span
-                    className={`text-base font-bold tracking-tight transition-colors duration-200 sm:text-lg ${
+                    className={`text-base font-semibold tracking-tight transition-colors duration-200 sm:text-lg ${
                       isOpen
                         ? "text-orange-700"
                         : "text-gray-900 group-hover:text-orange-600"

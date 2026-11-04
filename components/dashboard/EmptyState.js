@@ -10,7 +10,7 @@ export default function EmptyState({
       <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-blue-soft/80 text-blue shadow-sm ring-1 ring-blue/20">
         <ClipboardList size={20} />
       </span>
-      <h3 className="mt-4 text-sm font-bold text-navy">{title}</h3>
+      <h3 className="mt-4 text-sm font-semibold text-navy">{title}</h3>
       <p className="mx-auto mt-2 max-w-sm text-[11px] leading-relaxed text-slate-500">{description}</p>
       {action && <div className="mt-5">{action}</div>}
     </div>

@@ -13,21 +13,21 @@ export default function MembershipCard({ plan, featured = false, index = 0 }) {
       }`}
     >
       {featured && (
-        <span className="absolute -top-3.5 right-6 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-white shadow-md">
+        <span className="absolute -top-3.5 right-6 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white shadow-md">
           <Sparkles size={11} /> Most Popular
         </span>
       )}
 
       <div className="flex items-center justify-between">
         <p
-          className={`text-xs font-extrabold uppercase tracking-[0.16em] ${
+          className={`text-xs font-semibold uppercase tracking-[0.16em] ${
             featured ? "text-orange-400" : "text-orange-600"
           }`}
         >
           {plan.name} Plan
         </p>
         <span
-          className={`text-xs font-bold ${
+          className={`text-xs font-semibold ${
             featured ? "text-white/40" : "text-stone-400"
           }`}
         >
@@ -36,7 +36,7 @@ export default function MembershipCard({ plan, featured = false, index = 0 }) {
       </div>
 
       <div className="mt-4 flex flex-wrap items-baseline gap-2">
-        <strong className="text-4xl font-extrabold tracking-tight">
+        <strong className="text-4xl font-semibold tracking-tight">
           {money(plan.price)}
         </strong>
         <span
@@ -63,7 +63,7 @@ export default function MembershipCard({ plan, featured = false, index = 0 }) {
       />
 
       <p
-        className={`mb-3 text-[11px] font-bold uppercase tracking-wider ${
+        className={`mb-3 text-[11px] font-semibold uppercase tracking-wider ${
           featured ? "text-stone-400" : "text-stone-400"
         }`}
       >
@@ -96,7 +96,7 @@ export default function MembershipCard({ plan, featured = false, index = 0 }) {
         href={`/login?plan=${plan.slug || plan._id}`}
         variant={featured ? "orange" : "dark"}
         orbSize={36}
-        className="mt-8 w-full py-3.5 px-6 text-xs font-bold"
+        className="mt-8 w-full py-3.5 px-6 text-xs font-semibold"
       >
         <span>Choose {plan.name}</span>
         <ArrowRight

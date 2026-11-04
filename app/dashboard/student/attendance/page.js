@@ -31,7 +31,7 @@ export default async function StudentAttendancePage() {
             <img src="/images/sportivo-logo.png" alt="Sportivo" className="h-full w-full object-contain" />
           </div>
           <div>
-            <h1 className="text-base font-extrabold tracking-tight text-navy sm:text-lg">
+            <h1 className="text-base font-semibold tracking-tight text-navy sm:text-lg">
               Student Attendance
             </h1>
             <p className="text-[11px] text-slate-400">
@@ -53,7 +53,7 @@ export default async function StudentAttendancePage() {
           <Link
             href="/dashboard/student/profile"
             title="Student Profile"
-            className="flex items-center gap-1.5 rounded-xl border border-blue/30 bg-blue-soft px-3 py-1.5 text-xs font-bold text-blue transition hover:bg-blue hover:text-white"
+            className="flex items-center gap-1.5 rounded-xl border border-blue/30 bg-blue-soft px-3 py-1.5 text-xs font-semibold text-blue transition hover:bg-blue hover:text-white"
           >
             <User size={14} />
             <span>Profile</span>
@@ -65,7 +65,7 @@ export default async function StudentAttendancePage() {
       <section className="surface-card overflow-hidden p-6 sm:p-7 border border-slate-200 shadow-sm">
         <div className="border-b border-slate-100 pb-4">
           <p className="eyebrow">Academic & Sports Record</p>
-          <h2 className="text-xl font-extrabold text-navy sm:text-2xl mt-0.5">
+          <h2 className="text-xl font-semibold text-navy sm:text-2xl mt-0.5">
             Your Attendance
           </h2>
           <p className="text-xs text-slate-500 mt-1">
@@ -77,11 +77,11 @@ export default async function StudentAttendancePage() {
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
           {/* Total Class based on plan: 1 mo = 30, 3 mo = 90, premium = 180 */}
           <div className="rounded-2xl border border-slate-200 bg-paper/60 p-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
               Total class:
             </span>
             <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-3xl font-black text-navy">{totalClasses}</span>
+              <span className="text-3xl font-semibold text-navy">{totalClasses}</span>
               <span className="text-xs font-semibold text-slate-500">
                 days ({current?.membershipPlan?.name || `${duration} Months Plan`})
               </span>
@@ -93,11 +93,11 @@ export default async function StudentAttendancePage() {
 
           {/* Total Present */}
           <div className="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-800">
               present:
             </span>
             <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-3xl font-black text-emerald-700">{presentCount}</span>
+              <span className="text-3xl font-semibold text-emerald-700">{presentCount}</span>
               <span className="text-xs font-semibold text-emerald-800">
                 sessions attended
               </span>
@@ -109,11 +109,11 @@ export default async function StudentAttendancePage() {
 
           {/* Attendance Rate % */}
           <div className="rounded-2xl border border-blue/20 bg-blue-soft/50 p-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-blue">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-blue">
               Attendance rate:
             </span>
             <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-3xl font-black text-navy">{sessionRate}%</span>
+              <span className="text-3xl font-semibold text-navy">{sessionRate}%</span>
               <span className="text-xs font-semibold text-blue">
                 completion rate
               </span>
@@ -135,7 +135,7 @@ export default async function StudentAttendancePage() {
       <section className="surface-card p-6 sm:p-7 border border-slate-200 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-base font-bold text-navy">Session history</h3>
+            <h3 className="text-base font-semibold text-navy">Session history</h3>
             <p className="text-xs text-slate-500">
               Detailed chronological record of every session, drills covered, and coach feedback.
             </p>
@@ -180,7 +180,7 @@ export default async function StudentAttendancePage() {
                       {/* Status badge matching Image 1: [present] in green box, [Absent] in red box */}
                       <td className="text-center">
                         <span
-                          className={`inline-block rounded-lg px-3 py-1 text-xs font-bold uppercase shadow-sm ${
+                          className={`inline-block rounded-lg px-3 py-1 text-xs font-semibold uppercase shadow-sm ${
                             isPresent
                               ? "bg-emerald-600 text-white"
                               : "bg-rose-600 text-white"
