@@ -36,9 +36,9 @@ export default async function LoginPage({ searchParams }) {
   );
 
   return (
-    <main className="flex min-h-screen bg-white">
+    <main className="flex min-h-screen bg-[#fffcf9]">
       <AuthAnimatedPanel mode="login" portal="student" />
-      <section className="relative flex flex-1 flex-col items-center justify-center px-6 py-10 sm:px-12">
+      <section className="relative flex flex-1 flex-col items-center justify-center bg-white px-6 py-12 sm:px-12">
         <Suspense
           fallback={
             <div className="h-[520px] w-full max-w-[440px] animate-pulse rounded-3xl bg-stone-100" />

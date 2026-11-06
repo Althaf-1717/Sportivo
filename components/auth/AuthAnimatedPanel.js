@@ -27,7 +27,7 @@ const icons = [CalendarDays, Users, TrendingUp];
 export default function AuthAnimatedPanel({ mode = "login", portal = "student" }) {
   const content = portals[portal] || portals.student;
   return (
-    <aside className="relative hidden w-1/2 flex-col border-r border-stone-200/70 bg-[#fffaf5] p-10 lg:flex xl:p-14">
+    <aside className="relative hidden w-[46%] flex-col border-r border-stone-200/70 bg-[#fffaf5] p-10 lg:flex xl:p-12">
       <style>{`
         @keyframes portalEnter {
           from { opacity: 0; transform: translateY(12px); }
@@ -43,9 +43,9 @@ export default function AuthAnimatedPanel({ mode = "login", portal = "student" }
         <span className="text-xl font-semibold tracking-tight text-stone-900">Sport<span className="text-orange-600">ivo</span></span>
       </Link>
 
-      <div className="portal-intro my-auto w-full max-w-lg py-12">
+      <div className="portal-intro my-auto w-full max-w-md py-12">
         <p className="text-xs font-medium uppercase tracking-[0.14em] text-orange-700">{mode === "register" ? "Your next chapter starts here" : content.label}</p>
-        <h2 className="mt-4 max-w-md text-4xl font-medium leading-[1.15] tracking-tight text-stone-900 xl:text-5xl">
+        <h2 className="mt-4 max-w-md text-4xl font-medium leading-[1.15] tracking-tight text-stone-900 xl:text-[42px]">
           {mode === "register" ? "Make room for your best game." : content.title}
         </h2>
         <p className="mt-5 max-w-sm text-sm leading-7 text-stone-600">{content.description}</p>

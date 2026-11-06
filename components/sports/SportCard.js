@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
-import SportIcon from "@/components/ui/SportIcon";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 
 function getMatchedSportImage(sport) {
   const key = `${sport?.slug || ""} ${sport?.name || ""}`.toLowerCase();
@@ -34,7 +33,7 @@ export default function SportCard({ sport, index = 0 }) {
   return (
     <Link
       href={`/sports/${sport.slug || sport._id}`}
-      className="group relative flex h-full flex-col overflow-hidden rounded-[20px] border border-stone-200/90 bg-white shadow-[var(--surface-shadow)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-300 hover:shadow-[var(--surface-shadow-hover)]"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200/90 bg-white shadow-[var(--surface-shadow)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-300 hover:shadow-[var(--surface-shadow-hover)]"
     >
       {/* Golden-Hour Matched Sport Photography Header */}
       <div className="relative h-56 overflow-hidden bg-stone-900">
@@ -48,40 +47,17 @@ export default function SportCard({ sport, index = 0 }) {
         {/* Warm Sunset Amber/Espresso Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#19110d]/85 via-[#19110d]/25 to-orange-950/15" />
 
-        {/* Top Badges */}
-        <div className="absolute inset-x-4 top-4 flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/40 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-orange-100 backdrop-blur-md">
-            <Sparkles size={11} className="text-orange-400" />
-            {tag}
-          </span>
-          <span className="rounded-full border border-white/85 bg-white/95 px-3 py-1 text-[11px] font-semibold text-gray-900 shadow-xs backdrop-blur-md">
-            1 : 6 Cohort
-          </span>
-        </div>
-
-        {/* Bottom Sport Emblem + Live Status */}
-        <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
-          <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/90 bg-white/95 shadow-lg backdrop-blur-md transition-transform duration-300 group-hover:scale-105">
-            <SportIcon
-              sport={sport.name || sport.slug || index}
-              className="h-6 w-6"
-              floating={false}
-            />
-          </div>
-          <span className="rounded-full border border-orange-300/40 bg-orange-600/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white shadow-sm backdrop-blur-md">
-            2026 Season Open
-          </span>
-        </div>
+        <p className="absolute bottom-5 left-5 text-xs font-medium tracking-wide text-white">{tag}</p>
       </div>
 
       {/* Card Body */}
       <div className="flex flex-1 flex-col justify-between p-6">
         <div>
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h3 className="text-lg font-semibold tracking-tight text-gray-900 transition-colors group-hover:text-orange-600">
+            <h3 className="text-lg font-medium tracking-tight text-gray-900 transition-colors group-hover:text-orange-600">
               {sport.name} Academy
             </h3>
-            <span className="rounded-full border border-orange-200/70 bg-orange-50 px-2.5 py-0.5 text-[11px] font-semibold text-orange-600">
+            <span className="rounded-full border border-orange-200/70 bg-orange-50 px-2.5 py-0.5 text-[11px] font-medium text-orange-600">
               0{index + 1}
             </span>
           </div>
@@ -90,7 +66,7 @@ export default function SportCard({ sport, index = 0 }) {
           </p>
         </div>
 
-        <div className="mt-5 flex items-center justify-between border-t border-stone-100 pt-4 text-xs font-semibold !text-gray-900 group-hover:!text-orange-600">
+        <div className="mt-5 flex items-center justify-between border-t border-stone-100 pt-4 text-xs font-medium !text-gray-900 group-hover:!text-orange-600">
           <span className="inline-flex items-center gap-1.5">
             <ShieldCheck size={14} className="text-orange-600" />
             <span>Explore programme &amp; batches</span>

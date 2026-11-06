@@ -17,7 +17,7 @@
   color-scheme: light;
   --font-primary: "Poppins", Arial, sans-serif;
   --font-secondary: Arial, "Poppins", sans-serif;
-  --surface-shadow: 0 2px 8px rgba(28, 25, 23, 0.035);
+  --surface-shadow: 0 1px 2px rgba(28, 25, 23, 0.02);
   --surface-shadow-hover: 0 12px 28px -12px rgba(28, 25, 23, 0.12);
 }
 
@@ -109,7 +109,7 @@ button, input, select, textarea {
   font-size: clamp(28px, 3.5vw, 44px);
   line-height: 1.18;
   letter-spacing: -0.035em;
-  font-weight: 600;
+  font-weight: 500;
   text-wrap: balance;
 }
 
@@ -137,8 +137,8 @@ button, input, select, textarea {
 /* Soft Surface Cards & Elevation */
 .surface-card {
   border: 1px solid rgba(231, 226, 218, 0.9);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.96);
+  border-radius: 16px;
+  background: #ffffff;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: var(--surface-shadow);
@@ -151,12 +151,12 @@ button, input, select, textarea {
 }
 
 .shadow-lift {
-  box-shadow: 0 28px 70px -18px rgba(28, 25, 23, 0.14), 0 4px 16px -4px rgba(28, 25, 23, 0.06);
+  box-shadow: 0 12px 32px -20px rgba(28, 25, 23, 0.16);
 }
 
 .pill {
   border: 1px solid rgba(254, 215, 170, 0.85);
-  border-radius: 9999px;
+  border-radius: 12px;
   background: rgba(255, 247, 237, 0.9);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -172,7 +172,7 @@ button, input, select, textarea {
 .table-wrap {
   overflow-x: auto;
   border: 1px solid rgba(231, 226, 218, 0.9);
-  border-radius: 20px;
+  border-radius: 16px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -292,7 +292,7 @@ button, input, select, textarea {
   gap: 8px;
   padding: 13px 26px;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 9999px;
+  border-radius: 12px;
   background: #111827;
   color: #ffffff;
   font-size: 13.5px;
@@ -323,7 +323,7 @@ button, input, select, textarea {
   gap: 8px;
   padding: 13px 25px;
   border: 1px solid rgba(214, 211, 209, 0.9);
-  border-radius: 9999px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -356,7 +356,7 @@ button, input, select, textarea {
   justify-content: center;
   gap: 8px;
   padding: 13px 26px;
-  border-radius: 9999px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -495,7 +495,7 @@ button, input, select, textarea {
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(231, 226, 218, 0.9);
   box-shadow: var(--surface-shadow);
-  border-radius: 20px;
+  border-radius: 16px;
 }
 
 .glass-panel-dark {
@@ -542,3 +542,13 @@ button, input, select, textarea {
     transform: none !important;
   }
 }
+
+/* Shared editorial rhythm across public pages and portal workspaces. */
+@layer base {
+  h1, h2, h3 { text-wrap: balance; }
+  button, a, input, select, textarea { touch-action: manipulation; }
+}
+.portal-shell { background: #faf8f5; }
+.portal-shell main { max-width: 1600px; margin-inline: auto; }
+.portal-shell h2 { font-weight: 500; }
+.public-site main > section { scroll-margin-top: 96px; }

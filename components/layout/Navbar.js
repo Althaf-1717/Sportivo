@@ -84,13 +84,13 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+    <header className="sticky top-0 z-50 border-b border-stone-200/70 bg-[#fffcf9]/95 px-4 backdrop-blur-xl">
       <nav
         aria-label="Main navigation"
-        className={`mx-auto flex h-14 max-w-[1220px] items-center justify-between rounded-2xl border pl-4 pr-3 transition-all duration-300 ${
+        className={`mx-auto flex h-[76px] max-w-[1220px] items-center justify-between pl-0 pr-0 transition-all duration-300 ${
           scrolled
-            ? "border-stone-200/90 bg-white/90 shadow-[0_14px_40px_-14px_rgba(28,25,23,0.14)] backdrop-blur-xl"
-            : "border-stone-200/50 bg-white/65 shadow-[0_4px_20px_-8px_rgba(28,25,23,0.06)] backdrop-blur-md"
+            ? "bg-[#fffcf9]/95"
+            : "bg-transparent"
         }`}
       >
         {/* Brand Logo */}
@@ -183,7 +183,7 @@ export default function Navbar() {
               href="/about"
               className="flex items-center gap-1 text-sm font-medium text-gray-600 transition-colors hover:text-gray-900"
             >
-              Academy & Portals
+              Academy
               <ChevronDown
                 size={14}
                 className="text-gray-400 transition-transform duration-200 group-hover:rotate-180"
@@ -193,7 +193,7 @@ export default function Navbar() {
               <div className="absolute inset-x-0 -top-4 h-4 bg-transparent" />
               <div className="overflow-hidden rounded-3xl border border-stone-200/80 bg-white/95 p-2.5 shadow-[0_16px_40px_-16px_rgba(28,25,23,0.18)] backdrop-blur-xl">
                 <div className="px-3 pb-2 pt-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">
-                  Digital Operating System
+                  Your academy workspace
                 </div>
                 <div className="grid grid-cols-2 gap-1">
                   {platformMenu.map((item) => {
@@ -278,6 +278,9 @@ export default function Navbar() {
               ["Membership Plans", "/membership"],
               ["Our Story & Method", "/about"],
               ["Contact Academy", "/contact"],
+              ["Student Portal", "/login"],
+              ["Coach Portal", "/coach"],
+              ["Admin Portal", "/admin"],
             ].map(([label, href]) => (
               <Link
                 key={href}

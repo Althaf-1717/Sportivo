@@ -90,7 +90,7 @@ export default function DashboardShell({ user, role, nav, children }) {
 
   const sidebar = (
     <aside
-      className={`fixed inset-y-0 left-0 z-40 flex w-[250px] flex-col border-r border-stone-200/80 bg-white/90 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),0_10px_35px_rgba(28,25,23,0.04)] transition-transform duration-200 lg:static lg:translate-x-0 ${
+      className={`fixed inset-y-0 left-0 z-40 flex w-[250px] flex-col border-r border-stone-200/80 bg-[#fffcf9] transition-transform duration-200 lg:static lg:translate-x-0 ${
         collapsed ? "lg:w-[80px]" : "lg:w-[250px]"
       } ${mobileOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"}`}
     >
@@ -163,7 +163,7 @@ export default function DashboardShell({ user, role, nav, children }) {
               }}
               className={`mb-1.5 flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-medium transition-all duration-150 ${
                 active
-                  ? "bg-orange-50 !text-orange-700 ring-1 ring-orange-200/70"
+                  ? "bg-orange-50 !text-orange-700 border-l-2 border-orange-600"
                   : "!text-stone-600 hover:bg-stone-100/80 hover:!text-gray-900"
               }`}
             >
@@ -206,7 +206,7 @@ export default function DashboardShell({ user, role, nav, children }) {
           {collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
         </button>
         <div
-          className={`mt-2 flex items-center gap-2.5 rounded-full border border-stone-200/80 bg-stone-50/80 p-2 shadow-2xs ${
+          className={`mt-2 flex items-center gap-2.5 rounded-xl border border-stone-200/80 bg-white p-2 shadow-2xs ${
             collapsed ? "lg:justify-center" : ""
           }`}
         >
@@ -231,7 +231,7 @@ export default function DashboardShell({ user, role, nav, children }) {
   );
 
   return (
-    <div className="min-h-screen lg:flex">
+    <div className="portal-shell min-h-screen lg:flex">
       {mobileOpen && (
         <button
           className="fixed inset-0 z-30 bg-gray-900/30 backdrop-blur-xs lg:hidden"
@@ -241,7 +241,7 @@ export default function DashboardShell({ user, role, nav, children }) {
       )}
       {sidebar}
       <div className="min-w-0 flex-1">
-        <header className="sticky top-0 z-30 flex h-[74px] items-center justify-between border-b border-stone-200/80 bg-white/85 px-4 backdrop-blur-2xl shadow-2xs sm:px-7">
+        <header className="sticky top-0 z-30 flex h-[74px] items-center justify-between border-b border-stone-200/80 bg-[#fffcf9]/95 px-4 backdrop-blur-md sm:px-7">
           {/* Instant Top Loading Bar on Tab Switch */}
           {isNavigating && (
             <div className="absolute inset-x-0 top-0 h-0.5 overflow-hidden bg-orange-100">

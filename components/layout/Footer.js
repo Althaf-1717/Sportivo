@@ -3,7 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-stone-200/70 bg-white/60 backdrop-blur-sm">
+    <footer className="relative overflow-hidden border-t border-stone-200/70 bg-[#faf7f2]">
       {/* Ambient Warm Radial Glow */}
       <div
         aria-hidden="true"
@@ -26,7 +26,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-stone-500">
-              Train without the chaos. The all-in-one athletic academy & digital progress operating system built for cricket, football, and basketball athletes in Bengaluru.
+              Cricket, football, and basketball coaching in Bengaluru. Good people. Purposeful practice. Progress you can see.
             </p>
             <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-3 py-1 text-xs font-semibold text-emerald-700">
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
