@@ -15,8 +15,6 @@ import {
   Loader2,
   LogOut,
   Menu,
-  PanelLeftClose,
-  PanelLeftOpen,
   Settings,
   ShieldCheck,
   TrendingUp,
@@ -54,7 +52,7 @@ export default function DashboardShell({ user, role, nav, children }) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
+  const collapsed = false;
   const [menuOpen, setMenuOpen] = useState(false);
   const [pendingHref, setPendingHref] = useState(null);
 
@@ -198,33 +196,22 @@ export default function DashboardShell({ user, role, nav, children }) {
       </nav>
 
       <div className="border-t border-stone-100 p-3">
-        <button
-          className="hidden w-full items-center justify-center rounded-lg py-2 text-stone-400 hover:bg-stone-50 hover:text-gray-900 lg:flex"
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          {collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
-        </button>
         <div
-          className={`mt-2 flex items-center gap-2.5 rounded-xl border border-stone-200/80 bg-white p-2 shadow-2xs ${
-            collapsed ? "lg:justify-center" : ""
-          }`}
+          className="flex items-center gap-2.5 rounded-full border border-stone-200/80 bg-stone-50/80 p-2 shadow-2xs"
         >
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-[10px] font-semibold text-white shadow-2xs">
             {initials(user.name)}
           </span>
-          {!collapsed && (
-            <span className="min-w-0 pr-2">
-              <b className="block truncate text-[10.5px] font-semibold text-gray-900">
-                {user.name}
-              </b>
-              <small className="block text-[9px] font-semibold text-stone-400 uppercase tracking-wider">
-                {role === "student" && user.studentId
-                  ? `ID: #${user.studentId}`
-                  : `${role} account`}
-              </small>
-            </span>
-          )}
+          <span className="min-w-0 pr-2">
+            <b className="block truncate text-[10.5px] font-bold text-gray-900">
+              {user.name}
+            </b>
+            <small className="block text-[9px] font-bold text-stone-400 uppercase tracking-wider">
+              {role === "student" && user.studentId
+                ? `ID: #${user.studentId}`
+                : `${role} account`}
+            </small>
+          </span>
         </div>
       </div>
     </aside>

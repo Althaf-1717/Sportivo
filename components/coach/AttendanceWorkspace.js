@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   CalendarCheck2,
   CheckCircle2,
@@ -25,12 +25,17 @@ function getCurrentTimeString() {
   return `${String(hours).padStart(2, "0")}:${minutes} ${ampm}`;
 }
 
-export default function AttendanceWorkspace({ enrollments = [], initialAttendance = [] }) {
+export default function AttendanceWorkspace({
+  enrollments = [],
+  initialAttendance = [],
+  title = "Coach Attendance for student",
+  description = "Mark attendance for students who selected you as their coach.",
+}) {
   // Session details (as shown in Image 2)
   const [date, setDate] = useState(getTodayString);
   const [time, setTime] = useState(getCurrentTimeString);
   const [work, setWork] = useState("Technique drills, footwork conditioning, and match simulations");
-  const [isSessionConfirmed, setIsSessionConfirmed] = useState(true);
+  const [isSessionConfirmed, setIsSessionConfirmed] = useState(false);
 
   // Student toggle attendance state: map enrollmentId -> { status: "present" | "absent", remarks: string }
   const [studentStates, setStudentStates] = useState(() => {
@@ -43,6 +48,22 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
     }
     return map;
   });
+
+  useEffect(() => {
+    setStudentStates((prev) => {
+      const map = { ...prev };
+      for (const e of enrollments) {
+        const id = String(e._id);
+        if (!map[id]) {
+          map[id] = {
+            status: "present",
+            remarks: "Good effort and focus in training session.",
+          };
+        }
+      }
+      return map;
+    });
+  }, [enrollments]);
 
   const [records, setRecords] = useState(initialAttendance || []);
   const [busy, setBusy] = useState(false);
@@ -139,11 +160,11 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
               <CalendarCheck2 size={18} />
             </span>
             <div>
-              <h2 className="text-lg font-semibold tracking-tight text-navy sm:text-xl">
-                Coach Attendance for student
+              <h2 className="text-lg font-extrabold tracking-tight text-navy sm:text-xl">
+                {title}
               </h2>
               <p className="text-xs text-slate-500">
-                Mark attendance for students who selected you as their coach.
+                {description}
               </p>
             </div>
           </div>
@@ -209,8 +230,11 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
             <div className="lg:col-span-1">
               <button
                 type="button"
-                onClick={() => setIsSessionConfirmed(true)}
-                className="btn-primary w-full !text-xs !py-2.5 font-semibold"
+                onClick={() => {
+                  setError("");
+                  setIsSessionConfirmed((prev) => !prev);
+                }}
+                className="btn-primary w-full !text-xs !py-2.5 font-bold cursor-pointer transition-transform active:scale-95 shadow-xs"
               >
                 OK
               </button>
@@ -231,9 +255,9 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
           </div>
         )}
 
-        {/* STUDENT ROSTER TABLE (Image 2) */}
+        {/* STUDENT ROSTER DROPDOWN TABLE */}
         {isSessionConfirmed && (
-          <div className="mt-6">
+          <div className="mt-6 animate-[fadeIn_0.35s_ease-out]">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-semibold text-navy flex items-center gap-2">
                 <Users size={16} className="text-blue" />
@@ -308,24 +332,29 @@ export default function AttendanceWorkspace({ enrollments = [], initialAttendanc
                             </span>
                           </td>
 
-                          {/* Mark attendance (Interactive Toggle Switch - ON/Green, OFF/Red as in Image 2) */}
+                          {/* Mark attendance (Just Toggle Switch - Green when ON, Red when OFF) */}
                           <td className="text-center">
                             <button
                               type="button"
+                              role="switch"
+                              aria-checked={isPresent}
                               onClick={() => toggleAttendance(eId)}
-                              aria-label={`Mark ${row.student?.name} ${isPresent ? "absent" : "present"}`}
-                              className={`group inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all shadow-sm ${
+                              title={isPresent ? "Marked Present (Click to mark Absent)" : "Marked Absent (Click to mark Present)"}
+                              className={`relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full p-1 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-1 shadow-inner ${
                                 isPresent
-                                  ? "bg-emerald-600 text-white hover:bg-emerald-700 ring-2 ring-emerald-200"
-                                  : "bg-rose-600 text-white hover:bg-rose-700 ring-2 ring-rose-200"
+                                  ? "bg-emerald-500 focus:ring-emerald-400"
+                                  : "bg-red-500 focus:ring-red-400"
                               }`}
                             >
+                              <span className="sr-only">
+                                {isPresent ? "Present (ON)" : "Absent (OFF)"}
+                              </span>
                               <span
-                                className={`h-2.5 w-2.5 rounded-full ${
-                                  isPresent ? "bg-white animate-pulse" : "bg-white/80"
+                                aria-hidden="true"
+                                className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-md ring-0 transition-transform duration-200 ease-in-out ${
+                                  isPresent ? "translate-x-5" : "translate-x-0"
                                 }`}
                               />
-                              <span>{isPresent ? "ON (Present)" : "OFF (Absent)"}</span>
                             </button>
                           </td>
 
