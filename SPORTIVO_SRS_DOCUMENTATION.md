@@ -11,8 +11,8 @@
 
 | S.No | Student Name | Registration Number | Role / Contribution |
 | :---: | :--- | :---: | :--- |
-| 1 | **Shaik Althaf** | **12406252** | Full-Stack Architecture, Auth.js v5, Database & API Integration |
-| 2 | **YELLABOYINA VEERA VENKATA TIRUMALA TANAY** | **12407797** | UI/UX Engineering, Responsive Layouts, Attendance Workspace |
+| 1 | **Shaik Althaf** | **12406252** | UI/UX Engineering, Responsive Layouts, Attendance Workspace |
+| 2 | **YELLABOYINA VEERA VENKATA TIRUMALA TANAY** | **12407797** | Full-Stack Architecture, Auth.js v5, Database & API Integration |
 | 3 | **Sane Praneeth Kumar Reddy** | **12404540** | Dashboard Analytics, Role Verification & Cloud Deployment |
 
 ---
