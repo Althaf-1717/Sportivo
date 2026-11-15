@@ -20,9 +20,10 @@ export default async function LoginPage({ searchParams }) {
     redirect("/admin");
   }
 
-  // If already authenticated, redirect to appropriate role dashboard
+  // If already authenticated, redirect to appropriate role dashboard (unless switching account)
+  const isSwitching = resolvedParams?.switch === "true";
   const user = await currentUser();
-  if (user) {
+  if (user && !isSwitching) {
     if (user.role === "admin") redirect("/dashboard/admin");
     if (user.role === "coach") redirect("/dashboard/coach");
     redirect("/dashboard/student");

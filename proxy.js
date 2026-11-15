@@ -29,29 +29,39 @@ async function getAuthToken(request) {
 
 export async function proxy(request) {
   const { pathname, search } = request.nextUrl;
+
+  // Immediate logout shortcut
+  if (
+    request.nextUrl.searchParams.get("logout") === "true" ||
+    request.nextUrl.searchParams.get("signout") === "true"
+  ) {
+    return NextResponse.redirect(new URL("/api/auth/clear", request.url));
+  }
+
   const token = await getAuthToken(request);
+  const isSwitching = request.nextUrl.searchParams.get("switch") === "true";
 
   // 1. Dedicated Admin Login Page (/admin)
   if (pathname === "/admin") {
-    if (token) {
+    if (token && !isSwitching) {
       if (token.role === "admin") {
         return NextResponse.redirect(new URL("/dashboard/admin", request.url));
       }
       return NextResponse.redirect(new URL(`/dashboard/${token.role || "student"}`, request.url));
     }
-    // Unauthenticated: allow page to render the dedicated Admin sign-in UI
+    // Unauthenticated or switching: allow page to render the dedicated Admin sign-in UI
     return NextResponse.next();
   }
 
   // 2. Dedicated Coach Login Page (/coach)
   if (pathname === "/coach") {
-    if (token) {
+    if (token && !isSwitching) {
       if (token.role === "coach") {
         return NextResponse.redirect(new URL("/dashboard/coach", request.url));
       }
       return NextResponse.redirect(new URL(`/dashboard/${token.role || "student"}`, request.url));
     }
-    // Unauthenticated: allow page to render the dedicated Coach sign-in UI
+    // Unauthenticated or switching: allow page to render the dedicated Coach sign-in UI
     return NextResponse.next();
   }
 
@@ -66,7 +76,7 @@ export async function proxy(request) {
       return NextResponse.redirect(new URL("/admin", request.url));
     }
 
-    if (token) {
+    if (token && !isSwitching) {
       const destination = token.role === "admin" ? "/dashboard/admin" : token.role === "coach" ? "/dashboard/coach" : "/dashboard/student";
       return NextResponse.redirect(new URL(destination, request.url));
     }

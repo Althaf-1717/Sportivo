@@ -3,27 +3,34 @@ import AttendanceWorkspace from "@/components/coach/AttendanceWorkspace";
 import { currentUser } from "@/lib/server-auth";
 import { getCoachEnrollments } from "@/lib/dashboard-data";
 import { connectDB } from "@/lib/mongodb";
-import Attendance from "@/models/Attendance";
+import { Attendance, Sport, User } from "@/models";
 
 export const dynamic = "force-dynamic";
 
 async function getRecentCoachAttendance(coachId) {
-  if (!process.env.MONGODB_URI) return [];
-  await connectDB();
-  const rows = await Attendance.find({ coach: coachId })
-    .sort({ date: -1 })
-    .limit(80)
-    .populate("student", "name")
-    .populate("sport", "name")
-    .lean();
-  return JSON.parse(JSON.stringify(rows));
+  if (!process.env.MONGODB_URI || !coachId) return [];
+  try {
+    await connectDB();
+    User;
+    Sport;
+    const rows = await Attendance.find({ coach: coachId })
+      .sort({ date: -1 })
+      .limit(80)
+      .populate("student", "name")
+      .populate("sport", "name")
+      .lean();
+    return JSON.parse(JSON.stringify(rows || []));
+  } catch (err) {
+    console.error("getRecentCoachAttendance error:", err);
+    return [];
+  }
 }
 
 export default async function CoachAttendancePage() {
   const user = await currentUser();
   const [enrollments, attendance] = await Promise.all([
-    getCoachEnrollments(user.id),
-    getRecentCoachAttendance(user.id),
+    getCoachEnrollments(user?.id),
+    getRecentCoachAttendance(user?.id),
   ]);
   return (
     <div>

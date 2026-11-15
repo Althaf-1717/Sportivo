@@ -297,7 +297,22 @@ export default function AuthForm({
     }
   }
 
-  // Direct 1-Click Google Skip & Sign-Up Handler (Only for /register)
+  // Google OAuth / Direct Auth Handler (for both /login and /register)
+  async function handleGoogleAuth() {
+    setError("");
+    if (!databaseConfigured) {
+      setError("Account access needs MongoDB configured.");
+      return;
+    }
+    if (googleEnabled) {
+      setGoogleBusy(true);
+      await signIn("google", { callbackUrl: "/dashboard/student" });
+      return;
+    }
+    setGoogleModalOpen(true);
+  }
+
+  // Direct 1-Click Google Skip & Sign-Up Handler (for testing or direct sign-in)
   async function completeGoogleDirectAuth(targetEmail, targetName) {
     setError("");
     if (!databaseConfigured) {
@@ -511,12 +526,10 @@ export default function AuthForm({
           with your Google account.
         </p>
 
-        {/* Direct 1-Click Continue with Google Button */}
+        {/* Direct Google Sign Up Button */}
         <div className="mt-5">
           <button
-            onClick={() =>
-              completeGoogleDirectAuth(activeGoogleEmail, activeGoogleName)
-            }
+            onClick={handleGoogleAuth}
             disabled={googleBusy || busy}
             type="button"
             className="flex h-12 w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-stone-200/90 bg-white px-4 text-sm font-semibold text-gray-800 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50/40 hover:shadow-md active:translate-y-0 disabled:opacity-60"
@@ -524,23 +537,12 @@ export default function AuthForm({
             <GoogleIcon />
             <span>
               {googleBusy
-                ? `Continuing as ${activeGoogleEmail}…`
+                ? "Opening Google…"
+                : googleEnabled
+                ? "Sign up with Google"
                 : "Continue with Google"}
             </span>
           </button>
-          <div className="mt-1.5 flex items-center justify-between px-1 text-[11px] text-stone-500">
-            <span>
-              Signed in as{" "}
-              <strong className="text-gray-800">{activeGoogleEmail}</strong>
-            </span>
-            <button
-              type="button"
-              onClick={() => setGoogleModalOpen(true)}
-              className="font-semibold text-orange-600 hover:underline"
-            >
-              Change account
-            </button>
-          </div>
         </div>
 
         {/* Divider */}
@@ -748,6 +750,35 @@ export default function AuthForm({
             <code className="font-semibold text-gray-900">.env.local</code> and
             restart the app.
           </p>
+        )}
+
+        {/* Student Portal: Google Sign In Option */}
+        {activePortal === "student" && (
+          <div className="mt-5">
+            <button
+              onClick={handleGoogleAuth}
+              disabled={googleBusy || busy}
+              type="button"
+              className="flex h-12 w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-stone-200/90 bg-white px-4 text-sm font-semibold text-gray-800 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50/40 hover:shadow-md active:translate-y-0 disabled:opacity-60"
+            >
+              <GoogleIcon />
+              <span>
+                {googleBusy
+                  ? "Opening Google…"
+                  : googleEnabled
+                  ? "Sign in with Google"
+                  : "Continue with Google"}
+              </span>
+            </button>
+
+            <div className="my-5 flex items-center gap-3">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent via-stone-200 to-stone-200" />
+              <span className="text-[11px] font-medium text-stone-400">
+                or sign in with email
+              </span>
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent via-stone-200 to-stone-200" />
+            </div>
+          </div>
         )}
 
         <form onSubmit={submit} className="mt-6 grid gap-4">

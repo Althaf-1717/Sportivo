@@ -226,11 +226,23 @@ const providers = [
 ];
 
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  providers.push(Google({ clientId: process.env.GOOGLE_CLIENT_ID, clientSecret: process.env.GOOGLE_CLIENT_SECRET, allowDangerousEmailAccountLinking: true }));
+  providers.push(
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "select_account",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+      allowDangerousEmailAccountLinking: true,
+    })
+  );
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  ...(clientPromise ? { adapter: MongoDBAdapter(clientPromise) } : {}),
   trustHost: true,
   providers,
   session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 14 },
@@ -238,21 +250,56 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account?.provider === "google") {
-        if (profile?.email_verified !== true || !user.email || !process.env.MONGODB_URI) return false;
-        await connectDB();
-        const record = await User.findOne({ email: user.email.toLowerCase() });
-        if (record) {
-          if (!record.isActive) return false;
-          if (!record.role) record.role = "student";
-          if (!record.name && user.name) record.name = user.name;
-          if (!record.image && user.image) record.image = user.image;
-          await record.save();
-          user.id = record._id.toString();
-          user.role = record.role;
-        } else {
-          const created = await User.create({ name: user.name || "Fieldhouse athlete", email: user.email.toLowerCase(), image: user.image || "", role: "student" });
-          user.id = created._id.toString();
-          user.role = created.role;
+        if (!user.email) return false;
+        const email = user.email.toLowerCase().trim();
+        if (process.env.MONGODB_URI) {
+          try {
+            await connectDB();
+            let record = await User.findOne({ email });
+            if (record) {
+              if (!record.isActive) return false;
+              let needsSave = false;
+              if (!record.role) {
+                record.role = "student";
+                needsSave = true;
+              }
+              if (record.role === "student" && !record.studentId) {
+                const lastStudent = await User.findOne({ studentId: { $exists: true, $ne: null } })
+                  .sort({ studentId: -1 })
+                  .select("studentId")
+                  .lean();
+                record.studentId = lastStudent?.studentId ? Math.max(Number(lastStudent.studentId) + 1, 10001) : 10001;
+                needsSave = true;
+              }
+              if (user.image && !record.image) {
+                record.image = user.image;
+                needsSave = true;
+              }
+              if (needsSave) await record.save();
+              user.id = record._id.toString();
+              user.role = record.role;
+              user.studentId = record.studentId || null;
+            } else {
+              const lastStudent = await User.findOne({ studentId: { $exists: true, $ne: null } })
+                .sort({ studentId: -1 })
+                .select("studentId")
+                .lean();
+              const studentId = lastStudent?.studentId ? Math.max(Number(lastStudent.studentId) + 1, 10001) : 10001;
+              const created = await User.create({
+                name: user.name || email.split("@")[0],
+                email,
+                image: user.image || "",
+                role: "student",
+                studentId,
+                isActive: true,
+              });
+              user.id = created._id.toString();
+              user.role = created.role;
+              user.studentId = created.studentId;
+            }
+          } catch (err) {
+            console.error("Error saving Google user in signIn callback:", err);
+          }
         }
       }
       return true;
