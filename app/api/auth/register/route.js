@@ -3,6 +3,7 @@ import { z } from "zod";
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
+import { saveFallbackUser } from "@/lib/fallback-users";
 
 const registration = z
   .object({
@@ -23,9 +24,12 @@ export async function POST(request) {
       { status: 400 }
     );
   }
+
+  const email = input.email.toLowerCase();
+
+  // 1. Try persisting to MongoDB Atlas
   try {
     await connectDB();
-    const email = input.email.toLowerCase();
     const existing = await User.findOne({ email });
 
     if (existing) {
@@ -45,6 +49,16 @@ export async function POST(request) {
             : 10001;
         }
         await existing.save();
+
+        // Also sync to fallback store
+        await saveFallbackUser({
+          name: existing.name,
+          email: existing.email,
+          password: input.password,
+          role: "student",
+          studentId: existing.studentId,
+        });
+
         return NextResponse.json(
           {
             user: {
@@ -84,6 +98,15 @@ export async function POST(request) {
       studentId,
     });
 
+    // Also sync to fallback store
+    await saveFallbackUser({
+      name: user.name,
+      email: user.email,
+      password: input.password,
+      role: "student",
+      studentId: user.studentId,
+    });
+
     return NextResponse.json(
       {
         user: {
@@ -96,11 +119,28 @@ export async function POST(request) {
       },
       { status: 201 }
     );
-  } catch (error) {
-    console.error("Registration failed:", error.message);
-    const message = error.message.includes("MongoDB is not configured")
-      ? "Account creation needs MongoDB. Add MONGODB_URI to your .env file and restart the app."
-      : "We couldn’t create your account right now. Please try again.";
-    return NextResponse.json({ error: message }, { status: 503 });
+  } catch (dbError) {
+    console.warn("MongoDB registration unavailable, registering with fallback store:", dbError.message);
+
+    // 2. Resilient fallback registration if MongoDB connection/auth fails
+    const fallbackUser = await saveFallbackUser({
+      name: input.name,
+      email,
+      password: input.password,
+      role: "student",
+    });
+
+    return NextResponse.json(
+      {
+        user: {
+          id: fallbackUser._id,
+          name: fallbackUser.name,
+          email: fallbackUser.email,
+          role: fallbackUser.role,
+          studentId: fallbackUser.studentId,
+        },
+      },
+      { status: 201 }
+    );
   }
 }
