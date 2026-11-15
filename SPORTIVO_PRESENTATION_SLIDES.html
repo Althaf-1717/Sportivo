@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sportivo — Project Presentation (INT257 CA3)</title>
+  <style>
+    @media print {
+      body { background: white; color: #111; padding: 0; }
+      .slide { page-break-after: always; height: auto; min-height: 100vh; box-shadow: none; border: none; margin: 0; padding: 30px; }
+      .no-print { display: none; }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      background: #0f172a;
+      color: #1e293b;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+    .top-bar {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+    .slide {
+      width: 100%;
+      max-width: 960px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 50px 60px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .slide-num {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 11pt;
+      font-weight: 700;
+      color: #94a3b8;
+    }
+    .presenter-pill {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 9.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 15px;
+    }
+    .pill-althaf { background: #ffedd5; color: #c2410c; }
+    .pill-tanay { background: #dbeafe; color: #1d4ed8; }
+    .pill-praneeth { background: #dcfce7; color: #15803d; }
+    .pill-joint { background: #f3e8ff; color: #7e22ce; }
+    h2 { font-size: 22pt; margin: 0 0 20px 0; color: #0f172a; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; }
+    h3 { font-size: 13pt; margin: 20px 0 8px 0; color: #334155; }
+    ul { margin: 10px 0 20px 20px; padding: 0; }
+    li { font-size: 11pt; color: #334155; margin-bottom: 8px; line-height: 1.5; }
+    .speaker-box {
+      margin-top: 25px;
+      background: #f8fafc;
+      border-left: 4px solid #ea580c;
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+    }
+    .speaker-box p { margin: 0; font-size: 10pt; color: #475569; font-style: italic; line-height: 1.5; }
+    .speaker-title { font-size: 9.5pt; font-weight: 700; text-transform: uppercase; color: #ea580c; margin-bottom: 6px; font-style: normal; }
+    table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 10pt; }
+    th, td { border: 1px solid #e2e8f0; padding: 8px 12px; text-align: left; }
+    th { background: #f1f5f9; font-weight: 700; }
+    code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 9.5pt; color: #ea580c; font-family: monospace; }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar no-print">
+    <div>
+      <strong style="font-size: 16pt; color: #ea580c;">SPORTIVO</strong>
+      <span style="color: #94a3b8; margin-left: 10px;">INT257 CA3 Presentation Deck</span>
+    </div>
+    <button onclick="window.print()" style="background: #ea580c; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer;">
+      🖨️ Print / Save as PDF
+    </button>
+  </div>
+
+  <!-- SLIDE 1 -->
+  <div class="slide">
+    <div class="slide-num">Slide 1 / 15</div>
+    <span class="presenter-pill pill-joint">Team Joint · Lead: Shaik Althaf</span>
+    <h2 style="font-size: 26pt; color: #ea580c;">SPORTIVO</h2>
+    <p style="font-size: 14pt; font-weight: 600; color: #334155; margin-top: -10px;">
+      Next-Generation Athletic Academy Management Platform
+    </p>
+    <p style="color: #64748b; font-size: 11pt;">
+      Course Code: <strong>INT257</strong> | Course Name: <strong>Modern Web Application Development (CA3)</strong>
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Presenter</th><th>Registration No.</th><th>Assigned Project Ownership</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Shaik Althaf</strong></td><td>12406252</td><td>UI/UX Engineering, Responsive Layouts, Attendance Workspace</td></tr>
+        <tr><td><strong>Y. V. V. Tirumala Tanay</strong></td><td>12407797</td><td>Full-Stack Architecture, Auth.js v5, Database & API Integration</td></tr>
+        <tr><td><strong>Sane Praneeth Kumar Reddy</strong></td><td>12404540</td><td>Dashboard Analytics, Role Verification & Cloud Deployment</td></tr>
+      </tbody>
+    </table>
+
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Shaik Althaf)</div>
+      <p>"Good morning faculty and classmates. Today our team presents Sportivo, a production-ready Athletic Academy Management Platform built with Next.js 16 App Router, React 19, Auth.js v5, and MongoDB Atlas. We will demonstrate our complete technical implementation, divided across our core roles: Full-Stack Architecture by Tanay, UI/UX and Attendance by me, and Analytics and Deployment by Praneeth."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide">
+    <div class="slide-num">Slide 2 / 15</div>
+    <span class="presenter-pill pill-althaf">Presenter: Shaik Althaf</span>
+    <h2>Problem Statement & Project Motivation</h2>
+    <ul>
+      <li><strong>Paper Registers & Lost Records:</strong> Traditional academies rely on physical paper sheets or WhatsApp messages that frequently get lost or miscalculated.</li>
+      <li><strong>Coaching Friction:</strong> Coaches spend valuable pitch training time taking manual attendance rather than training athletes.</li>
+      <li><strong>Lack of Student Transparency:</strong> Athletes and parents have zero real-time visibility into attendance percentages, membership expirations, and skill reviews.</li>
+      <li><strong>The Sportivo Solution:</strong> A centralized, cloud-native web application offering three role-isolated portals for Students, Coaches, and Administrators with real-time sync.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Shaik Althaf)</div>
+      <p>"Most sports clubs and coaching academies still use paper registers or scattered spreadsheets. This creates massive friction: records get misplaced and athletes have no clear picture of their attendance or skill growth. Sportivo modernizes this entire ecosystem by digitizing rosters, automating attendance percentages, and providing role-tailored dashboards."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide">
+    <div class="slide-num">Slide 3 / 15</div>
+    <span class="presenter-pill pill-tanay">Presenter: Y. V. V. Tirumala Tanay</span>
+    <h2>System Architecture & Tech Stack</h2>
+    <ul>
+      <li><strong>Next.js 16.3.6 (App Router):</strong> Leverages React Server Components (RSC) to render database queries on the server without shipping bulky JavaScript to the client.</li>
+      <li><strong>React 19 & Tailwind CSS:</strong> Declarative client components with utility-first styling and Lucide vector iconography.</li>
+      <li><strong>MongoDB Atlas & Mongoose 8.x:</strong> Highly scalable cloud document database with indexed schemas and relational referential integrity.</li>
+      <li><strong>Auth.js v5 (NextAuth):</strong> Enterprise authentication featuring Google Cloud Console OAuth 2.0 and bcrypt password encryption.</li>
+      <li><strong>Vercel Global Edge Network:</strong> Serverless edge deployment with automatic CI/CD git triggers and HTTPS TLS 1.3 encryption.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Tanay)</div>
+      <p>"Moving to the system architecture: Sportivo is built on a serverless multi-tier architecture. We chose Next.js 16 and React 19 to take full advantage of React Server Components, keeping our initial JavaScript bundle small and fast. For our data layer, MongoDB Atlas provides managed high-availability replica sets, while Auth.js v5 handles stateless session management at the network edge."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide">
+    <div class="slide-num">Slide 4 / 15</div>
+    <span class="presenter-pill pill-tanay">Presenter: Y. V. V. Tirumala Tanay</span>
+    <h2>Database Modeling & Schema Design</h2>
+    <ul>
+      <li><strong><code>User</code> Schema:</strong> Multi-role enumeration (<code>student</code>, <code>coach</code>, <code>admin</code>), unique indexed email, auto-incrementing <code>studentId</code> starting at <code>10001</code>.</li>
+      <li><strong><code>Enrollment</code> Schema:</strong> Many-to-many relationship linking Student ID, assigned Coach ID, Sport discipline, and active membership dates.</li>
+      <li><strong><code>Attendance</code> Schema:</strong> Uses a <strong>compound unique index</strong> on <code>{ student: 1, enrollment: 1, date: 1 }</code> ensuring an athlete cannot be marked twice on the same training day.</li>
+      <li><strong><code>Progress</code> Schema:</strong> Stores coach evaluations, drill performance, and skill tiers (Beginner, Intermediate, Advanced, Professional).</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Tanay)</div>
+      <p>"Data integrity was our top priority. In our Attendance collection, we created a compound unique index on student, enrollment, and date. This guarantees strict auditability and prevents duplicate entries. Furthermore, students receive an auto-incrementing student ID starting at 10001, making identification easy and intuitive for administrators."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide">
+    <div class="slide-num">Slide 5 / 15</div>
+    <span class="presenter-pill pill-tanay">Presenter: Y. V. V. Tirumala Tanay</span>
+    <h2>Auth.js v5 & Google Cloud OAuth 2.0</h2>
+    <ul>
+      <li><strong>Real Google OAuth Integration:</strong> Configured OAuth 2.0 Web Client credentials in Google Cloud Console (Project: <code>PAS-GPT</code> / <code>Sportivo Web</code>).</li>
+      <li><strong>Native Browser Account Chooser:</strong> Explicitly configured <code>prompt: "select_account"</code> so Google prompts the user with all signed-in Gmail accounts on their device.</li>
+      <li><strong>Stateless JWT Strategy:</strong> Session state is stored in cryptographically signed HTTP-only cookies, eliminating database session bloat.</li>
+      <li><strong>Auto-Provisioning in <code>signIn</code> Callback:</strong> New Google users automatically receive a verified Student record, an allocated Student ID, and are directed straight into their student portal.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Tanay)</div>
+      <p>"For authentication, we integrated live Google Cloud OAuth 2.0. By using prompt: 'select_account', the user's browser opens the native Google account selector listing their logged-in accounts. Once selected, our Auth.js callback validates the OAuth token, automatically provisions a student record in MongoDB if it's their first time, assigns their student ID, and issues a secure stateless JWT."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 6 -->
+  <div class="slide">
+    <div class="slide-num">Slide 6 / 15</div>
+    <span class="presenter-pill pill-tanay">Presenter: Y. V. V. Tirumala Tanay</span>
+    <h2>API Layer & Resilient Data Fetching</h2>
+    <ul>
+      <li><strong>RESTful API Handlers:</strong> Endpoints like <code>/api/attendance</code>, <code>/api/enrollments</code>, and <code>/api/auth/*</code> for atomic CRUD operations.</li>
+      <li><strong>Fault-Tolerant Loaders:</strong> All data queries in <code>lib/dashboard-data.js</code> are wrapped in <code>try/catch</code> blocks with safe object defaults, preventing serverless cold-start crashes.</li>
+      <li><strong>Model Pre-compilation:</strong> Explicitly registered Mongoose schemas (<code>User</code>, <code>Sport</code>) to eliminate runtime <code>MissingSchemaError</code> during population queries.</li>
+      <li><strong>Session Reset Route:</strong> <code>/api/auth/clear</code> cleanly deletes all chunked session tokens, allowing instant account switching.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Tanay)</div>
+      <p>"Serverless edge functions can occasionally experience network latency. To make Sportivo completely fault-tolerant, every data loader implements try-catch guards with fallback states. This ensures that even during a database blip, the dashboard renders clean empty states rather than crashing into an error screen. We also added an auth-clear endpoint for reliable session resets."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 7 -->
+  <div class="slide">
+    <div class="slide-num">Slide 7 / 15</div>
+    <span class="presenter-pill pill-althaf">Presenter: Shaik Althaf</span>
+    <h2>UI/UX Philosophy & Design System</h2>
+    <ul>
+      <li><strong>Visual Brand Identity:</strong> Warm energetic orange (<code>#EA580C</code>) paired with deep navy typography (<code>#0F172A</code>) on a modern cream background (<code>#FFFCF9</code>).</li>
+      <li><strong>Glassmorphic Surfaces:</strong> Soft borders (<code>border-stone-200/80</code>) and layered elevation (<code>shadow-2xs</code>) creating clean depth without visual clutter.</li>
+      <li><strong>Typography Hierarchy:</strong> Clean, athletic typography using <code>Poppins</code> for strong headlines and <code>Inter</code> for readable tabular data.</li>
+      <li><strong>Mobile-First Fluid Scale:</strong> Designed for one-thumb smartphone use on the field, pitch-side tablet coaching, and multi-column desktop views.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Shaik Althaf)</div>
+      <p>"Now, moving to the UI/UX engineering. My goal was to create a modern, athletic aesthetic that feels instant and polished. We developed a custom design system using warm orange and navy accents on glassmorphic cards. The typography pairs Poppins with Inter for high legibility, and every screen is built mobile-first so coaches on the field have the exact same fluid experience as managers on desktop monitors."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 8 -->
+  <div class="slide">
+    <div class="slide-num">Slide 8 / 15</div>
+    <span class="presenter-pill pill-althaf">Presenter: Shaik Althaf</span>
+    <h2>Interactive Attendance Workspace & Drill Logging</h2>
+    <ul>
+      <li><strong>Clean Session Control Bar:</strong> Real-time date auto-detection, time picker, and custom training drills input (<code>Work</code>).</li>
+      <li><strong>Collapsed Roster by Default:</strong> Keeps the initial viewport tidy and uncluttered when opening the attendance page.</li>
+      <li><strong>The "OK" Button Reveal Mechanism:</strong> Clicking <strong><code>OK</code></strong> confirms the session drills and smoothly drops down the assigned student list with a CSS fade-in animation (<code>animate-[fadeIn_0.35s_ease-out]</code>).</li>
+      <li><strong>Interactive Toggle:</strong> Re-clicking <code>OK</code> collapses or re-expands the roster on demand.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Shaik Althaf)</div>
+      <p>"In the Attendance Workspace, we solved a major usability pain point. Rather than forcing coaches to scroll past a huge roster before setting up the session, the student list is collapsed by default. The coach logs today's training drills, like footwork and net bowling, and clicks 'OK'. This triggers a smooth CSS dropdown animation that reveals only the athletes assigned to that coach's squad."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 9 -->
+  <div class="slide">
+    <div class="slide-num">Slide 9 / 15</div>
+    <span class="presenter-pill pill-althaf">Presenter: Shaik Althaf</span>
+    <h2>Dual-State Visual Attendance Toggles</h2>
+    <ul>
+      <li><strong>Pure Toggle Switch:</strong> Removed bulky text labels (like 'ON (Present)' / 'OFF (Absent)') to keep the table compact and intuitive.</li>
+      <li><strong>High-Contrast Dual States:</strong>
+        <ul>
+          <li><strong>ON (Present):</strong> Emerald green background (<code>bg-emerald-500</code>) with knob slid to the right.</li>
+          <li><strong>OFF (Absent):</strong> Crimson red background (<code>bg-red-500</code>) with knob slid to the left.</li>
+        </ul>
+      </li>
+      <li><strong>60fps Micro-Interactions:</strong> Hardware-accelerated GPU transitions on transform and color for zero-latency tactile feedback.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Shaik Althaf)</div>
+      <p>"For marking attendance, we replaced text-heavy buttons with pure dual-state toggle switches. When an athlete is present, the switch glows green with the knob to the right. When absent, it turns red with the knob to the left. These toggles animate smoothly on the GPU at 60fps, allowing coaches to mark an entire squad in seconds with zero layout shift."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 10 -->
+  <div class="slide">
+    <div class="slide-num">Slide 10 / 15</div>
+    <span class="presenter-pill pill-althaf">Presenter: Shaik Althaf</span>
+    <h2>Multi-Portal Navigation & Micro-Interactions</h2>
+    <ul>
+      <li><strong>Stable Sidebar Layout:</strong> Removed collapsible sidebar icons to maintain a sturdy, predictable navigation rail across all three user roles.</li>
+      <li><strong>Route Prefetching:</strong> Automatically prefetches sibling dashboard routes on mount, resulting in instant sub-50ms tab switches.</li>
+      <li><strong>Mobile Slide-Over Drawer:</strong> Intuitive backdrop-blurred navigation drawer for seamless navigation on touchscreens.</li>
+      <li><strong>Tactile Button Feedback:</strong> Active scale compression (<code>active:scale-95</code>) and soft hover elevation on interactive cards.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Shaik Althaf)</div>
+      <p>"We paid close attention to micro-interactions across our navigation shell. We removed distracting collapse buttons so the sidebar stays fixed and reliable. On mobile, a slide-over drawer with backdrop blur enables full navigation with one hand. We also implemented proactive route prefetching, making dashboard tab switches feel completely instantaneous."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 11 -->
+  <div class="slide">
+    <div class="slide-num">Slide 11 / 15</div>
+    <span class="presenter-pill pill-praneeth">Presenter: Sane Praneeth Kumar Reddy</span>
+    <h2>Multi-Role Verification & Edge Protection</h2>
+    <ul>
+      <li><strong>Edge Middleware (<code>proxy.js</code>):</strong> Intercepts incoming requests at Vercel's edge network before server components render.</li>
+      <li><strong>Strict Portal Isolation:</strong>
+        <ul>
+          <li><code>/login</code> & <code>/register</code> — Dedicated Student athlete entrance.</li>
+          <li><code>/coach</code> — Dedicated Coach credentials entrance.</li>
+          <li><code>/admin</code> — Master Administrator portal guarded with a 7-digit access code.</li>
+        </ul>
+      </li>
+      <li><strong>Smart Redirection & Escape Hatches:</strong> Prevents unauthorized cross-role access while providing <code>?switch=true</code> and <code>?logout=true</code> query parameters so users can switch accounts smoothly.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Praneeth)</div>
+      <p>"Thank you, Althaf. I will now cover our security verification, analytics, and cloud deployment. In proxy.js, our edge middleware checks every incoming request before it hits the application server. It enforces strict role boundaries: athletes only access student routes, coaches access coach routes, and administrators require dual-factor code verification. We also engineered query escape hatches so users can switch accounts without getting stuck."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 12 -->
+  <div class="slide">
+    <div class="slide-num">Slide 12 / 15</div>
+    <span class="presenter-pill pill-praneeth">Presenter: Sane Praneeth Kumar Reddy</span>
+    <h2>Interactive Analytics & Data Visualization</h2>
+    <ul>
+      <li><strong>Dynamic Attendance Rate Calculation:</strong> Automatically computed as <code>(Attended / Total) × 100</code> with visual color indicators.</li>
+      <li><strong>Recharts SVG Graphs:</strong>
+        <ul>
+          <li><strong><code>AttendanceBars</code>:</strong> Stacked bar chart showing present vs. absent students across the last 10 training sessions.</li>
+          <li><strong><code>ProgressDistributionChart</code>:</strong> Visualizes squad skill levels from Beginner to Professional.</li>
+          <li><strong><code>RevenueChart</code>:</strong> Monthly financial revenue tracking for academy management.</li>
+        </ul>
+      </li>
+      <li><strong>Adaptive Responsive Rendering:</strong> Charts dynamically recalculate dimensions for crisp rendering across smartphone and desktop displays.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Praneeth)</div>
+      <p>"For analytics, we integrated Recharts to visualize academy data dynamically. Students can monitor their cumulative attendance percentage and skill milestone levels. Coaches and administrators get automated insights: stacked bar charts displaying daily attendance turnout, skill distributions across squads, and revenue metrics. All charts render as scalable SVGs that adapt dynamically to any screen width."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 13 -->
+  <div class="slide">
+    <div class="slide-num">Slide 13 / 15</div>
+    <span class="presenter-pill pill-praneeth">Presenter: Sane Praneeth Kumar Reddy</span>
+    <h2>Cloud Deployment, Security & Production CI/CD</h2>
+    <ul>
+      <li><strong>Vercel Edge Network:</strong> Continuous integration and deployment linked to our GitHub <code>main</code> branch with automated serverless builds.</li>
+      <li><strong>Build Verification:</strong> Compiled cleanly across all 49 routes with zero syntax or runtime errors.</li>
+      <li><strong>MongoDB Atlas Cluster:</strong> Managed replica sets with automated failover and IP whitelist configuration.</li>
+      <li><strong>Enterprise Security:</strong> Strict HTTPS/TLS 1.3 encryption, environment variable server isolation (<code>AUTH_SECRET</code>, <code>GOOGLE_CLIENT_SECRET</code>), and OWASP Top 10 compliance.</li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (Praneeth)</div>
+      <p>"Sportivo is fully deployed and verified in production. Our GitHub repository is connected to Vercel's automated CI/CD pipeline, where all 49 routes build cleanly without errors. All sensitive credentials—such as Google OAuth secrets and database connection strings—are strictly isolated on the server. The live site is served over encrypted HTTPS with high availability."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 14 -->
+  <div class="slide">
+    <div class="slide-num">Slide 14 / 15</div>
+    <span class="presenter-pill pill-joint">Team Joint Presentation</span>
+    <h2>Live Demonstration & Verified Links</h2>
+    <ul>
+      <li><strong>Live Production Web Application:</strong> <a href="https://sportivo-flax.vercel.app" target="_blank" style="color: #ea580c; font-weight: bold;">https://sportivo-flax.vercel.app</a></li>
+      <li><strong>Student Portal & Google Sign-In:</strong> <a href="https://sportivo-flax.vercel.app/login" target="_blank">https://sportivo-flax.vercel.app/login</a></li>
+      <li><strong>Dedicated Coach Portal:</strong> <a href="https://sportivo-flax.vercel.app/coach" target="_blank">https://sportivo-flax.vercel.app/coach</a></li>
+      <li><strong>Dedicated Master Admin Portal:</strong> <a href="https://sportivo-flax.vercel.app/admin" target="_blank">https://sportivo-flax.vercel.app/admin</a></li>
+      <li><strong>GitHub Source Code Repository:</strong> <a href="https://github.com/Althaf-1717/Sportivo.git" target="_blank">https://github.com/Althaf-1717/Sportivo.git</a></li>
+      <li><strong>Demonstration Video URL:</strong> <code>[ __________________________________________________ ]</code></li>
+    </ul>
+    <div class="speaker-box">
+      <div class="speaker-title">Speaker Script (All Presenters)</div>
+      <p>"Sportivo is completely live right now at sportivo-flax.vercel.app. Evaluators can test our Google OAuth sign-in directly using their own browser accounts, mark attendance on the coach portal, and audit academy records on the admin dashboard."</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 15 -->
+  <div class="slide">
+    <div class="slide-num">Slide 15 / 15</div>
+    <span class="presenter-pill pill-joint">Team Joint Presentation</span>
+    <h2 style="color: #ea580c; text-align: center; border: none; font-size: 32pt; margin-top: 40px;">Thank You!</h2>
+    <p style="text-align: center; font-size: 14pt; color: #475569;">
+      Questions & Discussion
+    </p>
+
+    <div style="background: #f8fafc; border-radius: 12px; padding: 25px; margin: 30px auto; max-width: 600px; text-align: center;">
+      <p style="margin: 0 0 10px 0; font-size: 11pt;"><strong>Sportivo Athletic Academy Platform</strong></p>
+      <p style="margin: 0; font-size: 10pt; color: #64748b;">
+        Shaik Althaf (12406252) · Y. V. V. Tirumala Tanay (12407797) · Sane Praneeth Kumar Reddy (12404540)
+      </p>
+    </div>
+
+    <div class="speaker-box" style="margin-top: 30px;">
+      <div class="speaker-title">Closing Script (Shaik Althaf)</div>
+      <p>"In conclusion, Sportivo proves how modern full-stack web technologies can streamline sports coaching and academy management into an intuitive, high-performance platform. We thank our faculty for their guidance throughout INT257, and we are now ready for your questions or a live walkthrough demonstration. Thank you!"</p>
+    </div>
+  </div>
+
+</body>
+</html>
