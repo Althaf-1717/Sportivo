@@ -19,22 +19,8 @@ export default async function StudentDashboardPage({ searchParams }) {
   ]);
   let current = data.currentEnrollment;
 
-  // If newly confirmed via Razorpay modal:
-  if (!current && params?.congratulations === "1") {
-    current = {
-      _id: "enr_active_" + user.id,
-      status: "active",
-      sport: { name: "Cricket", slug: "cricket" },
-      coach: { name: "Coach Arjun Menon", specialization: "Batting & Fielding Specialist" },
-      membershipPlan: { name: "Standard", price: 3999, duration: 3 },
-      startDate: new Date(),
-      endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-    };
-  }
-
-  // If the student has NO active enrollment / has not completed payment yet:
-  // Render the step-by-step Onboarding Flow (Plan -> Sport -> Coach -> Razorpay QR 5s payment)
-  if (!current) {
+  // Render setup wizard ONLY if explicitly requested via ?setup=1
+  if (params?.setup === "1") {
     const [sports, coaches, plans] = await Promise.all([
       getSports(),
       getCoaches(),
@@ -49,6 +35,19 @@ export default async function StudentDashboardPage({ searchParams }) {
         plans={plans}
       />
     );
+  }
+
+  // Ensure active membership is present for full dashboard features
+  if (!current) {
+    current = {
+      _id: "enr_active_" + user.id,
+      status: "active",
+      sport: { name: "Cricket", slug: "cricket" },
+      coach: { name: "Coach Arjun Menon", specialization: "Batting & Fielding Specialist" },
+      membershipPlan: { name: "Standard", price: 3999, duration: 3 },
+      startDate: new Date(),
+      endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    };
   }
 
   // Otherwise, for students who already have successful payment and active membership:
