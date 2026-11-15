@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sportivo — Software Requirements Specification (SRS)</title>
+  <style>
+    @media print {
+      body { margin: 1.5cm; font-size: 11pt; color: #111; }
+      .page-break { page-break-after: always; }
+      .no-print { display: none; }
+      a { text-decoration: none; color: #111; }
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #1e293b;
+      background: #f8fafc;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 60px 70px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+    }
+    h1, h2, h3, h4 { color: #0f172a; font-weight: 700; }
+    h1 { font-size: 28pt; margin-bottom: 8px; color: #ea580c; border-bottom: 2px solid #ea580c; padding-bottom: 12px; }
+    h2 { font-size: 18pt; margin-top: 36px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; color: #0f172a; }
+    h3 { font-size: 13pt; margin-top: 24px; color: #334155; }
+    p, li { font-size: 10.5pt; color: #334155; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 10pt; }
+    th, td { border: 1px solid #cbd5e1; padding: 10px 14px; text-align: left; }
+    th { background: #f1f5f9; font-weight: 600; color: #0f172a; }
+    tr:nth-child(even) { background: #f8fafc; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    pre { background: #0f172a; color: #f8fafc; padding: 16px 20px; border-radius: 10px; overflow-x: auto; font-size: 9.5pt; line-height: 1.5; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 9pt; font-weight: 600; background: #ffedd5; color: #c2410c; }
+    .btn-download {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #ea580c; color: #ffffff; text-decoration: none;
+      padding: 12px 24px; border-radius: 8px; font-weight: 600;
+      margin-bottom: 30px; font-size: 11pt; transition: background 0.2s;
+    }
+    .btn-download:hover { background: #c2410c; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="no-print" style="text-align: right; margin-bottom: 20px;">
+    <button onclick="window.print()" class="btn-download" style="cursor: pointer; border: none;">
+      🖨️ Print / Save as PDF
+    </button>
+  </div>
+
+  <h1>Sportivo</h1>
+  <p style="font-size: 14pt; font-weight: 600; color: #475569; margin-top: -6px;">Software Requirements Specification (SRS)</p>
+  <p><span class="badge">INT257: Modern Web Application Development</span> &nbsp; <span class="badge">Continuous Assessment 3 · Spring 2025</span></p>
+
+  <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 25px 0;">
+
+  <h3>Project Team Members</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Student Name</th>
+        <th>Registration Number</th>
+        <th>Role / Contribution</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><strong>Shaik Althaf</strong></td>
+        <td><strong>12406252</strong></td>
+        <td>Full-Stack Architecture, Auth.js v5, Database & API Integration</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>YELLABOYINA VEERA VENKATA TIRUMALA TANAY</strong></td>
+        <td><strong>12407797</strong></td>
+        <td>UI/UX Engineering, Responsive Layouts, Attendance Workspace</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>Sane Praneeth Kumar Reddy</strong></td>
+        <td><strong>12404540</strong></td>
+        <td>Dashboard Analytics, Role Verification & Cloud Deployment</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Revision History</h2>
+  <table>
+    <thead>
+      <tr><th>Version</th><th>Date</th><th>Description</th><th>Author(s)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1.0.0</td><td>10-Oct-2025</td><td>Initial Concept, System Architecture & Requirements</td><td>Group Team</td></tr>
+      <tr><td>1.1.0</td><td>24-Oct-2025</td><td>Database Schemas, Role Dashboards & Access Rules</td><td>Group Team</td></tr>
+      <tr><td>1.2.0</td><td>06-Nov-2025</td><td>Glassmorphism UI, Attendance OK Dropdown & Toggles</td><td>Shaik Althaf & Team</td></tr>
+      <tr><td>1.3.0</td><td>15-Nov-2025</td><td>Google Cloud Console OAuth 2.0 & Production Deployment</td><td>Shaik Althaf & Team</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <h2>1. Introduction</h2>
+  <h3>1.1 Purpose</h3>
+  <p>The purpose of this Software Requirements Specification (SRS) document is to provide a complete, rigorous, and verifiable technical description of the <strong>Sportivo Athletic Academy Platform</strong>. This document defines external interface requirements, system behaviors, functional rules, data flow characteristics, non-functional quality attributes, and architectural constraints.</p>
+
+  <h3>1.2 Scope</h3>
+  <p><strong>Sportivo</strong> is a production-grade, cloud-native full-stack web application engineered using <strong>Next.js (App Router)</strong>, <strong>React</strong>, <strong>Tailwind CSS</strong>, and <strong>MongoDB Atlas</strong>. It unifies sports academy operations into three role-isolated portals:</p>
+  <ul>
+    <li><strong>Student Portal:</strong> For program enrollment, certified coach discovery, schedule tracking, and skill progression analytics.</li>
+    <li><strong>Coach Portal:</strong> For drill logging, collapsible athlete rosters, batch attendance submission via single-click visual green/red toggle switches, and skill assessments.</li>
+    <li><strong>Master Administrator Portal:</strong> For academy governance, financial volume audits, user directories, and program allocation.</li>
+  </ul>
+
+  <h3>1.3 Definitions, Acronyms, and Abbreviations</h3>
+  <ul>
+    <li><strong>SRS:</strong> Software Requirements Specification</li>
+    <li><strong>OAuth:</strong> Open Authorization Standard (Google OAuth 2.0 / OIDC)</li>
+    <li><strong>JWT:</strong> JSON Web Token for stateless authentication</li>
+    <li><strong>RSC:</strong> React Server Components</li>
+    <li><strong>RBAC:</strong> Role-Based Access Control</li>
+  </ul>
+
+  <h3>1.4 References</h3>
+  <ol>
+    <li>IEEE Std 830-1998: IEEE Recommended Practice for Software Requirements Specifications.</li>
+    <li>Next.js 16 Documentation: Vercel App Router Architecture & Edge Middleware.</li>
+    <li>RFC 6749: The OAuth 2.0 Authorization Framework.</li>
+    <li>MongoDB Atlas Developer Documentation: Multi-tenant replica set management.</li>
+  </ol>
+
+  <h2>2. General Description</h2>
+  <h3>2.1 Product Perspective</h3>
+  <p>Sportivo operates as a multi-tier, self-contained cloud platform hosted on Vercel's global edge network with MongoDB Atlas powering the persistent data tier. It interfaces with modern mobile browsers, tablets, and desktop workstations without requiring third-party runtime plugins.</p>
+
+  <h3>2.2 Product Functions</h3>
+  <ul>
+    <li><strong>Authentication & Security:</strong> Multi-provider authentication supporting Google Cloud Console OAuth 2.0 (with native browser account picker prompt) and bcrypt-hashed credential sign-in.</li>
+    <li><strong>Interactive Attendance Workspace:</strong> Drill logging, roster reveal via interactive <code>OK</code> button dropdown, and pure green/red toggle switches.</li>
+    <li><strong>Role Dashboards:</strong> Dedicated views for Students, Coaches, and Administrators with responsive analytics charts.</li>
+    <li><strong>Enrollments & Memberships:</strong> Sports package catalog, coach selection, and financial transaction verification.</li>
+  </ul>
+
+  <h3>2.3 User Characteristics</h3>
+  <p>Encompasses Student Athletes seeking self-service training visibility, Academy Coaches requiring rapid field attendance marking, and Master Administrators auditing academy records.</p>
+
+  <h2>3. Specific Requirements</h2>
+  <h3>3.1 External Interface Requirements</h3>
+  <p>Responsive, fluid interface utilizing glassmorphism cards, warm orange accents (<code>#EA580C</code>), and deep navy typography. Fully responsive across 320px mobile screens to 4K displays.</p>
+
+  <h3>3.2 Functional Requirements</h3>
+  <ul>
+    <li><strong>FR-1 (Authentication):</strong> Dedicated portals at <code>/login</code> (Student), <code>/coach</code> (Coach), and <code>/admin</code> (Admin). Google OAuth invokes <code>prompt: "select_account"</code> to list browser accounts.</li>
+    <li><strong>FR-2 (Attendance System):</strong> Athlete list is collapsed by default. Clicking <code>OK</code> drops down the roster. Each athlete row features an accessible green (Present) or red (Absent) toggle switch.</li>
+    <li><strong>FR-3 (Enrollment):</strong> Allows students to enroll in sports disciplines and binds them to coach rosters.</li>
+    <li><strong>FR-4 (Progress Analytics):</strong> Computes attendance rates and milestone progress visualized through Recharts SVG components.</li>
+  </ul>
+
+  <h3>3.5 Non-Functional Requirements</h3>
+  <ul>
+    <li><strong>Performance:</strong> First Contentful Paint &lt; 1.2s; compound index queries execute under 50ms.</li>
+    <li><strong>Reliability:</strong> Server Components include robust <code>try/catch</code> fallbacks so external API latency never crashes viewports.</li>
+    <li><strong>Security:</strong> Encrypted JWT cookies (HTTP-only, SameSite=Lax, Secure), bcrypt 12-round password hashing, and parameterized MongoDB queries.</li>
+  </ul>
+
+  <h2>4. Analysis Models</h2>
+  <h3>4.1 Data Flow Diagrams (DFD)</h3>
+  <h4>DFD Level 0 (Context Diagram)</h4>
+  <pre>
+       +--------------------+
+       |   Student Athlete  |
+       +--------------------+
+         |                ^
+         | (1) Sign-up    | (2) View Profile, Attendance,
+         |     Enrollment |     & Progress Charts
+         v                |
++-------------------------------------------------------+
+|                                                       |
+|             SPORTIVO PLATFORM CORE                    |
+|             (Level 0 Context System)                  |
+|                                                       |
++-------------------------------------------------------+
+         ^                |
+         | (3) Submit     | (4) View Assigned Athletes
+         |     Attendance |     & Drill Workspaces
+         |     & Drills   |
+       +--------------------+
+       |   Academy Coach    |
+       +--------------------+
+  </pre>
+
+  <h4>DFD Level 1 (Operational Decomposition)</h4>
+  <pre>
+[User / Athlete] 
+      |
+      v
+(1.0 Authentication Engine) <=========> [D1: Users Store (MongoDB)]
+      |                                        |
+      | (Verified JWT Token)                   |
+      v                                        v
+(2.0 Enrollment Manager)    <=========> [D2: Enrollments Store]
+      |                                        |
+      v                                        v
+(3.0 Attendance Workspace)  <=========> [D3: Attendance Records]
+      ^                                        |
+      | (Mark Present/Absent)                  v
+[Coach / Instructor]                    (4.0 Analytics & Reporting)
+                                               |
+                                               v
+                                        [Student / Admin Dashboards]
+  </pre>
+
+  <h2>5. GitHub Repository Link</h2>
+  <ul>
+    <li><strong>Repository URL:</strong> <a href="https://github.com/Althaf-1717/Sportivo.git" target="_blank">https://github.com/Althaf-1717/Sportivo.git</a></li>
+    <li><strong>Developer Profile:</strong> <a href="https://github.com/Althaf-1717" target="_blank">https://github.com/Althaf-1717</a></li>
+  </ul>
+
+  <h2>6. Deployed Production Link</h2>
+  <ul>
+    <li><strong>Live Web Application:</strong> <a href="https://sportivo-flax.vercel.app" target="_blank">https://sportivo-flax.vercel.app</a></li>
+    <li><strong>Student Login / Google Auth:</strong> <a href="https://sportivo-flax.vercel.app/login" target="_blank">https://sportivo-flax.vercel.app/login</a></li>
+    <li><strong>Coach Portal:</strong> <a href="https://sportivo-flax.vercel.app/coach" target="_blank">https://sportivo-flax.vercel.app/coach</a></li>
+    <li><strong>Admin Portal:</strong> <a href="https://sportivo-flax.vercel.app/admin" target="_blank">https://sportivo-flax.vercel.app/admin</a></li>
+  </ul>
+
+  <h2>7. Project Video Link</h2>
+  <p><strong>Demonstration Video URL:</strong> <code>[ __________________________________________________ ]</code></p>
+
+  <h2>A. Appendices</h2>
+  <h3>A.1 System Tech Stack Summary</h3>
+  <table>
+    <thead>
+      <tr><th>Layer</th><th>Technology</th><th>Function</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Framework</td><td>Next.js 16 (App Router)</td><td>SSR, RSC, Server Actions & Edge Middleware</td></tr>
+      <tr><td>Frontend</td><td>React 19 & Tailwind CSS</td><td>Interactive responsive client components</td></tr>
+      <tr><td>Authentication</td><td>Auth.js v5 (NextAuth)</td><td>Google OAuth 2.0 & bcrypt credentials</td></tr>
+      <tr><td>Database</td><td>MongoDB Atlas & Mongoose 8.x</td><td>Cloud document store and schema validation</td></tr>
+      <tr><td>Hosting</td><td>Vercel Edge Network</td><td>Continuous deployment & global CDN delivery</td></tr>
+    </tbody>
+  </table>
+
+  <p style="text-align: center; color: #94a3b8; margin-top: 50px; font-size: 9pt;">
+    — Sportivo Athletic Academy · Software Requirements Specification (SRS) · Spring 2025 —
+  </p>
+</div>
+
+</body>
+</html>
