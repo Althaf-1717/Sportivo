@@ -6,6 +6,7 @@ import { getApiUser, jsonError, requireApiRole, isObjectId } from "@/lib/api-uti
 import { connectDB } from "@/lib/mongodb";
 import { Coach, Enrollment, MembershipPlan, Notification, Payment, Sport, User } from "@/models";
 import { saveFallbackEnrollment } from "@/lib/fallback-users";
+import { buildStudentStateCookieHeader } from "@/lib/student-state-cookie";
 import { sportsCatalog, coachesCatalog, planCatalog } from "@/data/catalog";
 
 const checkoutSchema = z.object({
@@ -139,8 +140,8 @@ export async function POST(request) {
       payment.enrollment = enrollment._id;
       await payment.save();
 
-      // Also save in fallback cache for immediate page render
-      saveFallbackEnrollment(user.id, {
+      // Also save in fallback cache & signed cookie for persistent login across sessions
+      const fallbackEnr = saveFallbackEnrollment(user.id, {
         plan: { name: plan.name, price, duration: durationMonths },
         sport: { name: sport.name, slug: sport.slug },
         coach: { name: coachUser.name, specialization: coachUser.specialization },
@@ -150,19 +151,39 @@ export async function POST(request) {
       revalidatePath("/dashboard/student");
       revalidatePath("/dashboard/admin");
 
-      return NextResponse.json({
+      const res = NextResponse.json({
         success: true,
         message: "Payment verified and membership activated!",
         orderId,
         paymentId,
         enrollmentId: enrollment._id,
       });
+      try {
+        const cookieData = await buildStudentStateCookieHeader(user.email, {
+          studentId: user.studentId,
+          enrollment: fallbackEnr,
+          payment: {
+            _id: String(payment._id),
+            amount: price,
+            currency: "INR",
+            status: "successful",
+            razorpayOrderId: orderId,
+            razorpayPaymentId: paymentId,
+            membershipPlan: { name: plan.name, price, duration: durationMonths },
+            sport: { name: sport.name, slug: sport.slug },
+            coach: { name: coachUser.name },
+            createdAt: new Date().toISOString(),
+          },
+        });
+        res.cookies.set(cookieData.name, cookieData.value, cookieData.options);
+      } catch {}
+      return res;
     }
   } catch (err) {
     console.warn("MongoDB payment processing skipped or failed, using fallback:", err.message);
   }
 
-  // Fallback: Activate membership in fallback store
+  // Fallback: Activate membership in fallback store & signed cookie
   const matchedSport = sportsCatalog.find((s) => s.slug === input.sportId.toLowerCase() || s.name.toLowerCase() === input.sportId.toLowerCase()) || sportsCatalog[0];
   const matchedPlan = planCatalog.find((p) => p.slug === input.planId.toLowerCase() || p.name.toLowerCase() === input.planId.toLowerCase()) || planCatalog[1];
   const matchedCoach = coachesCatalog.find((c) => c.slug === input.coachId.toLowerCase() || c.name.toLowerCase() === input.coachId.toLowerCase()) || coachesCatalog[0];
@@ -176,11 +197,31 @@ export async function POST(request) {
 
   revalidatePath("/dashboard/student");
 
-  return NextResponse.json({
+  const res = NextResponse.json({
     success: true,
     message: "Payment verified and membership activated!",
     orderId,
     paymentId,
     enrollmentId: fallbackEnrollment?._id || "enr_fallback",
   });
+  try {
+    const cookieData = await buildStudentStateCookieHeader(user.email, {
+      studentId: user.studentId,
+      enrollment: fallbackEnrollment,
+      payment: {
+        _id: "pay_" + Date.now(),
+        amount: matchedPlan.price,
+        currency: "INR",
+        status: "successful",
+        razorpayOrderId: orderId,
+        razorpayPaymentId: paymentId,
+        membershipPlan: { name: matchedPlan.name, price: matchedPlan.price, duration: matchedPlan.duration },
+        sport: { name: matchedSport.name, slug: matchedSport.slug },
+        coach: { name: matchedCoach.name },
+        createdAt: new Date().toISOString(),
+      },
+    });
+    res.cookies.set(cookieData.name, cookieData.value, cookieData.options);
+  } catch {}
+  return res;
 }

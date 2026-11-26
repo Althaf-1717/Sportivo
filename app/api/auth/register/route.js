@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import { saveFallbackUser } from "@/lib/fallback-users";
+import { buildFallbackUsersCookie } from "@/lib/student-state-cookie";
 
 const registration = z
   .object({
@@ -130,7 +131,7 @@ export async function POST(request) {
       role: "student",
     });
 
-    return NextResponse.json(
+    const res = NextResponse.json(
       {
         user: {
           id: fallbackUser._id,
@@ -142,5 +143,10 @@ export async function POST(request) {
       },
       { status: 201 }
     );
+    try {
+      const usersCookie = await buildFallbackUsersCookie(fallbackUser);
+      res.cookies.set(usersCookie.name, usersCookie.value, usersCookie.options);
+    } catch {}
+    return res;
   }
 }

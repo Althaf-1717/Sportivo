@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 
 export default async function StudentPaymentsPage({ searchParams }) {
   const user = await currentUser();
-  const [data, params] = await Promise.all([getStudentDashboard(user.id), searchParams]);
+  const [data, params] = await Promise.all([getStudentDashboard(user.id, user.email), searchParams]);
   const successful = data.payments.filter((payment) => payment.status === "successful");
   const pending = data.payments.filter((payment) => payment.status === "pending");
   const failed = data.payments.filter((payment) => ["failed", "refunded"].includes(payment.status));

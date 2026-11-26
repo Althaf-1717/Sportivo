@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 export default async function StudentProgressPage() {
   const user = await currentUser();
-  const data = await getStudentDashboard(user.id);
+  const data = await getStudentDashboard(user.id, user.email);
   const latest = data.progress[0];
   const trend = [...data.progress].reverse().map((item) => ({ label: dateLabel(item.createdAt, { month: "short", day: "numeric" }), progress: item.overallProgress }));
   return <div><PageIntro eyebrow="Small wins add up" title="Your progress" description="Coach reviews help you see your skills improving and choose what to work on next." />

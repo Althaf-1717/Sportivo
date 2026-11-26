@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default async function StudentAttendancePage() {
   const user = await currentUser();
-  const data = await getStudentDashboard(user.id);
+  const data = await getStudentDashboard(user.id, user.email);
   const current = data.currentEnrollment;
 
   // Total classes calculation based on plan (1 month = 30, 3 months = 90, premium / 6 months = 180)

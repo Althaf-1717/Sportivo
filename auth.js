@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import { findFallbackUser, saveFallbackUser } from "@/lib/fallback-users";
+import { deterministicStudentId, readFallbackUsersCookie } from "@/lib/student-state-cookie";
 
 const providers = [
   Credentials({
@@ -40,9 +41,15 @@ const providers = [
         console.warn("MongoDB unavailable in authorize:", dbErr.message);
       }
 
-      // If user not in MongoDB, check in-memory fallback store
+      // If user not in MongoDB, check in-memory fallback store and signed cookie store
       if (!user) {
         user = findFallbackUser(email);
+      }
+      if (!user) {
+        const cookieUsers = await readFallbackUsersCookie();
+        if (cookieUsers[email]) {
+          user = cookieUsers[email];
+        }
       }
 
       // 1. Google Quick Student Sign-Up / Sign-In
@@ -95,9 +102,9 @@ const providers = [
           }
         }
 
-        const safeId = user?._id?.toString() || "google_" + Date.now();
+        const safeId = user?._id?.toString() || "usr_" + Buffer.from(email).toString("base64url").slice(0, 12);
         const safeName = user?.name || derivedName;
-        const safeStudentId = user?.studentId || 10001;
+        const safeStudentId = user?.studentId || deterministicStudentId(email);
 
         return {
           id: safeId,
@@ -167,7 +174,7 @@ const providers = [
           email: "althafshaik1717@gmail.com",
           image: "",
           role: "student",
-          studentId: user?.studentId || 10001,
+          studentId: user?.studentId || deterministicStudentId("althafshaik1717@gmail.com"),
         };
       }
 
@@ -290,7 +297,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!user.email) return false;
         const email = user.email.toLowerCase().trim();
         user.role = "student";
-        user.studentId = 10001;
+        user.studentId = deterministicStudentId(email);
+        if (!user.id) {
+          user.id = "usr_" + Buffer.from(email).toString("base64url").slice(0, 12);
+        }
 
         if (process.env.MONGODB_URI) {
           try {

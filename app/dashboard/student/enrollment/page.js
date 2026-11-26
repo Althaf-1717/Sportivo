@@ -11,7 +11,7 @@ export default async function StudentEnrollmentPage() {
   const user = await currentUser();
   const [catalog, data] = await Promise.all([
     Promise.all([getSports(), getCoaches(), getMembershipPlans()]),
-    getStudentDashboard(user.id),
+    getStudentDashboard(user.id, user.email),
   ]);
   const [sports, coaches, plans] = catalog;
 

@@ -14,13 +14,13 @@ export const dynamic = "force-dynamic";
 export default async function StudentDashboardPage({ searchParams }) {
   const user = await currentUser();
   const [data, params] = await Promise.all([
-    getStudentDashboard(user.id),
+    getStudentDashboard(user.id, user.email),
     searchParams,
   ]);
-  let current = data.currentEnrollment;
+  const current = data.currentEnrollment;
 
-  // Render setup wizard ONLY if explicitly requested via ?setup=1
-  if (params?.setup === "1") {
+  // Render onboarding wizard if student has not enrolled/paid yet (or if ?setup=1)
+  if (!current || params?.setup === "1") {
     const [sports, coaches, plans] = await Promise.all([
       getSports(),
       getCoaches(),
@@ -35,19 +35,6 @@ export default async function StudentDashboardPage({ searchParams }) {
         plans={plans}
       />
     );
-  }
-
-  // Ensure active membership is present for full dashboard features
-  if (!current) {
-    current = {
-      _id: "enr_active_" + user.id,
-      status: "active",
-      sport: { name: "Cricket", slug: "cricket" },
-      coach: { name: "Coach Arjun Menon", specialization: "Batting & Fielding Specialist" },
-      membershipPlan: { name: "Standard", price: 3999, duration: 3 },
-      startDate: new Date(),
-      endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-    };
   }
 
   // Otherwise, for students who already have successful payment and active membership:
