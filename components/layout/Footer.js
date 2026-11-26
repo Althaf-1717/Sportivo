@@ -1,26 +1,15 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-
 export default function Footer() {
-  return (
-    <footer className="relative overflow-hidden border-t border-stone-200/70 bg-[#faf7f2]">
-      {/* Ambient Warm Radial Glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-32 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(249,115,22,0.12),transparent_65%)] blur-2xl"
-      />
+  return <footer className="relative overflow-hidden border-t border-stone-200/70 bg-[#faf7f2]">
+      {}
+      <div aria-hidden="true" className="pointer-events-none absolute -left-32 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(249,115,22,0.12),transparent_65%)] blur-2xl" />
 
       <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-6">
           <div className="col-span-2">
             <Link href="/" className="inline-flex items-center gap-2.5 group">
-              <img
-                src="/images/sportivo-logo.png"
-                alt="Sportivo Logo"
-                width={32}
-                height={32}
-                className="h-8 w-8 rounded-lg object-cover ring-1 ring-black/5 transition-transform duration-200 group-hover:scale-105"
-              />
+              <img src="/images/sportivo-logo.png" alt="Sportivo Logo" width={32} height={32} className="h-8 w-8 rounded-lg object-cover ring-1 ring-black/5 transition-transform duration-200 group-hover:scale-105" />
               <span className="text-lg font-semibold tracking-tight text-gray-900">
                 Sport<span className="text-orange-600">ivo</span>
               </span>
@@ -101,10 +90,7 @@ export default function Footer() {
             <p className="mt-4 text-xs leading-relaxed text-stone-500">
               Book your first session and get paired with a specialist coach.
             </p>
-            <Link
-              href="/register"
-              className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-orange-600 transition hover:text-orange-700 hover:translate-x-0.5"
-            >
+            <Link href="/register" className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-orange-600 transition hover:text-orange-700 hover:translate-x-0.5">
               Join Sportivo <ArrowUpRight size={14} />
             </Link>
           </div>
@@ -117,6 +103,5 @@ export default function Footer() {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 }

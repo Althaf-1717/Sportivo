@@ -1,6 +1,5 @@
 export default function StudentDashboardLoading() {
-  return (
-    <div className="animate-pulse space-y-6">
+  return <div className="animate-pulse space-y-6">
       <div className="rounded-3xl border border-stone-200/80 bg-white/80 p-6 shadow-xs">
         <div className="h-3 w-28 rounded-full bg-orange-100" />
         <div className="mt-3 h-7 w-56 rounded-xl bg-stone-200/80" />
@@ -12,6 +11,5 @@ export default function StudentDashboardLoading() {
         <div className="h-28 rounded-2xl border border-stone-200/80 bg-white/80 p-4" />
       </div>
       <div className="h-72 rounded-3xl border border-stone-200/80 bg-white/80 p-6 shadow-xs" />
-    </div>
-  );
+    </div>;
 }

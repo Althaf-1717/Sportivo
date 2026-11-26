@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { Download, FileText, Printer, X, CheckCircle, ShieldCheck } from "lucide-react";
 import { money, dateLabel } from "@/lib/utils";
-
-export default function PaymentReceiptModal({ payment, user }) {
+export default function PaymentReceiptModal({
+  payment,
+  user
+}) {
   const [open, setOpen] = useState(false);
-
   const receiptNumber = `FH-REC-${String(payment._id || "").slice(-6).toUpperCase()}`;
   const planName = payment.membershipPlan?.name || "Academy Membership";
   const duration = payment.membershipPlan?.duration || 1;
@@ -18,13 +19,11 @@ export default function PaymentReceiptModal({ payment, user }) {
   const formattedDate = dateLabel(payment.createdAt, {
     day: "numeric",
     month: "long",
-    year: "numeric",
+    year: "numeric"
   });
-
   function handlePrint() {
     window.print();
   }
-
   function handleDownloadTxt() {
     const textContent = `
 ==================================================
@@ -55,8 +54,9 @@ Thank you for training with Sportivo Academy!
 Keep pushing your limits.
 ==================================================
     `.trim();
-
-    const blob = new Blob([textContent], { type: "text/plain" });
+    const blob = new Blob([textContent], {
+      type: "text/plain"
+    });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -64,22 +64,15 @@ Keep pushing your limits.
     link.click();
     URL.revokeObjectURL(url);
   }
-
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 rounded-xl border border-white/80 bg-white/80 px-3 py-1.5 text-[11px] font-semibold text-navy shadow-sm backdrop-blur-md transition-all hover:border-blue/40 hover:bg-white hover:text-blue"
-      >
+  return <>
+      <button type="button" onClick={() => setOpen(true)} className="inline-flex items-center gap-1.5 rounded-xl border border-white/80 bg-white/80 px-3 py-1.5 text-[11px] font-semibold text-navy shadow-sm backdrop-blur-md transition-all hover:border-blue/40 hover:bg-white hover:text-blue">
         <Download size={13} className="text-blue" />
         <span>Download Receipt</span>
       </button>
 
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/60 p-3 sm:p-4 backdrop-blur-md">
+      {open && <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/60 p-3 sm:p-4 backdrop-blur-md">
           <div className="relative w-full max-w-lg rounded-3xl bg-white/95 shadow-[0_25px_60px_-15px_rgba(7,11,20,0.35)] backdrop-blur-2xl overflow-hidden border border-white/80 animate-in fade-in zoom-in-95 duration-150">
-            {/* Modal Top Bar */}
+            {}
             <div className="flex items-center justify-between border-b border-slate-100 bg-white/60 px-5 sm:px-6 py-4">
               <div className="flex items-center gap-2">
                 <FileText size={18} className="text-blue" />
@@ -87,18 +80,14 @@ Keep pushing your limits.
                   Payment Receipt
                 </h3>
               </div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="grid h-8 w-8 place-items-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-navy transition"
-              >
+              <button type="button" onClick={() => setOpen(false)} className="grid h-8 w-8 place-items-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-navy transition">
                 <X size={16} />
               </button>
             </div>
 
-            {/* Printable Receipt Body */}
+            {}
             <div id="receipt-print-area" className="p-5 sm:p-8">
-              {/* Receipt Header */}
+              {}
               <div className="flex items-start justify-between border-b border-slate-100 pb-5">
                 <div>
                   <div className="flex items-center gap-2">
@@ -126,7 +115,7 @@ Keep pushing your limits.
                 </div>
               </div>
 
-              {/* Student & Program Details */}
+              {}
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div className="rounded-xl bg-white/70 p-3.5 border border-slate-100 shadow-sm">
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Billed To</span>
@@ -147,7 +136,7 @@ Keep pushing your limits.
                 </div>
               </div>
 
-              {/* Line Items Table */}
+              {}
               <div className="mt-5 rounded-xl border border-slate-200 overflow-x-auto">
                 <table className="w-full min-w-[340px] text-left text-xs">
                   <thead className="bg-slate-50/80 border-b border-slate-200 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
@@ -176,7 +165,7 @@ Keep pushing your limits.
                 </table>
               </div>
 
-              {/* Security & Verification note */}
+              {}
               <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-[10px] text-slate-400">
                 <span className="flex items-center gap-1">
                   <ShieldCheck size={13} className="text-emerald-500" />
@@ -186,26 +175,16 @@ Keep pushing your limits.
               </div>
             </div>
 
-            {/* Modal Actions */}
+            {}
             <div className="flex items-center justify-end gap-2.5 border-t border-slate-100 bg-white/60 px-5 sm:px-6 py-4">
-              <button
-                type="button"
-                onClick={handleDownloadTxt}
-                className="btn-secondary !text-xs !py-2"
-              >
+              <button type="button" onClick={handleDownloadTxt} className="btn-secondary !text-xs !py-2">
                 <Download size={13} /> Text Receipt
               </button>
-              <button
-                type="button"
-                onClick={handlePrint}
-                className="btn-primary !text-xs !py-2"
-              >
+              <button type="button" onClick={handlePrint} className="btn-primary !text-xs !py-2">
                 <Printer size={13} /> Print / Save PDF
               </button>
             </div>
           </div>
-        </div>
-      )}
-    </>
-  );
+        </div>}
+    </>;
 }

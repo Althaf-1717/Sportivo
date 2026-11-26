@@ -8,48 +8,28 @@ import EmptyState from "@/components/dashboard/EmptyState";
 import { ProgressTrendChart } from "@/components/dashboard/DashboardCharts";
 import { getSports, getCoaches, getMembershipPlans } from "@/lib/public-data";
 import StudentOnboardingFlow from "@/components/enrollment/StudentOnboardingFlow";
-
 export const dynamic = "force-dynamic";
-
-export default async function StudentDashboardPage({ searchParams }) {
+export default async function StudentDashboardPage({
+  searchParams
+}) {
   const user = await currentUser();
-  const [data, params] = await Promise.all([
-    getStudentDashboard(user.id, user.email),
-    searchParams,
-  ]);
+  const [data, params] = await Promise.all([getStudentDashboard(user.id, user.email), searchParams]);
   const current = data.currentEnrollment;
-
-  // Render onboarding wizard if student has not enrolled/paid yet (or if ?setup=1)
   if (!current || params?.setup === "1") {
-    const [sports, coaches, plans] = await Promise.all([
-      getSports(),
-      getCoaches(),
-      getMembershipPlans(),
-    ]);
-
-    return (
-      <StudentOnboardingFlow
-        user={user}
-        sports={sports}
-        coaches={coaches}
-        plans={plans}
-      />
-    );
+    const [sports, coaches, plans] = await Promise.all([getSports(), getCoaches(), getMembershipPlans()]);
+    return <StudentOnboardingFlow user={user} sports={sports} coaches={coaches} plans={plans} />;
   }
-
-  // Otherwise, for students who already have successful payment and active membership:
-  // Render the full main student dashboard with all student features!
   const progressData = data.progress.slice(0, 7).reverse().map((item, i) => ({
-    label: dateLabel(item.createdAt, { month: "short", day: "numeric" }),
+    label: dateLabel(item.createdAt, {
+      month: "short",
+      day: "numeric"
+    }),
     progress: item.overallProgress || 0,
-    index: i,
+    index: i
   }));
   const salutation = new Date().getHours() < 12 ? "Good morning" : new Date().getHours() < 17 ? "Good afternoon" : "Good evening";
-
-  return (
-    <div>
-      {params?.congratulations === "1" && (
-        <div className="mb-6 rounded-2xl border border-emerald-300 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100/60 p-5 shadow-sm">
+  return <div>
+      {params?.congratulations === "1" && <div className="mb-6 rounded-2xl border border-emerald-300 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100/60 p-5 shadow-sm">
           <div className="flex items-start gap-3.5">
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-600 text-white shadow-sm">
               <Trophy size={20} className="animate-float" />
@@ -77,8 +57,7 @@ export default async function StudentDashboardPage({ searchParams }) {
               </div>
             </div>
           </div>
-        </div>
-      )}
+        </div>}
 
       <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
         <div>
@@ -96,32 +75,10 @@ export default async function StudentDashboardPage({ searchParams }) {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          icon={Activity}
-          label="Attendance"
-          value={`${data.summary.attendanceRate}%`}
-          note={`${data.summary.presentSessions} of ${data.summary.totalSessions} recorded sessions`}
-        />
-        <StatCard
-          icon={Target}
-          label="Overall progress"
-          value={`${data.summary.progress}%`}
-          note={`Current level · ${data.summary.skillLevel}`}
-          tone="orange"
-        />
-        <StatCard
-          icon={Trophy}
-          label="Your sport"
-          value={current?.sport?.name || "Not enrolled"}
-          note={current?.coach?.name ? `Coach ${current.coach.name}` : "Choose a sport and find your coach"}
-          tone="green"
-        />
-        <StatCard
-          icon={CalendarCheck2}
-          label="Membership"
-          value={current?.membershipPlan?.name || "Active"}
-          note={`Until ${dateLabel(current.endDate)}`}
-        />
+        <StatCard icon={Activity} label="Attendance" value={`${data.summary.attendanceRate}%`} note={`${data.summary.presentSessions} of ${data.summary.totalSessions} recorded sessions`} />
+        <StatCard icon={Target} label="Overall progress" value={`${data.summary.progress}%`} note={`Current level · ${data.summary.skillLevel}`} tone="orange" />
+        <StatCard icon={Trophy} label="Your sport" value={current?.sport?.name || "Not enrolled"} note={current?.coach?.name ? `Coach ${current.coach.name}` : "Choose a sport and find your coach"} tone="green" />
+        <StatCard icon={CalendarCheck2} label="Membership" value={current?.membershipPlan?.name || "Active"} note={`Until ${dateLabel(current.endDate)}`} />
       </div>
 
       <div className="mt-5 grid gap-4 xl:grid-cols-[1.35fr_.65fr]">
@@ -135,18 +92,11 @@ export default async function StudentDashboardPage({ searchParams }) {
               Your coach’s check-ins
             </span>
           </div>
-          {data.progress.length ? (
-            <div className="mt-5">
+          {data.progress.length ? <div className="mt-5">
               <ProgressTrendChart data={progressData} />
-            </div>
-          ) : (
-            <div className="mt-5">
-              <EmptyState
-                title="Your progress story starts here."
-                description="Once your coach adds a skill review, you’ll see it build over time."
-              />
-            </div>
-          )}
+            </div> : <div className="mt-5">
+              <EmptyState title="Your progress story starts here." description="Once your coach adds a skill review, you’ll see it build over time." />
+            </div>}
         </section>
 
         <section className="surface-card p-5 sm:p-6">
@@ -166,10 +116,7 @@ export default async function StudentDashboardPage({ searchParams }) {
               {current?.membershipPlan?.duration} month plan · expires {dateLabel(current.endDate)}
             </p>
           </div>
-          <Link
-            href="/dashboard/student/membership"
-            className="mt-4 inline-flex items-center gap-1.5 text-[10px] font-semibold text-blue"
-          >
+          <Link href="/dashboard/student/membership" className="mt-4 inline-flex items-center gap-1.5 text-[10px] font-semibold text-blue">
             View membership <ArrowRight size={13} />
           </Link>
           <div className="mt-5 rounded-xl border border-orange/15 bg-orange/5 p-4">
@@ -191,26 +138,17 @@ export default async function StudentDashboardPage({ searchParams }) {
               View all
             </Link>
           </div>
-          {data.attendance.length ? (
-            <div className="mt-4 grid gap-2">
-              {data.attendance.slice(0, 4).map((row) => (
-                <div key={row._id} className="flex items-center justify-between rounded-xl bg-paper px-3.5 py-3">
+          {data.attendance.length ? <div className="mt-4 grid gap-2">
+              {data.attendance.slice(0, 4).map(row => <div key={row._id} className="flex items-center justify-between rounded-xl bg-paper px-3.5 py-3">
                   <div>
                     <p className="text-[11px] font-semibold text-navy">{row.sport?.name || "Training session"}</p>
                     <p className="mt-1 text-[9px] text-slate-500">{dateLabel(row.date)}</p>
                   </div>
                   <span className={row.status === "present" ? "status-good" : "status-warn"}>{row.status}</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="mt-4">
-              <EmptyState
-                title="No sessions logged yet."
-                description="Your attendance history will appear after your first session."
-              />
-            </div>
-          )}
+                </div>)}
+            </div> : <div className="mt-4">
+              <EmptyState title="No sessions logged yet." description="Your attendance history will appear after your first session." />
+            </div>}
         </section>
 
         <section className="surface-card p-5 sm:p-6">
@@ -220,8 +158,7 @@ export default async function StudentDashboardPage({ searchParams }) {
               See progress
             </Link>
           </div>
-          {data.progress[0] ? (
-            <div className="mt-4 rounded-xl bg-paper p-4">
+          {data.progress[0] ? <div className="mt-4 rounded-xl bg-paper p-4">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-semibold text-slate-500">
                   {dateLabel(data.progress[0].createdAt)}
@@ -234,17 +171,10 @@ export default async function StudentDashboardPage({ searchParams }) {
               <p className="mt-2 text-[10px] leading-5 text-slate-500">
                 {data.progress[0].trainingNotes || "Your coach will add practice notes here."}
               </p>
-            </div>
-          ) : (
-            <div className="mt-4">
-              <EmptyState
-                title="Your first review is on its way."
-                description="Coach feedback and training notes live here."
-              />
-            </div>
-          )}
+            </div> : <div className="mt-4">
+              <EmptyState title="Your first review is on its way." description="Coach feedback and training notes live here." />
+            </div>}
         </section>
       </div>
-    </div>
-  );
+    </div>;
 }

@@ -1,20 +1,13 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import {
-  CalendarCheck2,
-  CheckCircle2,
-  Send,
-  Users,
-} from "lucide-react";
+import { CalendarCheck2, CheckCircle2, Send, Users } from "lucide-react";
 import { dateLabel } from "@/lib/utils";
 import EmptyState from "@/components/dashboard/EmptyState";
-
 function getTodayString() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
-
 function getCurrentTimeString() {
   const d = new Date();
   let hours = d.getHours();
@@ -24,118 +17,113 @@ function getCurrentTimeString() {
   hours = hours ? hours : 12;
   return `${String(hours).padStart(2, "0")}:${minutes} ${ampm}`;
 }
-
 export default function AttendanceWorkspace({
   enrollments = [],
   initialAttendance = [],
   title = "Coach Attendance for student",
-  description = "Mark attendance for students who selected you as their coach.",
+  description = "Mark attendance for students who selected you as their coach."
 }) {
-  // Session details (as shown in Image 2)
   const [date, setDate] = useState(getTodayString);
   const [time, setTime] = useState(getCurrentTimeString);
   const [work, setWork] = useState("Technique drills, footwork conditioning, and match simulations");
   const [isSessionConfirmed, setIsSessionConfirmed] = useState(false);
-
-  // Student toggle attendance state: map enrollmentId -> { status: "present" | "absent", remarks: string }
   const [studentStates, setStudentStates] = useState(() => {
     const map = {};
     for (const e of enrollments) {
       map[String(e._id)] = {
         status: "present",
-        remarks: "Good effort and focus in training session.",
+        remarks: "Good effort and focus in training session."
       };
     }
     return map;
   });
-
   useEffect(() => {
-    setStudentStates((prev) => {
-      const map = { ...prev };
+    setStudentStates(prev => {
+      const map = {
+        ...prev
+      };
       for (const e of enrollments) {
         const id = String(e._id);
         if (!map[id]) {
           map[id] = {
             status: "present",
-            remarks: "Good effort and focus in training session.",
+            remarks: "Good effort and focus in training session."
           };
         }
       }
       return map;
     });
   }, [enrollments]);
-
   const [records, setRecords] = useState(initialAttendance || []);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-
-  // Toggle student attendance status between ON (present) and OFF (absent)
   function toggleAttendance(enrollmentId) {
-    setStudentStates((prev) => {
-      const current = prev[enrollmentId] || { status: "present", remarks: "" };
+    setStudentStates(prev => {
+      const current = prev[enrollmentId] || {
+        status: "present",
+        remarks: ""
+      };
       const nextStatus = current.status === "present" ? "absent" : "present";
       return {
         ...prev,
         [enrollmentId]: {
           ...current,
-          status: nextStatus,
-        },
+          status: nextStatus
+        }
       };
     });
   }
-
   function handleRemarksChange(enrollmentId, remarksText) {
-    setStudentStates((prev) => {
-      const current = prev[enrollmentId] || { status: "present", remarks: "" };
+    setStudentStates(prev => {
+      const current = prev[enrollmentId] || {
+        status: "present",
+        remarks: ""
+      };
       return {
         ...prev,
         [enrollmentId]: {
           ...current,
-          remarks: remarksText,
-        },
+          remarks: remarksText
+        }
       };
     });
   }
-
-  // Handle Submit: records attendance for all enrolled students of this coach
   async function submitAttendance(event) {
     if (event) event.preventDefault();
     if (!enrollments.length) return;
-
     setBusy(true);
     setMessage("");
     setError("");
-
     try {
       const payload = {
         date: new Date(`${date}T00:00:00.000Z`).toISOString(),
         time: time.trim(),
         work: work.trim(),
-        records: enrollments.map((e) => {
-          const state = studentStates[String(e._id)] || { status: "present", remarks: "" };
+        records: enrollments.map(e => {
+          const state = studentStates[String(e._id)] || {
+            status: "present",
+            remarks: ""
+          };
           return {
             enrollmentId: String(e._id),
             status: state.status,
-            remarks: state.remarks.trim(),
+            remarks: state.remarks.trim()
           };
-        }),
+        })
       };
-
       const response = await fetch("/api/attendance", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
       });
-
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not record attendance.");
-
-      // Refresh records list
       if (Array.isArray(data.attendance)) {
-        setRecords((current) => [...data.attendance, ...current]);
+        setRecords(current => [...data.attendance, ...current]);
       }
-
       setMessage(`Attendance successfully recorded for ${payload.records.length} student${payload.records.length > 1 ? "s" : ""}!`);
     } catch (err) {
       setError(err.message || "Failed to submit attendance.");
@@ -143,16 +131,12 @@ export default function AttendanceWorkspace({
       setBusy(false);
     }
   }
-
   const presentCount = useMemo(() => {
-    return enrollments.filter((e) => studentStates[String(e._id)]?.status === "present").length;
+    return enrollments.filter(e => studentStates[String(e._id)]?.status === "present").length;
   }, [enrollments, studentStates]);
-
   const absentCount = enrollments.length - presentCount;
-
-  return (
-    <div className="space-y-6">
-      {/* Title & Top Session Controls (Image 2 - Coach Attendance for student) */}
+  return <div className="space-y-6">
+      {}
       <section className="surface-card overflow-hidden p-6 sm:p-7 border border-slate-200 shadow-sm">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-slate-100 pb-5">
           <div className="flex items-center gap-3">
@@ -179,85 +163,56 @@ export default function AttendanceWorkspace({
           </div>
         </div>
 
-        {/* Date, Time, Work inputs and OK button (Image 2) */}
+        {}
         <div className="mt-5 rounded-2xl bg-paper/60 p-4 sm:p-5 border border-slate-200/80">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-12 items-end">
-            {/* Date input */}
+            {}
             <div className="lg:col-span-3">
               <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
                 Date:
               </label>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="form-control bg-white font-semibold text-navy text-xs"
-                required
-              />
+              <input type="date" value={date} onChange={e => setDate(e.target.value)} className="form-control bg-white font-semibold text-navy text-xs" required />
             </div>
 
-            {/* Time input */}
+            {}
             <div className="lg:col-span-3">
               <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
                 Time:
               </label>
-              <input
-                type="text"
-                value={time}
-                placeholder="e.g. 06:30 PM"
-                onChange={(e) => setTime(e.target.value)}
-                className="form-control bg-white font-semibold text-navy text-xs"
-                required
-              />
+              <input type="text" value={time} placeholder="e.g. 06:30 PM" onChange={e => setTime(e.target.value)} className="form-control bg-white font-semibold text-navy text-xs" required />
             </div>
 
-            {/* Work input (manually text by coach) */}
+            {}
             <div className="lg:col-span-5">
               <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
                 Work: <span className="text-[10px] lowercase font-normal text-slate-400">(today&apos;s training drills)</span>
               </label>
-              <input
-                type="text"
-                value={work}
-                placeholder="e.g. Batting stance, net bowling, agility sprints"
-                onChange={(e) => setWork(e.target.value)}
-                className="form-control bg-white text-navy text-xs"
-                required
-              />
+              <input type="text" value={work} placeholder="e.g. Batting stance, net bowling, agility sprints" onChange={e => setWork(e.target.value)} className="form-control bg-white text-navy text-xs" required />
             </div>
 
-            {/* OK button */}
+            {}
             <div className="lg:col-span-1">
-              <button
-                type="button"
-                onClick={() => {
-                  setError("");
-                  setIsSessionConfirmed((prev) => !prev);
-                }}
-                className="btn-primary w-full !text-xs !py-2.5 font-bold cursor-pointer transition-transform active:scale-95 shadow-xs"
-              >
+              <button type="button" onClick={() => {
+              setError("");
+              setIsSessionConfirmed(prev => !prev);
+            }} className="btn-primary w-full !text-xs !py-2.5 font-bold cursor-pointer transition-transform active:scale-95 shadow-xs">
                 OK
               </button>
             </div>
           </div>
         </div>
 
-        {/* Feedback Messages */}
-        {message && (
-          <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs font-semibold text-emerald-800 flex items-center gap-2">
+        {}
+        {message && <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs font-semibold text-emerald-800 flex items-center gap-2">
             <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
             <span>{message}</span>
-          </div>
-        )}
-        {error && (
-          <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-xs font-semibold text-rose-800">
+          </div>}
+        {error && <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-xs font-semibold text-rose-800">
             {error}
-          </div>
-        )}
+          </div>}
 
-        {/* STUDENT ROSTER DROPDOWN TABLE */}
-        {isSessionConfirmed && (
-          <div className="mt-6 animate-[fadeIn_0.35s_ease-out]">
+        {}
+        {isSessionConfirmed && <div className="mt-6 animate-[fadeIn_0.35s_ease-out]">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-semibold text-navy flex items-center gap-2">
                 <Users size={16} className="text-blue" />
@@ -268,13 +223,7 @@ export default function AttendanceWorkspace({
               </span>
             </div>
 
-            {enrollments.length === 0 ? (
-              <EmptyState
-                title="No students assigned yet."
-                description="When new students choose you as their coach during registration, they will appear in this roster."
-              />
-            ) : (
-              <div className="table-wrap rounded-2xl border border-slate-200 overflow-hidden">
+            {enrollments.length === 0 ? <EmptyState title="No students assigned yet." description="When new students choose you as their coach during registration, they will appear in this roster." /> : <div className="table-wrap rounded-2xl border border-slate-200 overflow-hidden">
                 <table className="data-table">
                   <thead className="bg-paper text-slate-600">
                     <tr>
@@ -288,27 +237,25 @@ export default function AttendanceWorkspace({
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {enrollments.map((row, index) => {
-                      const eId = String(row._id);
-                      const currentStatus = studentStates[eId]?.status || "present";
-                      const currentRemarks = studentStates[eId]?.remarks || "";
-                      const isPresent = currentStatus === "present";
-                      const studentIdDisplay = row.student?.studentId ? `${row.student.studentId}` : `${10001 + index}`;
-
-                      return (
-                        <tr key={eId} className="hover:bg-slate-50/80 transition-colors">
-                          {/* S:NO */}
+                const eId = String(row._id);
+                const currentStatus = studentStates[eId]?.status || "present";
+                const currentRemarks = studentStates[eId]?.remarks || "";
+                const isPresent = currentStatus === "present";
+                const studentIdDisplay = row.student?.studentId ? `${row.student.studentId}` : `${10001 + index}`;
+                return <tr key={eId} className="hover:bg-slate-50/80 transition-colors">
+                          {}
                           <td className="text-center font-semibold text-slate-400 text-xs">
                             {index + 1}
                           </td>
 
-                          {/* Student ID */}
+                          {}
                           <td>
                             <span className="font-mono text-xs font-semibold text-blue bg-blue-soft/60 px-2.5 py-1 rounded-lg inline-block">
                               {studentIdDisplay}
                             </span>
                           </td>
 
-                          {/* Student Name */}
+                          {}
                           <td>
                             <div className="flex items-center gap-2.5">
                               <span className="grid h-7 w-7 place-items-center rounded-full bg-navy text-[10px] font-semibold text-white">
@@ -325,79 +272,47 @@ export default function AttendanceWorkspace({
                             </div>
                           </td>
 
-                          {/* Sport */}
+                          {}
                           <td>
                             <span className="text-xs font-medium text-slate-600">
                               {row.sport?.name || "Sport"}
                             </span>
                           </td>
 
-                          {/* Mark attendance (Just Toggle Switch - Green when ON, Red when OFF) */}
+                          {}
                           <td className="text-center">
-                            <button
-                              type="button"
-                              role="switch"
-                              aria-checked={isPresent}
-                              onClick={() => toggleAttendance(eId)}
-                              title={isPresent ? "Marked Present (Click to mark Absent)" : "Marked Absent (Click to mark Present)"}
-                              className={`relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full p-1 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-1 shadow-inner ${
-                                isPresent
-                                  ? "bg-emerald-500 focus:ring-emerald-400"
-                                  : "bg-red-500 focus:ring-red-400"
-                              }`}
-                            >
+                            <button type="button" role="switch" aria-checked={isPresent} onClick={() => toggleAttendance(eId)} title={isPresent ? "Marked Present (Click to mark Absent)" : "Marked Absent (Click to mark Present)"} className={`relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full p-1 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-1 shadow-inner ${isPresent ? "bg-emerald-500 focus:ring-emerald-400" : "bg-red-500 focus:ring-red-400"}`}>
                               <span className="sr-only">
                                 {isPresent ? "Present (ON)" : "Absent (OFF)"}
                               </span>
-                              <span
-                                aria-hidden="true"
-                                className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-md ring-0 transition-transform duration-200 ease-in-out ${
-                                  isPresent ? "translate-x-5" : "translate-x-0"
-                                }`}
-                              />
+                              <span aria-hidden="true" className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-md ring-0 transition-transform duration-200 ease-in-out ${isPresent ? "translate-x-5" : "translate-x-0"}`} />
                             </button>
                           </td>
 
-                          {/* Remarks */}
+                          {}
                           <td>
-                            <input
-                              type="text"
-                              value={currentRemarks}
-                              onChange={(e) => handleRemarksChange(eId, e.target.value)}
-                              placeholder="Session notes / feedback"
-                              className="form-control !py-1 !text-xs bg-white"
-                            />
+                            <input type="text" value={currentRemarks} onChange={e => handleRemarksChange(eId, e.target.value)} placeholder="Session notes / feedback" className="form-control !py-1 !text-xs bg-white" />
                           </td>
-                        </tr>
-                      );
-                    })}
+                        </tr>;
+              })}
                   </tbody>
                 </table>
-              </div>
-            )}
+              </div>}
 
-            {/* Submit button at bottom right (Image 2) */}
-            {enrollments.length > 0 && (
-              <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
+            {}
+            {enrollments.length > 0 && <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
                 <p className="text-xs text-slate-500">
                   Clicking Submit updates the students&apos; attendance history and percentage rate immediately.
                 </p>
-                <button
-                  type="button"
-                  disabled={busy}
-                  onClick={submitAttendance}
-                  className="btn-primary !py-2.5 !px-6 shadow-md"
-                >
+                <button type="button" disabled={busy} onClick={submitAttendance} className="btn-primary !py-2.5 !px-6 shadow-md">
                   <Send size={15} />
                   <span>{busy ? "Submitting…" : "Submit"}</span>
                 </button>
-              </div>
-            )}
-          </div>
-        )}
+              </div>}
+          </div>}
       </section>
 
-      {/* RECENT ATTENDANCE SESSIONS LOG */}
+      {}
       <section className="surface-card p-6 border border-slate-200 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -409,8 +324,7 @@ export default function AttendanceWorkspace({
           </span>
         </div>
 
-        {records.length ? (
-          <div className="table-wrap">
+        {records.length ? <div className="table-wrap">
             <table className="data-table">
               <thead>
                 <tr>
@@ -423,8 +337,7 @@ export default function AttendanceWorkspace({
                 </tr>
               </thead>
               <tbody>
-                {records.slice(0, 15).map((row) => (
-                  <tr key={row._id}>
+                {records.slice(0, 15).map(row => <tr key={row._id}>
                     <td className="font-semibold text-navy text-xs">{dateLabel(row.date)}</td>
                     <td className="max-w-xs text-xs text-slate-700 truncate">{row.work || "Training session"}</td>
                     <td className="text-xs text-slate-500">{row.time || "—"}</td>
@@ -432,26 +345,15 @@ export default function AttendanceWorkspace({
                       <span className="font-semibold text-navy text-xs">{row.student?.name || "Athlete"}</span>
                     </td>
                     <td>
-                      <span
-                        className={`inline-block rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase ${
-                          row.status === "present"
-                            ? "bg-emerald-100 text-emerald-800"
-                            : "bg-rose-100 text-rose-800"
-                        }`}
-                      >
+                      <span className={`inline-block rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase ${row.status === "present" ? "bg-emerald-100 text-emerald-800" : "bg-rose-100 text-rose-800"}`}>
                         {row.status}
                       </span>
                     </td>
                     <td className="text-xs text-slate-500 max-w-xs truncate">{row.remarks || "—"}</td>
-                  </tr>
-                ))}
+                  </tr>)}
               </tbody>
             </table>
-          </div>
-        ) : (
-          <p className="text-xs text-slate-400 py-4 text-center">No attendance sessions recorded yet.</p>
-        )}
+          </div> : <p className="text-xs text-slate-400 py-4 text-center">No attendance sessions recorded yet.</p>}
       </section>
-    </div>
-  );
+    </div>;
 }

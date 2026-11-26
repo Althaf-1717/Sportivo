@@ -1,14 +1,13 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-    ],
+    remotePatterns: [{
+      protocol: "https",
+      hostname: "images.unsplash.com"
+    }]
   },
   experimental: {
-    optimizePackageImports: ["lucide-react"],
+    optimizePackageImports: ["lucide-react"]
   },
-  poweredByHeader: false,
+  poweredByHeader: false
 };
-
 export default nextConfig;

@@ -4,22 +4,17 @@ import PublicLayout from "@/components/layout/PublicLayout";
 import CoachCard from "@/components/coaches/CoachCard";
 import { Button } from "@/components/ui/Button";
 import { getCoaches } from "@/lib/public-data";
-
 export const revalidate = 300;
-
 export const metadata = {
   title: "Academy Coaches · Sportivo Sports Academy",
-  description: "Meet our certified academy coaches specializing in cricket, football, and basketball development.",
+  description: "Meet our certified academy coaches specializing in cricket, football, and basketball development."
 };
-
 export default async function CoachesPage() {
   const coaches = await getCoaches();
-
-  return (
-    <PublicLayout>
+  return <PublicLayout>
       <main className="min-h-screen py-12 sm:py-16">
         <div className="container-wide">
-          {/* Header Section */}
+          {}
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-blue/20 bg-blue-soft/80 px-3.5 py-1.5 text-[11px] font-semibold text-blue backdrop-blur-md shadow-xs">
               <Sparkles size={12} className="text-orange" />
@@ -33,7 +28,7 @@ export default async function CoachesPage() {
             </p>
           </div>
 
-          {/* Coaching Standards Highlights */}
+          {}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="rounded-2xl border border-white/80 bg-white/70 backdrop-blur-xl p-5 shadow-sm">
               <span className="grid h-10 w-10 place-items-center rounded-xl bg-orange/10 text-orange">
@@ -66,7 +61,7 @@ export default async function CoachesPage() {
             </div>
           </div>
 
-          {/* Coaches Grid */}
+          {}
           <div className="mt-14">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
               <div>
@@ -81,13 +76,11 @@ export default async function CoachesPage() {
             </div>
 
             <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {coaches.map((coach, index) => (
-                <CoachCard key={coach.slug || coach._id || index} coach={coach} index={index} />
-              ))}
+              {coaches.map((coach, index) => <CoachCard key={coach.slug || coach._id || index} coach={coach} index={index} />)}
             </div>
           </div>
 
-          {/* CTA Banner */}
+          {}
           <div className="mt-16 overflow-hidden rounded-3xl bg-[#070b14] p-8 sm:p-12 text-white relative shadow-2xl border border-white/10">
             <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-blue/20 blur-[100px]" />
             <div className="relative z-10 max-w-xl">
@@ -112,6 +105,5 @@ export default async function CoachesPage() {
           </div>
         </div>
       </main>
-    </PublicLayout>
-  );
+    </PublicLayout>;
 }

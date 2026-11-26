@@ -1,68 +1,60 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Activity,
-  Award,
-  CalendarCheck2,
-  CheckCircle2,
-  ClipboardCheck,
-  Clock3,
-  Flame,
-  ShieldCheck,
-  Sparkles,
-  TrendingUp,
-  Trophy,
-  Users,
-} from "lucide-react";
+import { Activity, Award, CalendarCheck2, CheckCircle2, ClipboardCheck, Clock3, Flame, ShieldCheck, Sparkles, TrendingUp, Trophy, Users } from "lucide-react";
 import { CountUp } from "@/components/ui/ScrollReveal";
-
-const months = [
-  { label: "Feb", attendance: 84, skill: 68 },
-  { label: "Mar", attendance: 88, skill: 74 },
-  { label: "Apr", attendance: 91, skill: 79 },
-  { label: "May", attendance: 94, skill: 85 },
-  { label: "Jun", attendance: 96, skill: 90 },
-  { label: "Jul", attendance: 98, skill: 94 },
-];
-
-const liveSessions = [
-  {
-    sport: "Cricket · U-19 Pace & Batting",
-    coach: "Coach Arjun Menon",
-    time: "Today, 4:30 PM",
-    status: "Checked In",
-    tone: "emerald",
-  },
-  {
-    sport: "Football · Tactical Midfield",
-    coach: "Coach Dev Sharma",
-    time: "Tomorrow, 6:00 AM",
-    status: "Scheduled",
-    tone: "orange",
-  },
-  {
-    sport: "Strength & Agility Assessment",
-    coach: "Coach Kavya Rao",
-    time: "Fri, 5:00 PM",
-    status: "Milestone Review",
-    tone: "amber",
-  },
-];
-
+const months = [{
+  label: "Feb",
+  attendance: 84,
+  skill: 68
+}, {
+  label: "Mar",
+  attendance: 88,
+  skill: 74
+}, {
+  label: "Apr",
+  attendance: 91,
+  skill: 79
+}, {
+  label: "May",
+  attendance: 94,
+  skill: 85
+}, {
+  label: "Jun",
+  attendance: 96,
+  skill: 90
+}, {
+  label: "Jul",
+  attendance: 98,
+  skill: 94
+}];
+const liveSessions = [{
+  sport: "Cricket · U-19 Pace & Batting",
+  coach: "Coach Arjun Menon",
+  time: "Today, 4:30 PM",
+  status: "Checked In",
+  tone: "emerald"
+}, {
+  sport: "Football · Tactical Midfield",
+  coach: "Coach Dev Sharma",
+  time: "Tomorrow, 6:00 AM",
+  status: "Scheduled",
+  tone: "orange"
+}, {
+  sport: "Strength & Agility Assessment",
+  coach: "Coach Kavya Rao",
+  time: "Fri, 5:00 PM",
+  status: "Milestone Review",
+  tone: "amber"
+}];
 export default function HeroDashboardMockup() {
   const [activeTab, setActiveTab] = useState("overview");
-
-  return (
-    <div className="relative z-20 mx-auto mt-6 max-w-6xl px-2 sm:mt-10 sm:px-4">
-      {/* Ambient Radial Orange Glow Behind Browser Frame */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-6 -top-10 bottom-10 -z-10 bg-[radial-gradient(ellipse_55%_55%_at_50%_20%,rgba(249,115,22,0.18),transparent_70%)] blur-2xl"
-      />
+  return <div className="relative z-20 mx-auto mt-6 max-w-6xl px-2 sm:mt-10 sm:px-4">
+      {}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-6 -top-10 bottom-10 -z-10 bg-[radial-gradient(ellipse_55%_55%_at_50%_20%,rgba(249,115,22,0.18),transparent_70%)] blur-2xl" />
 
       <div className="overflow-hidden rounded-2xl border border-stone-200/90 bg-white shadow-lift ring-1 ring-black/[0.03]">
-        {/* Browser Chrome Header */}
+        {}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200/80 bg-gradient-to-b from-stone-50 to-stone-100/70 px-4 py-3">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">
@@ -76,32 +68,17 @@ export default function HeroDashboardMockup() {
             </div>
           </div>
 
-          {/* Interactive View Switcher Pills inside Mockup */}
+          {}
           <div className="flex items-center gap-1 rounded-full border border-stone-200/80 bg-white/90 p-1 text-xs font-semibold">
-            {[
-              ["overview", "Athlete Overview"],
-              ["progress", "Skill Analytics"],
-              ["schedule", "Cohort Feed"],
-            ].map(([id, label]) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setActiveTab(id)}
-                className={`rounded-full px-3 py-1 transition-all duration-200 ${
-                  activeTab === id
-                    ? "bg-orange-600 text-white shadow-xs"
-                    : "text-stone-600 hover:text-gray-900"
-                }`}
-              >
+            {[["overview", "Athlete Overview"], ["progress", "Skill Analytics"], ["schedule", "Cohort Feed"]].map(([id, label]) => <button key={id} type="button" onClick={() => setActiveTab(id)} className={`rounded-full px-3 py-1 transition-all duration-200 ${activeTab === id ? "bg-orange-600 text-white shadow-xs" : "text-stone-600 hover:text-gray-900"}`}>
                 {label}
-              </button>
-            ))}
+              </button>)}
           </div>
         </div>
 
-        {/* Workspace Body */}
+        {}
         <div className="grid lg:grid-cols-[210px_1fr]">
-          {/* Left Sidebar inside Mockup */}
+          {}
           <aside className="hidden border-r border-stone-200/70 bg-[#FAF7F2]/70 p-4 lg:flex lg:flex-col lg:justify-between">
             <div>
               <div className="flex items-center gap-2.5 px-2 py-1.5">
@@ -117,25 +94,10 @@ export default function HeroDashboardMockup() {
               </div>
 
               <div className="mt-5 space-y-1">
-                {[
-                  [Activity, "Dashboard", "overview"],
-                  [TrendingUp, "Skill Progress", "progress"],
-                  [CalendarCheck2, "Cohort Schedule", "schedule"],
-                ].map(([Icon, label, id]) => (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => setActiveTab(id)}
-                    className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-xs font-semibold transition-all ${
-                      activeTab === id
-                        ? "bg-orange-50 text-orange-700 ring-1 ring-orange-200/80"
-                        : "text-stone-600 hover:bg-stone-100/80 hover:text-gray-900"
-                    }`}
-                  >
+                {[[Activity, "Dashboard", "overview"], [TrendingUp, "Skill Progress", "progress"], [CalendarCheck2, "Cohort Schedule", "schedule"]].map(([Icon, label, id]) => <button key={id} type="button" onClick={() => setActiveTab(id)} className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-xs font-semibold transition-all ${activeTab === id ? "bg-orange-50 text-orange-700 ring-1 ring-orange-200/80" : "text-stone-600 hover:bg-stone-100/80 hover:text-gray-900"}`}>
                     <Icon size={15} className={activeTab === id ? "text-orange-600" : "text-stone-400"} />
                     {label}
-                  </button>
-                ))}
+                  </button>)}
               </div>
             </div>
 
@@ -150,9 +112,9 @@ export default function HeroDashboardMockup() {
             </div>
           </aside>
 
-          {/* Main Live Dashboard Area */}
+          {}
           <div className="p-4 sm:p-6 text-left">
-            {/* Top Welcome Row */}
+            {}
             <div className="flex flex-col justify-between gap-3 border-b border-stone-100 pb-4 sm:flex-row sm:items-center">
               <div>
                 <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-orange-600">
@@ -175,7 +137,7 @@ export default function HeroDashboardMockup() {
               </div>
             </div>
 
-            {/* 4 Animated KPI Stat Cards */}
+            {}
             <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
               <div className="rounded-2xl border border-stone-200/80 bg-[#FFFDFB] p-3.5 shadow-2xs transition-transform duration-200 hover:-translate-y-0.5">
                 <div className="flex items-center justify-between text-xs font-semibold text-stone-500">
@@ -230,9 +192,9 @@ export default function HeroDashboardMockup() {
               </div>
             </div>
 
-            {/* Bottom Split: 6-Month Trend Chart + Live Cohort Feed */}
+            {}
             <div className="mt-5 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-              {/* 6-Month Performance & Attendance Trend */}
+              {}
               <div className="rounded-2xl border border-stone-200/80 bg-stone-50/50 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
@@ -255,34 +217,25 @@ export default function HeroDashboardMockup() {
                   </div>
                 </div>
 
-                {/* Animated Bars */}
+                {}
                 <div className="mt-5 grid grid-cols-6 items-end gap-3 pt-4 h-36 border-b border-stone-200/80 px-2">
-                  {months.map((m) => (
-                    <div
-                      key={m.label}
-                      className="group flex flex-col items-center gap-1.5 h-full justify-end"
-                    >
+                  {months.map(m => <div key={m.label} className="group flex flex-col items-center gap-1.5 h-full justify-end">
                       <div className="flex w-full items-end justify-center gap-1 h-28">
-                        <div
-                          style={{ height: `${m.attendance}%` }}
-                          className="w-3 sm:w-4 rounded-t-md bg-gradient-to-t from-orange-600 to-orange-400 transition-transform duration-300 origin-bottom group-hover:scale-y-105"
-                          title={`Attendance: ${m.attendance}%`}
-                        />
-                        <div
-                          style={{ height: `${m.skill}%` }}
-                          className="w-3 sm:w-4 rounded-t-md bg-gray-900 transition-transform duration-300 origin-bottom group-hover:scale-y-105"
-                          title={`Skill Score: ${m.skill}/100`}
-                        />
+                        <div style={{
+                      height: `${m.attendance}%`
+                    }} className="w-3 sm:w-4 rounded-t-md bg-gradient-to-t from-orange-600 to-orange-400 transition-transform duration-300 origin-bottom group-hover:scale-y-105" title={`Attendance: ${m.attendance}%`} />
+                        <div style={{
+                      height: `${m.skill}%`
+                    }} className="w-3 sm:w-4 rounded-t-md bg-gray-900 transition-transform duration-300 origin-bottom group-hover:scale-y-105" title={`Skill Score: ${m.skill}/100`} />
                       </div>
                       <span className="pb-1.5 text-[11px] font-semibold text-stone-500">
                         {m.label}
                       </span>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </div>
 
-              {/* Live Cohort & Evaluation Feed */}
+              {}
               <div className="rounded-2xl border border-stone-200/80 bg-stone-50/50 p-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-900">
@@ -291,11 +244,7 @@ export default function HeroDashboardMockup() {
                   <Clock3 size={14} className="text-orange-600" />
                 </div>
                 <div className="mt-3 space-y-2.5">
-                  {liveSessions.map((item) => (
-                    <div
-                      key={item.sport}
-                      className="flex items-center justify-between gap-2 rounded-xl border border-stone-200/70 bg-white p-2.5 shadow-2xs"
-                    >
+                  {liveSessions.map(item => <div key={item.sport} className="flex items-center justify-between gap-2 rounded-xl border border-stone-200/70 bg-white p-2.5 shadow-2xs">
                       <div className="min-w-0">
                         <p className="truncate text-xs font-semibold text-gray-900">
                           {item.sport}
@@ -304,25 +253,15 @@ export default function HeroDashboardMockup() {
                           {item.coach} · {item.time}
                         </p>
                       </div>
-                      <span
-                        className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
-                          item.tone === "emerald"
-                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                            : item.tone === "orange"
-                            ? "bg-orange-50 text-orange-700 border border-orange-200"
-                            : "bg-amber-50 text-amber-800 border border-amber-200"
-                        }`}
-                      >
+                      <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${item.tone === "emerald" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : item.tone === "orange" ? "bg-orange-50 text-orange-700 border border-orange-200" : "bg-amber-50 text-amber-800 border border-amber-200"}`}>
                         {item.status}
                       </span>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }

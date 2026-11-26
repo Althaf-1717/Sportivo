@@ -4,44 +4,45 @@ import PublicLayout from "@/components/layout/PublicLayout";
 import { getCoachBySlug, getCoaches } from "@/lib/public-data";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-
 export async function generateStaticParams() {
   const coaches = await getCoaches();
-  return coaches.map((coach) => ({ coachId: coach.slug }));
+  return coaches.map(coach => ({
+    coachId: coach.slug
+  }));
 }
-
-export async function generateMetadata({ params }) {
-  const { coachId } = await params;
+export async function generateMetadata({
+  params
+}) {
+  const {
+    coachId
+  } = await params;
   const coach = await getCoachBySlug(coachId);
   const name = coach?.user?.name || coach?.name;
-  return { title: name ? `${name}, academy coach` : "Coach not found", description: coach?.bio || "Meet a Sportivo Academy coach." };
+  return {
+    title: name ? `${name}, academy coach` : "Coach not found",
+    description: coach?.bio || "Meet a Sportivo Academy coach."
+  };
 }
-
-export default async function CoachDetailsPage({ params }) {
-  const { coachId } = await params;
+export default async function CoachDetailsPage({
+  params
+}) {
+  const {
+    coachId
+  } = await params;
   const coach = await getCoachBySlug(coachId);
   if (!coach) notFound();
   const name = coach.user?.name || coach.name || "Academy Coach";
   const coachImage = coach.image || coach.user?.image;
-  return (
-    <PublicLayout>
+  return <PublicLayout>
       <main className="min-h-[70vh] bg-paper py-12 sm:py-16">
         <div className="container-wide max-w-4xl">
           <div className="surface-card overflow-hidden">
             <div className="grid md:grid-cols-[.72fr_1.28fr]">
               <div className="grid min-h-[250px] place-items-center bg-navy p-8 text-white">
                 <div className="text-center">
-                  {coachImage ? (
-                    <img
-                      src={coachImage}
-                      alt={name}
-                      className="mx-auto h-28 w-28 rounded-[28px] object-cover border-2 border-white/20 shadow-lg"
-                    />
-                  ) : (
-                    <div className="mx-auto grid h-24 w-24 place-items-center rounded-[28px] bg-white/10 text-2xl font-semibold text-orange">
-                      {coach.initials || name.split(" ").map((word) => word[0]).slice(0, 2).join("")}
-                    </div>
-                  )}
+                  {coachImage ? <img src={coachImage} alt={name} className="mx-auto h-28 w-28 rounded-[28px] object-cover border-2 border-white/20 shadow-lg" /> : <div className="mx-auto grid h-24 w-24 place-items-center rounded-[28px] bg-white/10 text-2xl font-semibold text-orange">
+                      {coach.initials || name.split(" ").map(word => word[0]).slice(0, 2).join("")}
+                    </div>}
                   <Badge tone="orange" className="mt-5">
                     <BadgeCheck size={12} className="mr-1" /> Sportivo coach
                   </Badge>
@@ -70,6 +71,5 @@ export default async function CoachDetailsPage({ params }) {
           </div>
         </div>
       </main>
-    </PublicLayout>
-  );
+    </PublicLayout>;
 }

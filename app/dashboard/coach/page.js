@@ -10,117 +10,68 @@ import { AttendanceBars } from "@/components/dashboard/DashboardCharts";
 import { connectDB } from "@/lib/mongodb";
 import { Attendance, Sport, User } from "@/models";
 import { dateLabel } from "@/lib/utils";
-
 export const dynamic = "force-dynamic";
-
 export default async function CoachDashboardPage() {
   const user = await currentUser();
   if (!user) {
     redirect("/coach");
   }
-
   let summary = {
     enrollments: [],
     attendance: [],
     progress: [],
-    summary: { assigned: 0, attendanceRate: 0, progress: 0, todaysAttendance: 0 },
-    configured: true,
+    summary: {
+      assigned: 0,
+      attendanceRate: 0,
+      progress: 0,
+      todaysAttendance: 0
+    },
+    configured: true
   };
   let enrollments = [];
   let recentAttendance = [];
-
   try {
-    const [dashSummary, coachEnrollments] = await Promise.all([
-      getCoachDashboard(user?.id),
-      getCoachEnrollments(user?.id),
-    ]);
+    const [dashSummary, coachEnrollments] = await Promise.all([getCoachDashboard(user?.id), getCoachEnrollments(user?.id)]);
     if (dashSummary) {
       summary = {
         ...summary,
         ...dashSummary,
-        summary: { ...summary.summary, ...(dashSummary.summary || {}) },
+        summary: {
+          ...summary.summary,
+          ...(dashSummary.summary || {})
+        }
       };
     }
     if (Array.isArray(coachEnrollments)) enrollments = coachEnrollments;
   } catch (err) {
     console.error("CoachDashboardPage load error:", err);
   }
-
   if (process.env.MONGODB_URI && user?.id) {
     try {
       await connectDB();
-      // Ensure User and Sport models are registered
       User;
       Sport;
-      recentAttendance =
-        (await Attendance.find({ coach: user.id })
-          .sort({ date: -1 })
-          .limit(6)
-          .populate("student", "name")
-          .populate("sport", "name")
-          .lean()) || [];
+      recentAttendance = (await Attendance.find({
+        coach: user.id
+      }).sort({
+        date: -1
+      }).limit(6).populate("student", "name").populate("sport", "name").lean()) || [];
     } catch (err) {
       console.error("CoachDashboardPage attendance error:", err);
     }
   }
-
-  const activeStudents = Array.isArray(enrollments)
-    ? enrollments.filter((row) => row?.status === "active").length
-    : 0;
-
-  const average =
-    summary?.summary?.attendanceRate ||
-    (enrollments.length
-      ? Math.round(
-          enrollments.reduce((sum, row) => sum + (row?.attendanceRate || 0), 0) /
-            enrollments.length
-        )
-      : 0);
-
+  const activeStudents = Array.isArray(enrollments) ? enrollments.filter(row => row?.status === "active").length : 0;
+  const average = summary?.summary?.attendanceRate || (enrollments.length ? Math.round(enrollments.reduce((sum, row) => sum + (row?.attendanceRate || 0), 0) / enrollments.length) : 0);
   const displayName = user?.name ? user.name.split(" ")[0] : "Coach";
-
-  return (
-    <div>
-      <PageIntro
-        eyebrow={`Welcome back, ${displayName}`}
-        title="Help every session count."
-        description="Your students, today’s work, and a few next steps for the academy."
-      />
+  return <div>
+      <PageIntro eyebrow={`Welcome back, ${displayName}`} title="Help every session count." description="Your students, today’s work, and a few next steps for the academy." />
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        <StatCard
-          icon={UsersRound}
-          label="Total assigned students"
-          value={summary?.summary?.assigned ?? 0}
-          note="Assigned to your roster"
-        />
-        <StatCard
-          icon={ClipboardCheck}
-          label="Active students"
-          value={activeStudents}
-          note="Currently training"
-          tone="blue"
-        />
-        <StatCard
-          icon={CalendarCheck2}
-          label="Today’s attendance"
-          value={summary?.summary?.todaysAttendance ?? 0}
-          note="Sessions recorded today"
-          tone="orange"
-        />
-        <StatCard
-          icon={Activity}
-          label="Average attendance"
-          value={`${average}%`}
-          note="Across student memberships"
-          tone="green"
-        />
-        <StatCard
-          icon={Target}
-          label="Average progress"
-          value={`${summary?.summary?.progress ?? 0}%`}
-          note="Latest coach review by student"
-        />
+        <StatCard icon={UsersRound} label="Total assigned students" value={summary?.summary?.assigned ?? 0} note="Assigned to your roster" />
+        <StatCard icon={ClipboardCheck} label="Active students" value={activeStudents} note="Currently training" tone="blue" />
+        <StatCard icon={CalendarCheck2} label="Today’s attendance" value={summary?.summary?.todaysAttendance ?? 0} note="Sessions recorded today" tone="orange" />
+        <StatCard icon={Activity} label="Average attendance" value={`${average}%`} note="Across student memberships" tone="green" />
+        <StatCard icon={Target} label="Average progress" value={`${summary?.summary?.progress ?? 0}%`} note="Latest coach review by student" />
       </div>
 
       <div className="mt-5 grid gap-4 xl:grid-cols-[1fr_1fr]">
@@ -134,10 +85,7 @@ export default async function CoachDashboardPage() {
                 Attendance in recent sessions
               </h3>
             </div>
-            <Link
-              href="/dashboard/coach/attendance"
-              className="text-[10px] font-semibold text-blue"
-            >
+            <Link href="/dashboard/coach/attendance" className="text-[10px] font-semibold text-blue">
               Mark attendance
             </Link>
           </div>
@@ -159,13 +107,8 @@ export default async function CoachDashboardPage() {
             <ClipboardCheck size={16} className="text-blue" />
           </div>
 
-          {recentAttendance.length ? (
-            <div className="mt-4 grid gap-2">
-              {recentAttendance.map((row) => (
-                <div
-                  key={row._id}
-                  className="flex items-center justify-between rounded-xl bg-paper px-3 py-2.5"
-                >
+          {recentAttendance.length ? <div className="mt-4 grid gap-2">
+              {recentAttendance.map(row => <div key={row._id} className="flex items-center justify-between rounded-xl bg-paper px-3 py-2.5">
                   <div>
                     <p className="text-[10px] font-semibold text-navy">
                       {row.student?.name || "Student"} · {row.sport?.name || "Training"}
@@ -174,32 +117,15 @@ export default async function CoachDashboardPage() {
                       {dateLabel(row.date)}
                     </p>
                   </div>
-                  <span
-                    className={
-                      row.status === "present" ? "status-good" : "status-warn"
-                    }
-                  >
+                  <span className={row.status === "present" ? "status-good" : "status-warn"}>
                     {row.status}
                   </span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="mt-4">
-              <EmptyState
-                title="A fresh start."
-                description="Your next attendance update will appear here."
-                action={
-                  <Link
-                    className="inline-flex items-center gap-1 text-[10px] font-semibold text-blue"
-                    href="/dashboard/coach/attendance"
-                  >
+                </div>)}
+            </div> : <div className="mt-4">
+              <EmptyState title="A fresh start." description="Your next attendance update will appear here." action={<Link className="inline-flex items-center gap-1 text-[10px] font-semibold text-blue" href="/dashboard/coach/attendance">
                     Open attendance <ArrowRight size={12} />
-                  </Link>
-                }
-              />
-            </div>
-          )}
+                  </Link>} />
+            </div>}
         </section>
       </div>
 
@@ -213,21 +139,13 @@ export default async function CoachDashboardPage() {
               Students to keep moving
             </h3>
           </div>
-          <Link
-            href="/dashboard/coach/students"
-            className="text-[10px] font-semibold text-blue"
-          >
+          <Link href="/dashboard/coach/students" className="text-[10px] font-semibold text-blue">
             View student list
           </Link>
         </div>
 
-        {enrollments.length ? (
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-            {enrollments.slice(0, 3).map((row) => (
-              <article
-                key={row._id}
-                className="rounded-xl border border-slate-100 p-4"
-              >
+        {enrollments.length ? <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {enrollments.slice(0, 3).map(row => <article key={row._id} className="rounded-xl border border-slate-100 p-4">
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-semibold text-navy">
                     {row.student?.name || "Student"}
@@ -239,25 +157,14 @@ export default async function CoachDashboardPage() {
                   {row.latestProgress?.overallProgress || 0}% progress
                 </p>
                 <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100">
-                  <div
-                    className="h-full rounded-full bg-orange"
-                    style={{
-                      width: `${row.latestProgress?.overallProgress || 0}%`,
-                    }}
-                  />
+                  <div className="h-full rounded-full bg-orange" style={{
+              width: `${row.latestProgress?.overallProgress || 0}%`
+            }} />
                 </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="mt-4">
-            <EmptyState
-              title="No active students yet."
-              description="New memberships will appear in your workspace once the academy assigns them."
-            />
-          </div>
-        )}
+              </article>)}
+          </div> : <div className="mt-4">
+            <EmptyState title="No active students yet." description="New memberships will appear in your workspace once the academy assigns them." />
+          </div>}
       </section>
-    </div>
-  );
+    </div>;
 }

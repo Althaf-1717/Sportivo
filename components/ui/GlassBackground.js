@@ -2,42 +2,32 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-
 export default function GlassBackground() {
   const pathname = usePathname();
   const isMainPage = pathname === "/";
   const canvasRef = useRef(null);
-
   useEffect(() => {
     if (!isMainPage) return;
-
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let width = window.innerWidth;
     let height = window.innerHeight;
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
-
     const pointer = {
       x: width * 0.5,
       y: height * 0.32,
       tx: width * 0.5,
       ty: height * 0.32,
       active: false,
-      intensity: 0,
+      intensity: 0
     };
-
     let rafId = null;
     const GRID_SIZE = 54;
     const WARP_RADIUS = 230;
     const MAX_DISPLACEMENT = 26;
-
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
@@ -49,60 +39,47 @@ export default function GlassBackground() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       drawFrame();
     };
-
     const getWarpedPoint = (gx, gy) => {
       if (pointer.intensity < 0.01 || prefersReducedMotion) {
-        return { x: gx, y: gy, influence: 0 };
+        return {
+          x: gx,
+          y: gy,
+          influence: 0
+        };
       }
       const dx = gx - pointer.x;
       const dy = gy - pointer.y;
       const distSq = dx * dx + dy * dy;
       const radiusSq = WARP_RADIUS * WARP_RADIUS;
-
       if (distSq >= radiusSq || distSq === 0) {
-        return { x: gx, y: gy, influence: 0 };
+        return {
+          x: gx,
+          y: gy,
+          influence: 0
+        };
       }
-
       const dist = Math.sqrt(distSq);
       const t = 1 - dist / WARP_RADIUS;
       const falloff = t * t * (3 - 2 * t) * pointer.intensity;
       const push = falloff * MAX_DISPLACEMENT;
-
       return {
-        x: gx + (dx / dist) * push,
-        y: gy + (dy / dist) * push,
-        influence: falloff,
+        x: gx + dx / dist * push,
+        y: gy + dy / dist * push,
+        influence: falloff
       };
     };
-
     const drawFrame = () => {
       ctx.clearRect(0, 0, width, height);
-
       if (pointer.intensity > 0.01 && !prefersReducedMotion) {
-        const grad = ctx.createRadialGradient(
-          pointer.x,
-          pointer.y,
-          10,
-          pointer.x,
-          pointer.y,
-          WARP_RADIUS * 1.15
-        );
-        grad.addColorStop(
-          0,
-          `rgba(234, 88, 12, ${(0.11 * pointer.intensity).toFixed(3)})`
-        );
-        grad.addColorStop(
-          0.5,
-          `rgba(251, 146, 60, ${(0.05 * pointer.intensity).toFixed(3)})`
-        );
+        const grad = ctx.createRadialGradient(pointer.x, pointer.y, 10, pointer.x, pointer.y, WARP_RADIUS * 1.15);
+        grad.addColorStop(0, `rgba(234, 88, 12, ${(0.11 * pointer.intensity).toFixed(3)})`);
+        grad.addColorStop(0.5, `rgba(251, 146, 60, ${(0.05 * pointer.intensity).toFixed(3)})`);
         grad.addColorStop(1, "rgba(255, 248, 242, 0)");
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, width, height);
       }
-
       const cols = Math.ceil(width / GRID_SIZE) + 1;
       const rows = Math.ceil(height / GRID_SIZE) + 1;
-
       const points = new Array(rows + 1);
       for (let r = 0; r <= rows; r++) {
         points[r] = new Array(cols + 1);
@@ -112,34 +89,27 @@ export default function GlassBackground() {
           points[r][c] = getWarpedPoint(gx, gy);
         }
       }
-
       ctx.lineWidth = 1;
       ctx.strokeStyle = "rgba(28, 25, 23, 0.055)";
       ctx.beginPath();
-
       for (let r = 0; r <= rows; r++) {
         for (let c = 0; c <= cols; c++) {
           const p = points[r][c];
-          if (c === 0) ctx.moveTo(p.x, p.y);
-          else ctx.lineTo(p.x, p.y);
+          if (c === 0) ctx.moveTo(p.x, p.y);else ctx.lineTo(p.x, p.y);
         }
       }
-
       for (let c = 0; c <= cols; c++) {
         for (let r = 0; r <= rows; r++) {
           const p = points[r][c];
-          if (r === 0) ctx.moveTo(p.x, p.y);
-          else ctx.lineTo(p.x, p.y);
+          if (r === 0) ctx.moveTo(p.x, p.y);else ctx.lineTo(p.x, p.y);
         }
       }
       ctx.stroke();
-
       if (pointer.intensity > 0.02 && !prefersReducedMotion) {
         for (let r = 0; r <= rows; r++) {
           for (let c = 0; c <= cols; c++) {
             const p = points[r][c];
             if (p.influence <= 0.04) continue;
-
             if (c < cols) {
               const pr = points[r][c + 1];
               const segInf = Math.max(p.influence, pr.influence);
@@ -149,7 +119,6 @@ export default function GlassBackground() {
               ctx.lineTo(pr.x, pr.y);
               ctx.stroke();
             }
-
             if (r < rows) {
               const pb = points[r + 1][c];
               const segInf = Math.max(p.influence, pb.influence);
@@ -159,7 +128,6 @@ export default function GlassBackground() {
               ctx.lineTo(pb.x, pb.y);
               ctx.stroke();
             }
-
             const radius = 1.4 + p.influence * 2.2;
             ctx.fillStyle = `rgba(234, 88, 12, ${(0.2 + p.influence * 0.65).toFixed(3)})`;
             ctx.beginPath();
@@ -169,37 +137,27 @@ export default function GlassBackground() {
         }
       }
     };
-
     const tick = () => {
       const dx = pointer.tx - pointer.x;
       const dy = pointer.ty - pointer.y;
       pointer.x += dx * 0.18;
       pointer.y += dy * 0.18;
-
       const targetIntensity = pointer.active ? 1 : 0;
       pointer.intensity += (targetIntensity - pointer.intensity) * 0.12;
-
       drawFrame();
-
-      const stillMoving =
-        Math.abs(dx) > 0.25 ||
-        Math.abs(dy) > 0.25 ||
-        Math.abs(targetIntensity - pointer.intensity) > 0.01;
-
+      const stillMoving = Math.abs(dx) > 0.25 || Math.abs(dy) > 0.25 || Math.abs(targetIntensity - pointer.intensity) > 0.01;
       if (stillMoving) {
         rafId = window.requestAnimationFrame(tick);
       } else {
         rafId = null;
       }
     };
-
     const startLoop = () => {
       if (!rafId && !prefersReducedMotion) {
         rafId = window.requestAnimationFrame(tick);
       }
     };
-
-    const onPointerMove = (e) => {
+    const onPointerMove = e => {
       pointer.tx = e.clientX;
       pointer.ty = e.clientY;
       if (!pointer.active) {
@@ -209,17 +167,20 @@ export default function GlassBackground() {
       pointer.active = true;
       startLoop();
     };
-
     const onPointerLeave = () => {
       pointer.active = false;
       startLoop();
     };
-
     resize();
-    window.addEventListener("resize", resize, { passive: true });
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    document.addEventListener("mouseleave", onPointerLeave, { passive: true });
-
+    window.addEventListener("resize", resize, {
+      passive: true
+    });
+    window.addEventListener("pointermove", onPointerMove, {
+      passive: true
+    });
+    document.addEventListener("mouseleave", onPointerLeave, {
+      passive: true
+    });
     return () => {
       if (rafId) window.cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resize);
@@ -227,39 +188,22 @@ export default function GlassBackground() {
       document.removeEventListener("mouseleave", onPointerLeave);
     };
   }, [isMainPage]);
-
-  // Do not show interactive grid animation after sign-in or outside the main page
   if (!isMainPage) {
-    return (
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 -z-50 pointer-events-none select-none bg-[#fffcf9]"
-      />
-    );
+    return <div aria-hidden="true" className="fixed inset-0 -z-50 pointer-events-none select-none bg-[#fffcf9]" />;
   }
+  return <div aria-hidden="true" className="fixed inset-0 -z-50 pointer-events-none select-none overflow-hidden bg-[#fffcf9]">
+      {}
+      <div className="absolute inset-x-0 top-0 h-[46rem]" style={{
+      background: "radial-gradient(ellipse 70% 45% at 50% -8%, rgba(234, 88, 12, 0.045), transparent 70%)"
+    }} />
 
-  return (
-    <div
-      aria-hidden="true"
-      className="fixed inset-0 -z-50 pointer-events-none select-none overflow-hidden bg-[#fffcf9]"
-    >
-      {/* Top Hero Radial Warm Orange Glow */}
-      <div
-        className="absolute inset-x-0 top-0 h-[46rem]"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 45% at 50% -8%, rgba(234, 88, 12, 0.045), transparent 70%)",
-        }}
-      />
-
-      {/* Right Mid-Page Soft Amber Orb */}
+      {}
       <div className="absolute right-0 top-[26rem] h-[34rem] w-[34rem] rounded-full bg-amber-200/5 blur-[130px]" />
 
-      {/* Left Lower-Page Soft Orange Orb */}
+      {}
       <div className="absolute left-0 top-[68rem] h-[30rem] w-[30rem] rounded-full bg-orange-200/5 blur-[130px]" />
 
-      {/* Interactive Cursor-Warping Elastic Grid Canvas (Main Page Only) */}
+      {}
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-20" />
-    </div>
-  );
+    </div>;
 }

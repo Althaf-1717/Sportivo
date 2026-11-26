@@ -7,51 +7,26 @@ import { getStudentDashboard } from "@/lib/dashboard-data";
 import { dateLabel, money } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import PaymentReceiptModal from "@/components/payments/PaymentReceiptModal";
-
 export const dynamic = "force-dynamic";
-
-export default async function StudentPaymentsPage({ searchParams }) {
+export default async function StudentPaymentsPage({
+  searchParams
+}) {
   const user = await currentUser();
   const [data, params] = await Promise.all([getStudentDashboard(user.id, user.email), searchParams]);
-  const successful = data.payments.filter((payment) => payment.status === "successful");
-  const pending = data.payments.filter((payment) => payment.status === "pending");
-  const failed = data.payments.filter((payment) => ["failed", "refunded"].includes(payment.status));
+  const successful = data.payments.filter(payment => payment.status === "successful");
+  const pending = data.payments.filter(payment => payment.status === "pending");
+  const failed = data.payments.filter(payment => ["failed", "refunded"].includes(payment.status));
+  return <div>
+      <PageIntro eyebrow="Billing and Invoices" title="Payments" description="Your membership payments, chosen program details, and downloadable fee receipts stay together here." />
 
-  return (
-    <div>
-      <PageIntro
-        eyebrow="Billing and Invoices"
-        title="Payments"
-        description="Your membership payments, chosen program details, and downloadable fee receipts stay together here."
-      />
-
-      {params?.success === "1" && (
-        <div role="status" className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs font-semibold text-emerald-800">
+      {params?.success === "1" && <div role="status" className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs font-semibold text-emerald-800">
           Payment verified and membership activated successfully.
-        </div>
-      )}
+        </div>}
 
       <div className="grid gap-3 sm:grid-cols-3">
-        <StatCard
-          icon={CheckCircle2}
-          label="Successful payments"
-          value={successful.length}
-          note={`${money(successful.reduce((sum, payment) => sum + payment.amount, 0))} paid`}
-          tone="green"
-        />
-        <StatCard
-          icon={Hourglass}
-          label="Pending"
-          value={pending.length}
-          note="Orders awaiting verification"
-          tone="orange"
-        />
-        <StatCard
-          icon={XCircle}
-          label="Failed or refunded"
-          value={failed.length}
-          note="No amount was added to membership"
-        />
+        <StatCard icon={CheckCircle2} label="Successful payments" value={successful.length} note={`${money(successful.reduce((sum, payment) => sum + payment.amount, 0))} paid`} tone="green" />
+        <StatCard icon={Hourglass} label="Pending" value={pending.length} note="Orders awaiting verification" tone="orange" />
+        <StatCard icon={XCircle} label="Failed or refunded" value={failed.length} note="No amount was added to membership" />
       </div>
 
       <section className="mt-6">
@@ -60,8 +35,7 @@ export default async function StudentPaymentsPage({ searchParams }) {
           <span className="text-xs text-slate-500">Student ID: #{user.studentId || 10001}</span>
         </div>
 
-        {data.payments.length ? (
-          <div className="table-wrap">
+        {data.payments.length ? <div className="table-wrap">
             <table className="data-table">
               <thead>
                 <tr>
@@ -75,11 +49,10 @@ export default async function StudentPaymentsPage({ searchParams }) {
                 </tr>
               </thead>
               <tbody>
-                {data.payments.map((payment) => {
-                  const planDuration = payment.membershipPlan?.duration || 1;
-                  const classes = planDuration === 1 ? 30 : planDuration === 3 ? 90 : 180;
-                  return (
-                    <tr key={payment._id}>
+                {data.payments.map(payment => {
+              const planDuration = payment.membershipPlan?.duration || 1;
+              const classes = planDuration === 1 ? 30 : planDuration === 3 ? 90 : 180;
+              return <tr key={payment._id}>
                       <td>
                         <strong className="block text-navy font-semibold">{payment.membershipPlan?.name || "Academy Membership"}</strong>
                         <span className="text-[10px] text-slate-400">{classes} Classes ({planDuration} mo)</span>
@@ -102,29 +75,17 @@ export default async function StudentPaymentsPage({ searchParams }) {
                         </span>
                       </td>
                       <td className="text-right">
-                        <PaymentReceiptModal
-                          payment={{
-                            ...payment,
-                            sport: payment.sport || data.currentEnrollment?.sport,
-                            coach: payment.coach || data.currentEnrollment?.coach,
-                          }}
-                          user={user}
-                        />
+                        <PaymentReceiptModal payment={{
+                    ...payment,
+                    sport: payment.sport || data.currentEnrollment?.sport,
+                    coach: payment.coach || data.currentEnrollment?.coach
+                  }} user={user} />
                       </td>
-                    </tr>
-                  );
-                })}
+                    </tr>;
+            })}
               </tbody>
             </table>
-          </div>
-        ) : (
-          <EmptyState
-            title="No payments yet."
-            description="Once you select a membership plan and coach, your verified payment receipt will show up here."
-            action={<Button href="/dashboard/student">Explore memberships</Button>}
-          />
-        )}
+          </div> : <EmptyState title="No payments yet." description="Once you select a membership plan and coach, your verified payment receipt will show up here." action={<Button href="/dashboard/student">Explore memberships</Button>} />}
       </section>
-    </div>
-  );
+    </div>;
 }
